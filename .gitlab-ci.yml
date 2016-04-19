@@ -56,6 +56,21 @@ damiers:
    tags:
      - shell
 
+anticrenelage:
+   stage: test
+   script: "./build.sh ; cd testsl32016; ./tests12.sh"
+   tags:
+     - shell
+
+executable:
+   stage: build
+   script: "./build.sh"
+   artifacts:
+      paths: 
+      - raytracer.jar
+   tags:
+     - shell
+
 auditcode:
    stage: test
    script: "./testsl32016/sonar-scanner-2.5.1/bin/sonar-runner -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracerr_by_$CI_PROJECT_ID"
