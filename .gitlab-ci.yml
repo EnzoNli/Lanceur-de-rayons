@@ -1,78 +1,118 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 before_script: 
-   - "git submodule add https://forge.univ-artois.fr/root/testsl32016.git"
+   - "git submodule add --force https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.univ-artois.fr/lanceurrayons/testslanceurrayons.git tests"
    - "git submodule update --remote --init"
+   - "cd tests"
+   - "git checkout $CI_COMMIT_REF_NAME"
+   - "cd .."
+
+stages:
+  - build
+  - tools
+  - basic
+  - top
+  - extra
+  - qa
 
 comparateur:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests1.sh"
+   stage: tools
+   script: "cd tests; ./tests1.sh"
    tags: 
      - shell
 
 vectests:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests2.sh"
+   stage: tools
+   script: "cd tests; ./tests2.sh"
    tags: 
      - shell
 
 lecturescenes:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests3.sh"
+   stage: basic
+   script: "cd tests; ./tests3.sh"
    tags: 
      - shell
 
 premieresimages:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests4.sh"
+   stage: basic
+   script: "cd tests; ./tests4.sh"
    tags:
      - shell
 
 imagescouleur:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests5.sh"
+   stage: basic
+   script: "cd tests; ./tests5.sh"
    tags:
      - shell
 
 plansettriangles:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests6.sh"
+   stage: basic
+   script: "cd tests; ./tests6.sh"
    tags:
      - shell
 
 lumiereindirecte:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests7.sh"
+   stage: top
+   script: "cd tests; ./tests7.sh"
    tags:
      - shell
 
 imagesmystere:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./mysteres.sh"
+   stage: top
+   script: "cd tests; ./mysteres.sh"
    tags:
      - shell
+
+transformations1:
+   stage: extra
+   script: "cd tests; ./tests8.sh"
+   tags:
+     - shell
+   only:
+     - transformations
+
+transformations2:
+   stage: extra
+   script: "cd tests; ./tests9.sh"
+   tags:
+     - shell
+   only:
+     - transformations
+
+transformations3:
+   stage: extra
+   script: "cd tests; ./tests11.sh"
+   tags:
+     - shell
+   only:
+     - transformations
 
 damiers:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests10.sh"
+   stage: top
+   script: "cd tests; ./tests10.sh"
    tags:
      - shell
 
-anticrenelage:
-   stage: test
-   script: "./build.sh ; cd testsl32016; ./tests12.sh"
+auditcode:
+   stage: qa
+   script: "./build.sh ; sonar-scanner -Dsonar.login=$SONARTOKEN -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracer_by_$CI_PROJECT_NAMESPACE"
    tags:
      - shell
-
+     - sonar
+   
 executable:
    stage: build
    script: "./build.sh"
    artifacts:
       paths: 
       - raytracer.jar
+      - "*.sh"
    tags:
      - shell
 
-auditcode:
-   stage: test
-   script: "./testsl32016/sonar-scanner-2.5.1/bin/sonar-runner -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracerr_by_$CI_PROJECT_ID"
+anticrenelage:
+   stage: top
+   script: "cd tests; ./tests12.sh"
    tags:
      - shell
