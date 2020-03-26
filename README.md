@@ -10,13 +10,25 @@ Des exemples de scènes utilisées en 2014/2015 et 2015/2016 [sont disponibles e
 
 ## Étapes du projet
 
-Le projet se décompose en cinq phases distinctes. 
+Le projet se décompose en cinq phases distinctes. Tout étudiant doit pouvoir réaliser les trois premières phases. 
+
+```plantuml
+(*) -right-> "Initiale"
+"Initiale" -right-> "Basique"
+"Basique" -right-> "Réaliste"
+"Réaliste" -right-> "Matrices"
+"Matrices" -right-> "Efficacité"
+"Efficacité" --> (*)
+"Matrices" --> (*)
+"Réaliste" --> (*)
+"Réaliste" --> "Efficacité"
+```
 
 + La phase `initiale` ne nécessite aucune connaissance spécifique. Il s'agit simplement de mettre en place les différents outils nécessaires à la réalisation du projet. Les premières lignes de code sont dédiées à des programmes utilitaires.
 + Un premier lanceur de rayons est construit dans la phase `basique`. Les images auront du relief sans être réalistes. Cette phase va nécessiter la compréhension de diverses formules et concepts optiques, mais ne pose pas de difficulté de programmation. Il s'agit de mettre en place le squelette du lanceur de rayons.
 + La phase `réaliste` a pour vocation de créer des images plus spectaculaires. Elles nécessiteront plus d'efforts de programmation : toute erreur de structure de données sera significatif.
 + La phase `matrice` est très mathématique (manipulation de matrices 3x3 et 4x4). Elle peut être évitée par les étudiants réfractaires aux mathématiques. Les images produites à ce niveau sont les plus belles.
-+ La phase `Efficacité` a pour but de réduire le temps de calcul des images, soit en parallélisant les calculs, soit en utilisant des structures de données dédiées plus efficaces.
++ La phase `efficacité` a pour but de réduire le temps de calcul des images, soit en parallélisant les calculs, soit en utilisant des structures de données dédiées plus efficaces.
 
 |Phase | Nom        | Description                                                    |
 |------|------------|----------------------------------------------------------------|
