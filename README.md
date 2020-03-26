@@ -35,19 +35,15 @@ Le projet se décompose en cinq phases distinctes. Tout étudiant doit pouvoir r
 |Initiale|[Environnement](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP1a.markdown) | Mise en place du projet sur gitlab. | 
 |Initiale|[Comparateur d'image](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP1b.markdown) | Réaliser un comparateur d'images pixel par pixel. |
 |Initiale|[Bibliothèque mathématique](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP1c.markdown) | Réaliser une bibliothèque mathématique pour manipuler des triplets numériques. |
-|------|------------|----------------------------------------------------------------|
 |Basique|[Lecteur des scènes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP2.markdown)|Lecture des fichiers textes représentant les scènes 3D|
-|Basique|Images 2D|Génération d'images avec des sphères en 2D|
-|Basique|Images 3D|Ajout des sources de lumière, lumière diffuse|
-|Basique|Triangles et plans|Ajout des triangles et des plans, calcul des ombres|
-|------|------------|----------------------------------------------------------------|
-|Réaliste|Rendu|Phong et surfaces réfléchissantes|
+|Basique|[Images 2D](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP3.markdown)|Génération d'images avec des sphères en 2D|
+|Basique|[Images 3D](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP4.markdown)|Ajout des sources de lumière, lumière diffuse|
+|Basique|[Triangles et plans](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP5.markdown)|Ajout des triangles et des plans, calcul des ombres|
+|Réaliste|[Rendu](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP6.markdown)|Phong et surfaces réfléchissantes|
 |Réaliste|Damier|Ajout des textures procédurales sur un plan|
 |Réaliste|Anti-crénelage|Éviter les effets d'escalier sur le damier|
-|------|------------|----------------------------------------------------------------|
 |Matrices|Transformations simples|Transformation des objets de base|
 |Matrices|Transformations complexes|Appliquer plusieurs transformations à un même objet|
-|------|------------|----------------------------------------------------------------|
 |Efficacité|Parallélisme|Découpage de l'image pour rendu en parallèle|
 |Efficacité|Optimisation|Utilisation des bounding box, arbres, etc|
 
