@@ -20,11 +20,11 @@ Le projet se décompose en cinq phases distinctes.
 
 |Phase | Nom        | Description                                                    |
 |------|------------|----------------------------------------------------------------|
-|Initiale|Environnement | Mise en place du projet sur gitlab. | 
-|Initiale|Comparateur d'image | Réaliser un comparateur d'images pixel par pixel. |
-|Initiale|Bibliothèque mathématique | Réaliser une bibliothèque mathématique pour manipuler des triplets numériques. |
+|Initiale|[Environnement](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP1a.markdown) | Mise en place du projet sur gitlab. | 
+|Initiale|[Comparateur d'image](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP1b.markdown) | Réaliser un comparateur d'images pixel par pixel. |
+|Initiale|[Bibliothèque mathématique](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP1c.markdown) | Réaliser une bibliothèque mathématique pour manipuler des triplets numériques. |
 |------|------------|----------------------------------------------------------------|
-|Basique|Lecteur des scènes|Lecture des fichiers textes représentant les scènes 3D|
+|Basique|[Lecteur des scènes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP2.markdown)|Lecture des fichiers textes représentant les scènes 3D|
 |Basique|Images 2D|Génération d'images avec des sphères en 2D|
 |Basique|Images 3D|Ajout des sources de lumière, lumière diffuse|
 |Basique|Triangles et plans|Ajout des triangles et des plans, calcul des ombres|
@@ -38,3 +38,23 @@ Le projet se décompose en cinq phases distinctes.
 |------|------------|----------------------------------------------------------------|
 |Efficacité|Parallélisme|Découpage de l'image pour rendu en parallèle|
 |Efficacité|Optimisation|Utilisation des bounding box, arbres, etc|
+
+
+# Mise à jour de votre projet à partir du projet commun
+
+Il est possible qu'au fur et à mesure du déroulement du projet, de nouveaux
+fichiers soient déposés dans le dépôt commun. Toutes les commandes de mise à 
+jour (`git pull` et `git push`) correspondent au dépôt du groupe. Pour récupérer
+les mises à jour du dépôt commun, il faut le déclarer localement une nouvelle source de
+code pour votre projet. Cela se fait à l'aide de la commande suivante :
+
+```
+$ git remote add upstream https://gitlab.univ-artois.fr/lanceurrayons/codelanceurrayons.git
+```
+
+Il vous suffira désormais d'utiliser les commandes suivantes pour MAJ votre projet en cas de nouveaux fichiers.
+
+```
+$ git pull upstream master
+$ git push
+```
