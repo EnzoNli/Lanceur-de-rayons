@@ -23,23 +23,34 @@ Le projet se décompose en cinq phases distinctes. Tout étudiant doit pouvoir r
 "Réaliste" --> (*)
 "Réaliste" --> "Efficacité"
 ```
+
+Il existe des dépendances entre les différentes activités, représentées ci-après :
+
 ```plantuml
-(*) -right-> "Environnement"
-"Environnement" -right-> "Comparateur d'image"
-"Environnement" -right-> "Bibliothèque mathématique"
-"Environnement" -right-> "Lecteur des scènes"
+(*) --> "Environnement"
+"Environnement" --> ===B1===
+===B1=== --> "Comparateur d'image"
+===B1=== --> "Bibliothèque mathématique"
+===B1=== --> "Lecteur des scènes"
+"Comparateur d'image" --> ===B2===
+"Bibliothèque mathématique" --> ===B2===
+"Lecteur des scènes" --> ===B2===
+===B2=== --> "Images 2D"
 "Images 2D" --> "Images 3D"
 "Images 3D" --> "Triangles et plans"
-"Triangles et plans" -right-> "Rendu"
-"Triangles et plans" --> "Damier"
+"Triangles et plans" --> ===B3===
+===B3=== --> "Rendu"
+===B3=== --> "Damier"
 "Damier" --> "Anti-crénelage"
-"Triangles et plans" --> "Transformations simples"
+===B3=== --> "Transformations simples"
 "Transformations simples" --> "Transformations complexes"
 "Transformations complexes" --> "Transformations contextes"
-"Triangles et plans" --> "Parallélisme"
-"Parallélisme" --> (*)
-"Transformations contextes" --> (*)
-"Anti-crénelage" --> (*)
+===B3=== --> "Parallélisme"
+"Parallélisme" --> ===B4===
+"Transformations contextes" --> ===B4===
+"Anti-crénelage" --> ===B4===
+"Rendu" --> ===B4===
+===B4=== --> (*)
 ```
 
 + La phase `initiale` ne nécessite aucune connaissance spécifique. Il s'agit simplement de mettre en place les différents outils nécessaires à la réalisation du projet. Les premières lignes de code sont dédiées à des programmes utilitaires.
