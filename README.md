@@ -70,11 +70,11 @@ Il existe des dépendances entre les différentes activités, représentées ci-
 |Basique|[Triangles et plans](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP5.markdown)|Ajout des triangles et des plans, calcul des ombres|
 |Réaliste|[Rendu](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP6.markdown)|Phong et surfaces réfléchissantes|
 |Réaliste|[Damier](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP10.markdown)|Ajout des textures procédurales sur un plan|
-|Réaliste|[Anti-crénelage](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP11.markdown))|Éviter les effets d'escalier sur le damier|
+|Réaliste|[Anti-crénelage](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP11.markdown)|Éviter les effets d'escalier sur le damier|
 |Matrices|[Transformations simples](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP7.markdown)|Transformation des objets de base|
 |Matrices|[Transformations complexes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP8.markdown)|Appliquer plusieurs transformations à un même objet|
 |Matrices|[Transformations contextes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP9.markdown)|Transformations avec contexte|
-|Efficacité|[Parallélisme]((https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP12.markdown)|Découpage de l'image pour rendu en parallèle|
+|Efficacité|[Parallélisme](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP12.markdown)|Découpage de l'image pour rendu en parallèle|
 |Efficacité|Optimisation|Utilisation des bounding box, arbres, etc|
 
 
