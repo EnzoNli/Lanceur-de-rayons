@@ -23,6 +23,24 @@ Le projet se décompose en cinq phases distinctes. Tout étudiant doit pouvoir r
 "Réaliste" --> (*)
 "Réaliste" --> "Efficacité"
 ```
+```plantuml
+(*) -right-> "Environnement"
+"Environnement" -right-> "Comparateur d'image"
+"Environnement" -right-> "Bibliothèque mathématique"
+"Environnement" -right-> "Lecteur des scènes"
+"Images 2D" --> "Images 3D"
+"Images 3D" --> "Triangles et plans"
+"Triangles et plans" -right-> "Rendu"
+"Triangles et plans" --> "Damier"
+"Damier" --> "Anti-crénelage"
+"Triangles et plans" --> "Transformations simples"
+"Transformations simples" --> "Transformations complexes"
+"Transformations complexes" --> "Transformations contextes"
+"Triangles et plans" --> "Parallélisme"
+"Parallélisme" --> (*)
+"Transformations contextes" --> (*)
+"Anti-crénelage" --> (*)
+```
 
 + La phase `initiale` ne nécessite aucune connaissance spécifique. Il s'agit simplement de mettre en place les différents outils nécessaires à la réalisation du projet. Les premières lignes de code sont dédiées à des programmes utilitaires.
 + Un premier lanceur de rayons est construit dans la phase `basique`. Les images auront du relief sans être réalistes. Cette phase va nécessiter la compréhension de diverses formules et concepts optiques, mais ne pose pas de difficulté de programmation. Il s'agit de mettre en place le squelette du lanceur de rayons.
@@ -40,11 +58,12 @@ Le projet se décompose en cinq phases distinctes. Tout étudiant doit pouvoir r
 |Basique|[Images 3D](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP4.markdown)|Ajout des sources de lumière, lumière diffuse|
 |Basique|[Triangles et plans](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP5.markdown)|Ajout des triangles et des plans, calcul des ombres|
 |Réaliste|[Rendu](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP6.markdown)|Phong et surfaces réfléchissantes|
-|Réaliste|Damier|Ajout des textures procédurales sur un plan|
-|Réaliste|Anti-crénelage|Éviter les effets d'escalier sur le damier|
-|Matrices|Transformations simples|Transformation des objets de base|
-|Matrices|Transformations complexes|Appliquer plusieurs transformations à un même objet|
-|Efficacité|Parallélisme|Découpage de l'image pour rendu en parallèle|
+|Réaliste|[Damier]((https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP10.markdown)|Ajout des textures procédurales sur un plan|
+|Réaliste|[Anti-crénelage]((https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP11.markdown))|Éviter les effets d'escalier sur le damier|
+|Matrices|[Transformations simples](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP7.markdown)|Transformation des objets de base|
+|Matrices|[Transformations complexes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP8.markdown)|Appliquer plusieurs transformations à un même objet|
+|Matrices|[Transformations contextes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP9.markdown)|Transformations avec contexte|
+|Efficacité|[Parallélisme]((https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP12.markdown)|Découpage de l'image pour rendu en parallèle|
 |Efficacité|Optimisation|Utilisation des bounding box, arbres, etc|
 
 
