@@ -10,26 +10,28 @@ before_script:
 
 stages:
   - build
-  - tools
+  - initial
   - basic
-  - top
-  - extra
+  - realist
+  - matrices
+  - efficiency
   - qa
+  - mystery
 
 comparateur:
-   stage: tools
+   stage: initial
    script: "cd tests; ./tests1.sh"
    tags: 
      - shell
 
 vectests:
-   stage: tools
+   stage: initial
    script: "cd tests; ./tests2.sh"
    tags: 
      - shell
 
 lecturescenes:
-   stage: basic
+   stage: initial
    script: "cd tests; ./tests3.sh"
    tags: 
      - shell
@@ -53,19 +55,25 @@ plansettriangles:
      - shell
 
 lumiereindirecte:
-   stage: top
+   stage: realist
    script: "cd tests; ./tests7.sh"
    tags:
      - shell
 
-imagesmystere:
-   stage: top
-   script: "cd tests; ./mysteres.sh"
+damiers:
+   stage: realist
+   script: "cd tests; ./tests10.sh"
+   tags:
+     - shell
+
+anticrenelage:
+   stage: realist
+   script: "cd tests; ./tests12.sh"
    tags:
      - shell
 
 transformations1:
-   stage: extra
+   stage: matrices
    script: "cd tests; ./tests8.sh"
    tags:
      - shell
@@ -73,7 +81,7 @@ transformations1:
      - transformations
 
 transformations2:
-   stage: extra
+   stage: matrices
    script: "cd tests; ./tests9.sh"
    tags:
      - shell
@@ -81,22 +89,16 @@ transformations2:
      - transformations
 
 transformations3:
-   stage: extra
+   stage: matrices
    script: "cd tests; ./tests11.sh"
    tags:
      - shell
    only:
      - transformations
 
-damiers:
-   stage: top
-   script: "cd tests; ./tests10.sh"
-   tags:
-     - shell
-
 auditcode:
    stage: qa
-   script: "./build.sh ; sonar-scanner -Dsonar.login=$SONARTOKEN -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracer_by_$CI_PROJECT_NAMESPACE"
+   script: "sonar-scanner -Dsonar.login=$SONARTOKEN -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracer_by_$CI_PROJECT_NAMESPACE"
    tags:
      - shell
      - sonar
@@ -107,12 +109,13 @@ executable:
    artifacts:
       paths: 
       - raytracer.jar
+      - bin
       - "*.sh"
    tags:
      - shell
 
-anticrenelage:
-   stage: top
-   script: "cd tests; ./tests12.sh"
+imagesmystere:
+   stage: mystery
+   script: "cd tests; ./mysteres.sh"
    tags:
      - shell
