@@ -4,9 +4,6 @@ variables:
 before_script: 
    - "git submodule add --force https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.univ-artois.fr/lanceurrayons/testslanceurrayons.git tests"
    - "git submodule update --remote --init"
-   - "cd tests"
-   - "git checkout $CI_COMMIT_REF_NAME"
-   - "cd .."
 
 stages:
   - build
