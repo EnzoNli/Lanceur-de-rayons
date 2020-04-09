@@ -2,8 +2,8 @@
 # File Created: 20.11.2013 20:41:45
 
 size 700 400
-camera 4 4 8 -5 0 -2 0 0 1 45
 output tank.png
+camera 4 4 8 -5 0 -2 0 0 1 45
 
 diffuse 0.4 0.1 0.1
 ambient 0.05 0.05 0.05
