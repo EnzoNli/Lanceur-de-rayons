@@ -41,7 +41,9 @@ Il existe des dépendances entre les différentes activités, représentées ci-
 "Triangles et plans" --> ===B3===
 ===B3=== --> "Rendu"
 ===B3=== --> "Damier"
-"Damier" --> "Anti-crénelage"
+"Damier" --> ===B5===
+===B5=== --> "Anti-crénelage"
+===B5=== --> "Textures"
 ===B3=== --> "Transformations simples"
 "Transformations simples" --> "Transformations complexes"
 "Transformations complexes" --> "Transformations contextes"
@@ -49,6 +51,7 @@ Il existe des dépendances entre les différentes activités, représentées ci-
 "Parallélisme" --> ===B4===
 "Transformations contextes" --> ===B4===
 "Anti-crénelage" --> ===B4===
+"Textures" --> ===B4===
 "Rendu" --> ===B4===
 ===B4=== --> (*)
 ```
@@ -71,6 +74,7 @@ Il existe des dépendances entre les différentes activités, représentées ci-
 |Réaliste|[Rendu](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP6.markdown)|Phong et surfaces réfléchissantes|
 |Réaliste|[Damier](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP10.markdown)|Ajout des textures procédurales sur un plan|
 |Réaliste|[Anti-crénelage](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP11.markdown)|Éviter les effets d'escalier sur le damier|
+|Réaliste|[Textures](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP13.markdown)|Appliquer des textures à des objets|
 |Matrices|[Transformations simples](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP7.markdown)|Transformation des objets de base|
 |Matrices|[Transformations complexes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP8.markdown)|Appliquer plusieurs transformations à un même objet|
 |Matrices|[Transformations contextes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP9.markdown)|Transformations avec contexte|
