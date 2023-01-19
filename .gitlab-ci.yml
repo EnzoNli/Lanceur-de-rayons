@@ -1,9 +1,17 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  PROXY: "-Dhttp.proxyHost=cache-etu.univ-artois.fr -Dhttp.proxyPort=3128 -Dhttps.proxyHost=cache-etu.univ-artois.fr -Dhttps.proxyPort=3128 -Dhttp.nonProxyHosts=localhost"
+  SONARINFO: "-Dsonar.host.url=http://sonarqube.univ-artois.fr/ -Dsonar.login=$SONARTOKEN -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracer_by_$CI_PROJECT_NAMESPACE"
+
+
+default:
+  image: cache-ili.univ-artois.fr/proxy_cache/library/gradle:7.6-jdk11
+  tags: 
+     - docker
 
 before_script: 
-   - "git submodule add --force https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.univ-artois.fr/lanceurrayons/testslanceurrayons.git tests"
-   - "git submodule update --remote --init"
+  - "git submodule add --force https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.univ-artois.fr/lanceurrayons/testslanceurrayons.git tests"
+  - "git submodule update --remote --init"
 
 stages:
   - build
@@ -15,21 +23,75 @@ stages:
   - qa
   - mystery
 
+comparateur:
+  stage: initial
+  script: "cd tests; ./tests1.sh"
+  
+
+vectests:
+  stage: initial
+  script: "cd tests; ./tests2.sh"
+
+lecturescenes:
+  stage: initial
+  script: "cd tests; ./tests3.sh"
+
+premieresimages:
+  stage: basic
+  script: "cd tests; ./tests4.sh"
+
+imagescouleur:
+  stage: basic
+  script: "cd tests; ./tests5.sh"
+
+plansettriangles:
+  stage: basic
+  script: "cd tests; ./tests6.sh"
+
+lumiereindirecte:
+  stage: realist
+  script: "cd tests; ./tests7.sh"
+
+damiers:
+  stage: realist
+  script: "cd tests; ./tests10.sh"
+
+anticrenelage:
+  stage: realist
+  script: "cd tests; ./tests12.sh"
+
+transformations1:
+  stage: matrices
+  script: "cd tests; ./tests8.sh"
+  only:
+    - transformations
+
+transformations2:
+  stage: matrices
+  script: "cd tests; ./tests9.sh"
+  only:
+    - transformations
+
+transformations3:
+  stage: matrices
+  script: "cd tests; ./tests11.sh"
+  only:
+    - transformations
 
 auditcode:
-   stage: qa
-   script: "sonar-scanner -Dsonar.login=$SONARTOKEN -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracer_by_$CI_PROJECT_NAMESPACE"
-   tags:
-     - shell
-     - sonar
+  image: cache-ili.univ-artois.fr/proxy_cache/sonarsource/sonar-scanner-cli
+  stage: qa
+  script: "sonar-scanner $PROXY $SONARINFO"
    
 executable:
-   stage: build
-   script: "./build.sh"
-   artifacts:
-      paths: 
+  stage: build
+  script: "./build.sh"
+  artifacts:
+    paths: 
       - raytracer.jar
       - bin
       - "*.sh"
-   tags:
-     - shell
+
+imagesmystere:
+  stage: mystery
+  script: "cd tests; ./mysteres.sh"
