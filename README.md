@@ -97,6 +97,6 @@ $ git remote add upstream https://gitlab.univ-artois.fr/lanceurrayons/codelanceu
 Il vous suffira désormais d'utiliser les commandes suivantes pour MAJ votre projet en cas de nouveaux fichiers.
 
 ```
-$ git pull upstream master
+$ git pull upstream main
 $ git push
 ```
