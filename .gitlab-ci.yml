@@ -23,6 +23,65 @@ stages:
   - qa
   - mystery
 
+# comparateur:
+#   stage: initial
+#   script: "cd tests; ./tests1.sh"
+  
+
+# vectests:
+#   stage: initial
+#   script: "cd tests; ./tests2.sh"
+
+# lecturescenes:
+#   stage: initial
+#   script: "cd tests; ./tests3.sh"
+
+# premieresimages:
+#   stage: basic
+#   script: "cd tests; ./tests4.sh"
+
+# imagescouleur:
+#   stage: basic
+#   script: "cd tests; ./tests5.sh"
+
+# plansettriangles:
+#   stage: basic
+#   script: "cd tests; ./tests6.sh"
+
+# lumiereindirecte:
+#   stage: realist
+#   script: "cd tests; ./tests7.sh"
+
+# damiers:
+#   stage: realist
+#   script: "cd tests; ./tests10.sh"
+
+# anticrenelage:
+#   stage: realist
+#   script: "cd tests; ./tests12.sh"
+
+# transformations1:
+#   stage: matrices
+#   script: "cd tests; ./tests8.sh"
+#   only:
+#     - transformations
+
+# transformations2:
+#   stage: matrices
+#   script: "cd tests; ./tests9.sh"
+#   only:
+#     - transformations
+
+# transformations3:
+#   stage: matrices
+#   script: "cd tests; ./tests11.sh"
+#   only:
+#     - transformations
+
+# auditcode:
+#   image: cache-ili.univ-artois.fr/proxy_cache/sonarsource/sonar-scanner-cli
+#   stage: qa
+#   script: "sonar-scanner $PROXY $SONARINFO"
    
 executable:
   stage: build
@@ -32,3 +91,7 @@ executable:
       - raytracer.jar
       - bin
       - "*.sh"
+
+# imagesmystere:
+#   stage: mystery
+#   script: "cd tests; ./mysteres.sh"
