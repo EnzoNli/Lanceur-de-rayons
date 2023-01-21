@@ -5,7 +5,7 @@ variables:
 
 
 default:
-  image: cache-ili.univ-artois.fr/proxy_cache/library/gradle:7.6-jdk11
+  image: cache-ili.univ-artois.fr/proxy_cache/leberre/java11gcc:latest
   tags: 
      - docker
 
