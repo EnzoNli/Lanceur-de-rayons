@@ -5,7 +5,7 @@ variables:
 
 
 default:
-  image: cache-ili.univ-artois.fr/proxy_cache/leberre/java11gcc:latest
+  image: cache-ili.univ-artois.fr/proxy_cache/leberre/java11gccpython:latest
   tags: 
      - docker
 
