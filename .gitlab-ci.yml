@@ -78,10 +78,10 @@ stages:
 #   only:
 #     - transformations
 
-# auditcode:
-#   image: cache-ili.univ-artois.fr/proxy_cache/sonarsource/sonar-scanner-cli
-#   stage: qa
-#   script: "sonar-scanner $PROXY $SONARINFO"
+auditcode:
+   image: cache-ili.univ-artois.fr/proxy_cache/sonarsource/sonar-scanner-cli
+   stage: qa
+   script: "sonar-scanner $PROXY $SONARINFO"
    
 executable:
   stage: build
