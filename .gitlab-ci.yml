@@ -23,9 +23,9 @@ stages:
   - qa
   - mystery
 
-# comparateur:
-#   stage: initial
-#   script: "cd tests; ./tests1.sh"
+comparateur:
+   stage: initial
+   script: "cd tests; ./tests1.sh"
   
 
 # vectests:
