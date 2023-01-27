@@ -1,3 +1,6 @@
+package imagecomparator;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +12,9 @@ public class CompareImage{
         BufferedImage image1 = null;
         BufferedImage image2 = null;
         BufferedImage diff = null;
+        Color couleur1 = null;
+        Color couleur2 = null;
+        Color couleurdiff;
         int compteur = 0;
         try {
             image1 = ImageIO.read(new File(args[0]));
@@ -19,7 +25,11 @@ public class CompareImage{
                     for(int j = 0; j < image1.getHeight(); j++) {
                         if(image1.getRGB(i, j) != image2.getRGB(i, j)){
                             compteur++;
-                            diff.setRGB(i, j, image1.getRGB(i, j));
+                            couleur1 = new Color(image1.getRGB(i, j));
+                            couleur2 = new Color(image2.getRGB(i, j));
+
+                            couleurdiff = new Color(Math.abs(couleur1.getRed() - couleur2.getRed()), Math.abs(couleur1.getGreen() - couleur2.getGreen()), Math.abs(couleur1.getBlue() - couleur2.getBlue()));
+                            diff.setRGB(i, j, couleurdiff.getRGB());
                         }else{
                             diff.setRGB(i, j, 0);
                         }
