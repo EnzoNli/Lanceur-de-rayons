@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -43,7 +42,7 @@ public class CompareImage{
                     try{
                         ImageIO.write(diff, "png", new File("./diff.png"));
                     }catch (IOException e){
-                        LOGGER.log(Level.SEVERE, "Impossible de créer diff.png : {0}", e);
+                        LOGGER.log(java.util.logging.Level.SEVERE, "Impossible de créer diff.png", e);
                     }
                 }
     
@@ -55,7 +54,7 @@ public class CompareImage{
                 System.out.println(compteur);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Impossible de créer une des images", e);
+            LOGGER.log(java.util.logging.Level.SEVERE, "Impossible de créer une des images", e);
         }
     }
 }
