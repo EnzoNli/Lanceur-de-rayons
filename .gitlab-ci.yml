@@ -28,9 +28,9 @@ comparateur:
    script: "cd tests; ./tests1.sh"
   
 
-# vectests:
-#   stage: initial
-#   script: "cd tests; ./tests2.sh"
+vectests:
+   stage: initial
+   script: "cd tests; ./tests2.sh"
 
 # lecturescenes:
 #   stage: initial
