@@ -28,9 +28,9 @@ public abstract class Triplet {
     }
 
     public String toString(){
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append(this.getX() + " " + this.getY() + " " + this.getZ());
-        
+
         return s.toString();
     }
 }
