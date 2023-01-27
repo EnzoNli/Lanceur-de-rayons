@@ -43,7 +43,7 @@ public class CompareImage{
                     try{
                         ImageIO.write(diff, "png", new File("./diff.png"));
                     }catch (IOException e){
-                        LOGGER.log(Level.SEVERE, "Impossible de créer l\'image diff.png : {0}", e);
+                        LOGGER.log(Level.SEVERE, "Impossible de créer diff.png : {0}", e);
                     }
                 }
     
