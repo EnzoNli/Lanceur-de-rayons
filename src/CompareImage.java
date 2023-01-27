@@ -19,7 +19,7 @@ public class CompareImage{
         try {
             image1 = ImageIO.read(new File(args[0]));
             image2 = ImageIO.read(new File(args[1]));
-            if((image1.getWidth() == image2.getWidth()) && (image1.getWidth() == image2.getWidth())){
+            if((image1.getWidth() == image2.getWidth()) && (image1.getHeight() == image2.getHeight())){
                 diff = new BufferedImage(image1.getWidth(), image1.getHeight(), BufferedImage.TYPE_INT_RGB);
                 for(int i = 0; i < image1.getWidth(); i++) {
                     for(int j = 0; j < image1.getHeight(); j++) {
