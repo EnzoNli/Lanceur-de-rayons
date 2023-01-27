@@ -14,7 +14,7 @@ public class CompareImage{
             image1 = ImageIO.read(new File(args[0]));
             image2 = ImageIO.read(new File(args[1]));
             if(image1.getWidth() == image2.getWidth() && image1.getWidth() == image2.getWidth()){
-                diff = new BufferedImage(image1.getWidth(), image1.getHeight(), BufferedImage.TYPE_INT_RGB);
+                diff = new BufferedImage(image1.getWidth(), image1.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
                 for(int i = 0; i < image1.getWidth(); i++) {
                     for(int j = 0; j < image1.getHeight(); j++) {
                         if(image1.getRGB(i, j) != image2.getRGB(i, j)){
