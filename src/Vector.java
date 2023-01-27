@@ -48,7 +48,7 @@ public class Vector extends Triplet {
 
     @Override
     public String toString(){
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append("V " + super.toString());
 
         return s.toString();

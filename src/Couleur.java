@@ -21,9 +21,9 @@ public class Couleur extends Triplet {
         return new Couleur(this.getX()*c.getX(), this.getY()*c.getY(), this.getZ()*c.getZ());
     }
 
-
+    @Override
     public String toString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append("C " + super.toString());
         return s.toString();
     }
