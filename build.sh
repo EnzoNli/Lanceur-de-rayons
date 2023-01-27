@@ -11,7 +11,7 @@ fi
 
 # récupère les fichiers à compiler pour Java
 
-# find $MYPATH/src -name *.java -print >$MYPATH/tocompile
+find $MYPATH/src -name *.java -print >$MYPATH/tocompile
 
-# javac -d $MYPATH/bin @$MYPATH/tocompile
-# jar cmf manifest.mf raytracer.jar -C $MYPATH/bin .
+javac -d $MYPATH/bin @$MYPATH/tocompile
+jar cmf manifest.mf raytracer.jar -C $MYPATH/bin .
