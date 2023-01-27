@@ -1,7 +1,7 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 public class CompareImage{
@@ -21,7 +21,7 @@ public class CompareImage{
                             compteur++;
                             diff.setRGB(i, j, image1.getRGB(i, j));
                         }else{
-                            diff.setRGB(i, j, 0);
+                            diff.setRGB(i, j, Color.black.getRGB());
                         }
                     }
                 }
