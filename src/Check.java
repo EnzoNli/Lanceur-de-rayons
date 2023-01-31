@@ -13,6 +13,32 @@ public class Check {
         }
     }
 
+    private static Object buildObject(String s) {
+        String[] tmp;
+        if(s.length() != 1){
+            tmp = s.split(" ");
+            
+            double x1 = Double.valueOf(tmp[1]);
+    
+            double y1 = Double.valueOf(tmp[2]);
+    
+            double z1 = Double.valueOf(tmp[3]);
+    
+            switch(tmp[0]){
+                case "V":
+                    return new Vector(x1, y1, z1);
+                case "P":
+                    return new Point(x1, y1, z1);
+                case "C":
+                    return new Couleur(x1, y1, z1);
+            }
+        }
+
+        int d = Character.getNumericValue(s.charAt(0));
+        double d1 = d;
+        return d1;
+    }
+    
     private static String display(Object o3) {
         if(o3.getClass() == Vector.class){
             Vector v = (Vector) o3;
@@ -28,28 +54,4 @@ public class Check {
         return d.toString();
     }
 
-    private static Object buildObject(String s) {
-        if(s.length() != 1){
-            int x = s.charAt(2);
-            double x1 = x;
-    
-            int y = s.charAt(4);
-            double y1 = y;
-    
-            int z = s.charAt(6);
-            double z1 = z;
-    
-            switch(s.charAt(0)){
-                case 'V':
-                    return new Vector(x1, y1, z1);
-                case 'P':
-                    return new Point(x1, y1, z1);
-            }
-        }
-
-        int d = s.charAt(0);
-        double d1 = d;
-
-        return d1;
-    }
 }
