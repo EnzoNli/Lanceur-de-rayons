@@ -50,6 +50,6 @@ public class Check {
         int d = s.charAt(0);
         double d1 = d;
 
-        return new Double(d1);
+        return d1;
     }
 }
