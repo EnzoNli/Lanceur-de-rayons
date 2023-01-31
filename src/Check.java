@@ -18,11 +18,11 @@ public class Check {
         if(s.contains(" ")){
             tmp = s.split(" ");
             
-            double x1 = Double.valueOf(tmp[1]);
+            double x1 = Double.parseDouble(tmp[1]);
     
-            double y1 = Double.valueOf(tmp[2]);
+            double y1 = Double.parseDouble(tmp[2]);
     
-            double z1 = Double.valueOf(tmp[3]);
+            double z1 = Double.parseDouble(tmp[3]);
     
             switch(tmp[0]){
                 case "V":
@@ -31,11 +31,11 @@ public class Check {
                     return new Point(x1, y1, z1);
                 case "C":
                     return new Couleur(x1, y1, z1);
+                default:
+                    return new String("Erreur");
             }
         }
-
-        double d = Double.valueOf(s);
-        return d;
+        return Double.parseDouble(s);
     }
     
     private static String display(Object o3) {
