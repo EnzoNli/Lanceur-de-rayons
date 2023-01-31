@@ -1,3 +1,4 @@
+package bibliomaths;
 public class Point extends Triplet {
 
     

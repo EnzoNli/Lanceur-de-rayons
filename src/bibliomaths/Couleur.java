@@ -1,3 +1,4 @@
+package bibliomaths;
 public class Couleur extends Triplet {
 
     

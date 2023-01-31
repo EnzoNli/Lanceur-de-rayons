@@ -1,3 +1,4 @@
+package bibliomaths;
 public abstract class Triplet {
     private double x;
     private double y;

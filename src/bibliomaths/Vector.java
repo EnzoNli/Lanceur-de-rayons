@@ -1,3 +1,4 @@
+package bibliomaths;
 public class Vector extends Triplet {
     public Vector(double x, double y, double z){
         this.setX(x);

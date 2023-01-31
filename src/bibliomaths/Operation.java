@@ -1,6 +1,14 @@
-public class Check {
-    public static void main(String[] args) {
-        String[] data = args[0].split(",");
+package bibliomaths;
+
+public class Operation {
+    private String raw_data;
+
+    public Operation(String raw_data){
+        this.raw_data = raw_data;
+    }
+
+    public void exec(){
+        String[] data = raw_data.split(",");
         String operation = data[1];
         Object o1 = buildObject(data[0]); 
         Object o2 = buildObject(data[2]);
@@ -38,6 +46,7 @@ public class Check {
         return Double.parseDouble(s);
     }
     
+
     private static String display(Object o3) {
         if(o3.getClass() == Vector.class){
             Vector v = (Vector) o3;
@@ -57,5 +66,4 @@ public class Check {
         Double d = (Double) o3;
         return d.toString();
     }
-
 }
