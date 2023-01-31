@@ -15,7 +15,7 @@ public class Check {
 
     private static Object buildObject(String s) {
         String[] tmp;
-        if(s.length() != 1){
+        if(s.contains(" ")){
             tmp = s.split(" ");
             
             double x1 = Double.valueOf(tmp[1]);
@@ -34,9 +34,8 @@ public class Check {
             }
         }
 
-        int d = Character.getNumericValue(s.charAt(0));
-        double d1 = d;
-        return d1;
+        double d = Double.valueOf(s);
+        return d;
     }
     
     private static String display(Object o3) {
