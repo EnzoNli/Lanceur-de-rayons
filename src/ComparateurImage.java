@@ -1,5 +1,3 @@
-
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,10 +6,19 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-public class CompareImage{
+public class ComparateurImage{
 
     private static final Logger LOGGER = Logger.getLogger("bug");
-    public static void main(String[] args){
+
+    private String nom_img1;
+    private String nom_img2;
+
+    public ComparateurImage(String nom_img1, String nom_img2){
+        this.nom_img1 = nom_img1;
+        this.nom_img2 = nom_img2;
+    }
+
+    public void compare(){
         BufferedImage image1 = null;
         BufferedImage image2 = null;
         BufferedImage diff = null;
@@ -20,8 +27,8 @@ public class CompareImage{
         Color couleurdiff;
         int compteur = 0;
         try {
-            image1 = ImageIO.read(new File(args[0]));
-            image2 = ImageIO.read(new File(args[1]));
+            image1 = ImageIO.read(new File(this.nom_img1));
+            image2 = ImageIO.read(new File(this.nom_img2));
             if((image1.getWidth() == image2.getWidth()) && (image1.getHeight() == image2.getHeight())){
                 diff = new BufferedImage(image1.getWidth(), image1.getHeight(), BufferedImage.TYPE_INT_RGB);
                 for(int i = 0; i < image1.getWidth(); i++) {
@@ -30,7 +37,7 @@ public class CompareImage{
                             compteur++;
                             couleur1 = new Color(image1.getRGB(i, j));
                             couleur2 = new Color(image2.getRGB(i, j));
-
+    
                             couleurdiff = new Color(Math.abs(couleur1.getRed() - couleur2.getRed()), Math.abs(couleur1.getGreen() - couleur2.getGreen()), Math.abs(couleur1.getBlue() - couleur2.getBlue()));
                             diff.setRGB(i, j, couleurdiff.getRGB());
                         }else{
