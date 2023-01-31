@@ -2,12 +2,12 @@ public class Check {
     public static void main(String[] args) {
         String[] data = args[0].split(",");
         String operation = data[1];
-        Object o1 = buildObject(data[0]); // à concevoir
-        Object o2 = buildObject(data[2]); // à concevoir
+        Object o1 = buildObject(data[0]); 
+        Object o2 = buildObject(data[2]);
         try {
             Class<?> clazz2 = (o2.getClass() == Double.class) ? double.class : o2.getClass();
             Object o3 = o1.getClass().getMethod(operation,clazz2).invoke(o1,o2);
-            System.out.println(display(o3)); // à concevoir
+            System.out.println(display(o3));
         } catch (Exception e) {
             System.out.println("Interdit");
         }
