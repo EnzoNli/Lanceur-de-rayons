@@ -50,6 +50,11 @@ public class Check {
             return p.toString();
         }
 
+        if(o3.getClass() == Couleur.class){
+            Couleur c = (Couleur) o3;
+            return c.toString();
+        }
+
         Double d = (Double) o3;
         return d.toString();
     }
