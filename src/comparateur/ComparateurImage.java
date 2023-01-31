@@ -11,12 +11,12 @@ public class ComparateurImage{
 
     private static final Logger LOGGER = Logger.getLogger("bug");
 
-    private String nom_img1;
-    private String nom_img2;
+    private String nomImg1;
+    private String nomImg2;
 
-    public ComparateurImage(String nom_img1, String nom_img2){
-        this.nom_img1 = nom_img1;
-        this.nom_img2 = nom_img2;
+    public ComparateurImage(String nomImg1, String nomImg2){
+        this.nomImg1 = nomImg1;
+        this.nomImg2 = nomImg2;
     }
 
     public void compare(){
@@ -28,8 +28,8 @@ public class ComparateurImage{
         Color couleurdiff;
         int compteur = 0;
         try {
-            image1 = ImageIO.read(new File(this.nom_img1));
-            image2 = ImageIO.read(new File(this.nom_img2));
+            image1 = ImageIO.read(new File(this.nomImg1));
+            image2 = ImageIO.read(new File(this.nomImg2));
             if((image1.getWidth() == image2.getWidth()) && (image1.getHeight() == image2.getHeight())){
                 diff = new BufferedImage(image1.getWidth(), image1.getHeight(), BufferedImage.TYPE_INT_RGB);
                 for(int i = 0; i < image1.getWidth(); i++) {

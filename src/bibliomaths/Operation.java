@@ -1,14 +1,14 @@
 package bibliomaths;
 
 public class Operation {
-    private String raw_data;
+    private String rawData;
 
-    public Operation(String raw_data){
-        this.raw_data = raw_data;
+    public Operation(String rawData){
+        this.rawData = rawData;
     }
 
     public void exec(){
-        String[] data = raw_data.split(",");
+        String[] data = rawData.split(",");
         String operation = data[1];
         Object o1 = buildObject(data[0]); 
         Object o2 = buildObject(data[2]);
