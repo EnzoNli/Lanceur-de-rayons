@@ -23,7 +23,7 @@ public class ComparateurImage{
         this.nomImg2 = nomImg2;
     }
 
-    public void testImage(BufferedImage diff) {
+    private void testImage(BufferedImage diff) {
         Color couleur1 = null;
         Color couleur2 = null;
         Color couleurdiff = null;
@@ -43,6 +43,15 @@ public class ComparateurImage{
         }
     }
 
+    private void creerDiff(BufferedImage diff){
+        try{
+            ImageIO.write(diff, "png", new File("./diff.png"));
+        }catch (IOException e){
+            LOGGER.log(java.util.logging.Level.SEVERE, "Impossible de créer diff.png", e);
+        }
+    }
+
+
     public void compare(){
         BufferedImage diff = null;
         try {
@@ -52,13 +61,8 @@ public class ComparateurImage{
                 diff = new BufferedImage(this.image1.getWidth(), this.image1.getHeight(), BufferedImage.TYPE_INT_RGB);
                 testImage(diff);
                 if(this.compteurPixels >= 1){
-                    try{
-                        ImageIO.write(diff, "png", new File("./diff.png"));
-                    }catch (IOException e){
-                        LOGGER.log(java.util.logging.Level.SEVERE, "Impossible de créer diff.png", e);
-                    }
+                    creerDiff(diff);
                 }
-    
                 if(this.compteurPixels <= 1000) {
                     System.out.println("OK");
                 } else {
