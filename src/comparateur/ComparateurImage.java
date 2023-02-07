@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Cette classe permet de comparer deux images.
+ */
 public class ComparateurImage{
 
     private static final Logger LOGGER = Logger.getLogger("bug");
@@ -17,12 +20,23 @@ public class ComparateurImage{
     private BufferedImage image2 = null;
     private int compteurPixels = 0;
 
-
+    /**
+     * Le constructeur de la class Comparateur d'image
+     * @param nomImg1 correspond au nom de la première image
+     * @param nomImg2 correspond au nom de la deuxième image
+     */
     public ComparateurImage(String nomImg1, String nomImg2){
         this.nomImg1 = nomImg1;
         this.nomImg2 = nomImg2;
     }
 
+    /**
+     * Permet de comparer chaque pixel de deux images et,
+     * lorsqu'un pixel est différent, on calcul la couleur du pixel,
+     * qu'on place dans le BufferedImage diff.
+     * l'attribut compteurPixels permet de compter le nombre de pixels différents
+     * @param diff correspond à une image vide.
+     */
     private void testImage(BufferedImage diff) {
         Color couleur1 = null;
         Color couleur2 = null;
@@ -43,6 +57,11 @@ public class ComparateurImage{
         }
     }
 
+    /**
+     * Permet de créer une image correspondant à la différence entre deux images.
+     * Si l'image ne peux pas être créée, renvoie un message d'erreur.
+     * @param diff est l'image générée de la différence entre deux image.
+     */
     private void creerDiff(BufferedImage diff){
         try{
             ImageIO.write(diff, "png", new File("./diff.png"));
@@ -51,7 +70,11 @@ public class ComparateurImage{
         }
     }
 
-
+    /**
+     * Cette méthode utilise les méthodes testImage et creerDiff.
+     * Si le compteurPixels est supérieur ou égale à 1000 alors on affiche "OK" sinon "KO".
+     * Si Une des images ne peut pas être créée, alors un message d'erreur est renvoyé.
+     */
     public void compare(){
         BufferedImage diff = null;
         try {

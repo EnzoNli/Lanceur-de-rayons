@@ -3,10 +3,17 @@ package bibliomaths;
 public class Operation {
     private String rawData;
 
+    /**
+     * Le constructeur de la class Operation
+     * @param rawData correspond à la chaine de caractère à parser.
+     */
     public Operation(String rawData){
         this.rawData = rawData;
     }
 
+    /**
+     * Cette méthode utilise les méthodes buildObject et display
+     */
     public void exec(){
         String[] data = rawData.split(",");
         String operation = data[1];
@@ -21,6 +28,11 @@ public class Operation {
         }
     }
 
+    /**
+     * Cette méthode permet de parser.
+     * @param s correspond à la chaine de carctère à parser
+     * @return un Point, un Vector, une Couleur ou un Double.
+     */
     private static Object buildObject(String s) {
         String[] tmp;
         if(s.contains(" ")){
@@ -46,7 +58,11 @@ public class Operation {
         return Double.parseDouble(s);
     }
     
-
+    /**
+     * Cette méthode permet de déterminer si l'objet passer en paramétre est une Couleur, un Point ou un Vector.
+     * @param o3 correspond à un Triplet.
+     * @return la chaine de caractère correspondant à l'objet passé en paramètre.
+     */
     private static String display(Object o3) {
         if(o3.getClass() == Vector.class){
             Vector v = (Vector) o3;
