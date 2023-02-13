@@ -32,9 +32,9 @@ vectests:
    stage: initial
    script: "cd tests; ./tests2.sh"
 
-# lecturescenes:
-#   stage: initial
-#   script: "cd tests; ./tests3.sh"
+ lecturescenes:
+   stage: initial
+   script: "cd tests; ./tests3.sh"
 
 # premieresimages:
 #   stage: basic
