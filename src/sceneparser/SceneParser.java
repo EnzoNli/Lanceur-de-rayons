@@ -27,9 +27,9 @@ public class SceneParser {
     private Couleur ambient;
     private Couleur diffuses;
     private Couleur speculars;
-    private ArrayList<Integer> shininess;
-    private ArrayList<Light> lights;
-    private ArrayList<Forme> objects;
+    private ArrayList<Integer> shininess = new ArrayList<Integer>();
+    private ArrayList<Light> lights = new ArrayList<Light>();
+    private ArrayList<Forme> objects = new ArrayList<Forme>();
 
     public SceneParser(String nomFichierAParser) {
         this.nomFichierAParser = nomFichierAParser;
