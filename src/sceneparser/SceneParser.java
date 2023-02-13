@@ -21,7 +21,7 @@ import lights.LocalLight;
 public class SceneParser {
     private String nomFichierAParser;
 
-    private int[] size;
+    private int[] size = new int[2];
     private String outputName;
     private Camera camera;
     private Couleur ambient;
