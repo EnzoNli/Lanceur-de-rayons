@@ -17,6 +17,7 @@ public class SceneParser {
     private String outputName;
     private Camera camera;
     private Couleur ambient;
+    private ArrayList<Couleur> ambients;
     private ArrayList<Couleur> diffuses;
     private ArrayList<Couleur> speculars;
     private ArrayList<Integer> shininess;
@@ -88,12 +89,11 @@ public class SceneParser {
 
             // A partir d'ici, tout les autres elements sont optionnels
             // On commence par les couleurs de l'image
-            double[] couleursImage;
-            couleursImage = lumieresAmbients();
-            if (couleursImage == null) {
+            this.ambients = findColors("ambient");
+            if (ambients.size() == 0) {
                 this.ambient = new Couleur(0, 0, 0);
             } else {
-                this.ambient = new Couleur(couleursImage[0], couleursImage[1], couleursImage[2]);
+                this.ambient = this.ambients.get(this.ambients.size()-1);
             }
             f_reader.close();
             br.close();
@@ -101,14 +101,14 @@ public class SceneParser {
             e.printStackTrace();
         }
 
-        this.diffuses = findDiffuses();
+        this.diffuses = findColors("diffuse");
         for (Couleur c : diffuses) {
             if (!(c.isValid()) || !(this.ambient.add(c).isValid())) {
                 throw new IllegalArgumentException("Un diffuse ne peut pas être supérieure à 1");
             }
         }
 
-        this.speculars = findSpeculars();
+        this.speculars = findColors("speculars");
         for (Couleur c : speculars) {
             if (!(c.isValid())) {
                 throw new IllegalArgumentException("Un specular ne peut pas être supérieure à 1");
@@ -118,6 +118,8 @@ public class SceneParser {
 
         this.shininess = findShininess();
     }
+
+
 
     private ArrayList<Integer> findShininess() {
         String ligne;
@@ -142,7 +144,34 @@ public class SceneParser {
         return toutesShininess;
     }
 
-    private ArrayList<Couleur> findSpeculars() {
+
+    private ArrayList<Couleur> findColors(String firstWord) {
+        String ligne;
+        double[] tmp = new double[3];
+        ArrayList<Couleur> toutesColors = new ArrayList<>();
+
+        try {
+            BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+            while ((ligne = f.readLine()) != null) {
+                if (ligne.startsWith(firstWord)) {
+                    String[] datas = ligne.split(" ");
+                    for (int i = 0; i < 3; i++) {
+                        tmp[i] = Double.parseDouble(datas[i + 1]);
+                    }
+                    toutesColors.add(new Couleur(tmp[0], tmp[1], tmp[2]));
+                }
+            }
+            f.close();
+            return toutesColors;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return toutesColors;
+
+    }
+
+
+    /*private ArrayList<Couleur> findSpeculars() {
         String ligne;
         double[] tmp = new double[3];
         ArrayList<Couleur> toutesSpeculars = new ArrayList<>();
@@ -166,6 +195,7 @@ public class SceneParser {
         return toutesSpeculars;
 
     }
+
 
     private ArrayList<Couleur> findDiffuses() {
         String ligne;
@@ -214,5 +244,5 @@ public class SceneParser {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 }
