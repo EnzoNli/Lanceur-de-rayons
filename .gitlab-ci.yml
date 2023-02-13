@@ -3,13 +3,12 @@ variables:
   PROXY: "-Dhttp.proxyHost=cache-etu.univ-artois.fr -Dhttp.proxyPort=3128 -Dhttps.proxyHost=cache-etu.univ-artois.fr -Dhttps.proxyPort=3128 -Dhttp.nonProxyHosts=localhost"
   SONARINFO: "-Dsonar.host.url=http://sonarqube.univ-artois.fr/ -Dsonar.login=$SONARTOKEN -Dsonar.projectKey=tracer$CI_PROJECT_ID -Dsonar.projectName=Raytracer_by_$CI_PROJECT_NAMESPACE"
 
-
 default:
   image: cache-ili.univ-artois.fr/proxy_cache/leberre/java11gccpython:latest
-  tags: 
-     - docker
+  tags:
+    - docker
 
-before_script: 
+before_script:
   - "git submodule add --force https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.univ-artois.fr/lanceurrayons/testslanceurrayons.git tests"
   - "git submodule update --remote --init"
 
@@ -24,17 +23,16 @@ stages:
   - mystery
 
 comparateur:
-   stage: initial
-   script: "cd tests; ./tests1.sh"
-  
+  stage: initial
+  script: "cd tests; ./tests1.sh"
 
 vectests:
-   stage: initial
-   script: "cd tests; ./tests2.sh"
+  stage: initial
+  script: "cd tests; ./tests2.sh"
 
- lecturescenes:
-   stage: initial
-   script: "cd tests; ./tests3.sh"
+lecturescenes:
+  stage: initial
+  script: "cd tests; ./tests3.sh"
 
 # premieresimages:
 #   stage: basic
@@ -79,19 +77,18 @@ vectests:
 #     - transformations
 
 auditcode:
-   image: cache-ili.univ-artois.fr/proxy_cache/sonarsource/sonar-scanner-cli
-   stage: qa
-   script: "sonar-scanner $PROXY $SONARINFO"
-   
+  image: cache-ili.univ-artois.fr/proxy_cache/sonarsource/sonar-scanner-cli
+  stage: qa
+  script: "sonar-scanner $PROXY $SONARINFO"
+
 executable:
   stage: build
   script: "./build.sh"
   artifacts:
-    paths: 
+    paths:
       - raytracer.jar
       - bin
       - "*.sh"
-
 # imagesmystere:
 #   stage: mystery
 #   script: "cd tests; ./mysteres.sh"
