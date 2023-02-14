@@ -21,9 +21,10 @@ public class Operation {
         System.setProperty("java.util.logging.SimpleFormatter.format",
               "%5$s%n");
         Handler h = new ConsoleHandler();
-        h.setLevel(Level.INFO);
+        h.setLevel(Level.ALL);
         LOGGER.addHandler(h);
-        LOGGER.setLevel(Level.INFO);
+        LOGGER.setLevel(Level.ALL);
+        LOGGER.setUseParentHandlers(false);
     }
 
     /**
