@@ -154,9 +154,8 @@ public class SceneParser {
                         f.close();
                         throw new IllegalArgumentException("Il n'y a pas le bon nombre d'argument dans maxverts");
                     }
-                } else if (ligne.startsWith("tri")) {
+                } else if (ligne.startsWith("tri") && maxverts > 0) {
                     String[] datas = ligne.split(" ");
-                    System.out.println("nombre de data : " + datas.length);
                     if (datas.length == 4) {
                         for (int i = 1; i < datas.length; i++) {
                             if (Integer.parseInt(datas[i]) >= maxverts) {
@@ -164,7 +163,6 @@ public class SceneParser {
                                 throw new IllegalArgumentException("Le vertex n'existe pas");
                             }
                         }
-                        System.out.println("Test");
                         this.objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
                                 vertex.get(Integer.parseInt(datas[2])),
                                 vertex.get(Integer.parseInt(datas[3]))));
@@ -214,6 +212,7 @@ public class SceneParser {
                             Double.parseDouble(datas[3]));
                 }
             }
+            f.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
