@@ -156,6 +156,7 @@ public class SceneParser {
                     }
                 } else if (ligne.startsWith("tri") && maxverts > 0) {
                     String[] datas = ligne.split(" ");
+                    System.out.println("nombre de data : " + datas.length);
                     if (datas.length == 4) {
                         for (int i = 1; i < datas.length; i++) {
                             if (Integer.parseInt(datas[i]) >= maxverts) {
