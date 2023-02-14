@@ -1,7 +1,9 @@
 package bibliomaths;
 
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Operation {
 
@@ -14,8 +16,9 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-
-        LOGGER.setLevel(Level.ALL);
+        ConsoleHandler c = new ConsoleHandler();
+        c.setFormatter(new SimpleFormatter());
+        LOGGER.addHandler(c);
     }
 
     /**
