@@ -18,6 +18,7 @@ public class Operation {
         this.rawData = rawData;
         ConsoleHandler c = new ConsoleHandler();
         c.setFormatter(new SimpleFormatter());
+        c.setLevel(Level.ALL);
         LOGGER.addHandler(c);
     }
 
