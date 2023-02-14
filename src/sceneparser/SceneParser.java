@@ -100,7 +100,7 @@ public class SceneParser {
             f_reader.close();
             br.close();
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             br.close();
         }
@@ -127,7 +127,7 @@ public class SceneParser {
         String ligne;
         ArrayList<Point> vertex = new ArrayList<>();
         int maxverts = 0;
-        BufferedReader f = null;
+        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
 
@@ -164,7 +164,7 @@ public class SceneParser {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             f.close();
         }
@@ -173,7 +173,7 @@ public class SceneParser {
     private ArrayList<Point> findVertex() throws IOException {
         ArrayList<Point> vertex = new ArrayList<>();
         String ligne;
-        BufferedReader f = null;
+        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
             while ((ligne = f.readLine()) != null) {
@@ -185,7 +185,7 @@ public class SceneParser {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             f.close();
         }
@@ -195,7 +195,7 @@ public class SceneParser {
     private void findSphere() throws IOException {
         String ligne;
         Couleur diffuse = new Couleur(0, 0, 0);
-        BufferedReader f = null;
+        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
 
@@ -214,7 +214,7 @@ public class SceneParser {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             f.close();
         }
@@ -222,7 +222,7 @@ public class SceneParser {
 
     private void findLights() throws IOException {
         String ligne;
-        BufferedReader f = null;
+        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
             while ((ligne = f.readLine()) != null) {
@@ -247,7 +247,7 @@ public class SceneParser {
             }
             f.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             f.close();
         }
@@ -261,7 +261,7 @@ public class SceneParser {
     private ArrayList<Integer> findShininess() throws IOException {
         String ligne;
         ArrayList<Integer> toutesShininess = new ArrayList<Integer>();
-        BufferedReader f = null;
+        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
             while ((ligne = f.readLine()) != null) {
@@ -277,7 +277,7 @@ public class SceneParser {
             f.close();
             return toutesShininess;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             f.close();
         }
@@ -288,7 +288,7 @@ public class SceneParser {
         String ligne;
         double[] tmp = new double[3];
         Couleur colors = new Couleur(0, 0, 0);
-        BufferedReader f = null;
+        BufferedReader f = new BufferedReader(null);
 
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
@@ -304,7 +304,7 @@ public class SceneParser {
             f.close();
             return colors;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         } finally {
             f.close();
         }
