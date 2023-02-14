@@ -35,10 +35,6 @@ public class SceneParser {
         this.nomFichierAParser = nomFichierAParser;
     }
 
-    public int getNumberOfObjects() {
-        return this.objects.size();
-    }
-
     public void parse() throws IOException, FileNotFoundException {
         File fichier = new File(this.nomFichierAParser);
         FileReader f_reader = new FileReader(fichier);
@@ -165,12 +161,11 @@ public class SceneParser {
                             if (Integer.parseInt(datas[i]) >= maxverts) {
                                 f.close();
                                 throw new IllegalArgumentException("Le vertex n'existe pas");
-                            } else {
-                                this.objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
-                                        vertex.get(Integer.parseInt(datas[2])),
-                                        vertex.get(Integer.parseInt(datas[3]))));
                             }
                         }
+                        this.objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
+                                vertex.get(Integer.parseInt(datas[2])),
+                                vertex.get(Integer.parseInt(datas[3]))));
                     }
                 }
             }
