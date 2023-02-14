@@ -17,7 +17,10 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-        LOGGER.addHandler(new StreamHandler(System.out, new SimpleFormatter()));
+        System.setProperty("java.util.logging.SimpleFormatter.format",
+              "%5$s %n");
+        SimpleFormatter formatter = new SimpleFormatter();
+        LOGGER.addHandler(new StreamHandler(System.out, formatter));
     }
 
     /**
@@ -34,7 +37,7 @@ public class Operation {
             //System.out.println(display(o3));
             LOGGER.fine(display(o3));
         } catch (Exception e) {
-            LOGGER.log(java.util.logging.Level.SEVERE, "Interdit", e);
+            LOGGER.log(java.util.logging.Level.SEVERE, "Interdit");
         }
     }
 
