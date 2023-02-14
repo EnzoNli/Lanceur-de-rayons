@@ -1,5 +1,6 @@
 package bibliomaths;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Operation {
@@ -13,6 +14,8 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
+
+        LOGGER.setLevel(Level.ALL);
     }
 
     /**
