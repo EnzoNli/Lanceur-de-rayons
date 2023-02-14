@@ -9,7 +9,7 @@ import java.util.logging.StreamHandler;
 
 public class Operation {
 
-    private static final Logger LOGGER = Logger.getLogger("bug");
+    private static Logger LOGGER = Logger.getLogger("bug");
     private String rawData;
 
     /**
@@ -20,11 +20,8 @@ public class Operation {
         this.rawData = rawData;
         System.setProperty("java.util.logging.SimpleFormatter.format",
               "%5$s%n");
-        Handler h = new ConsoleHandler();
-        h.setLevel(Level.ALL);
+        ConsoleHandler h = new ConsoleHandler();
         LOGGER.addHandler(h);
-        LOGGER.setLevel(Level.ALL);
-        LOGGER.setUseParentHandlers(false);
     }
 
     /**
@@ -39,9 +36,9 @@ public class Operation {
             Class<?> clazz2 = (o2.getClass() == Double.class) ? double.class : o2.getClass();
             Object o3 = o1.getClass().getMethod(operation,clazz2).invoke(o1,o2);
             //System.out.println(display(o3));
-            LOGGER.log(java.util.logging.Level.INFO, display(o3));
+            LOGGER.info(display(o3));
         } catch (Exception e) {
-            LOGGER.log(java.util.logging.Level.INFO, "Interdit");
+            LOGGER.info("Interdit");
         }
     }
 
