@@ -4,6 +4,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 public class Operation {
 
@@ -16,10 +17,7 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-        ConsoleHandler c = new ConsoleHandler();
-        c.setFormatter(new SimpleFormatter());
-        c.setLevel(Level.ALL);
-        LOGGER.addHandler(c);
+        LOGGER.addHandler(new StreamHandler(System.out, new SimpleFormatter()));
     }
 
     /**
