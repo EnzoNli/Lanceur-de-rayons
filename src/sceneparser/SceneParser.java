@@ -145,14 +145,14 @@ public class SceneParser {
                         maxverts = Integer.parseInt(datas[1]);
                         if (vertex.isEmpty()) {
                             f.close();
-                            return;
+                            throw new IllegalArgumentException("Il n'y a pas de vertex");
                         } else if (vertex.size() > maxverts) {
                             f.close();
-                            return;
+                            throw new IllegalArgumentException("Il y a plus de vertex que de maxverts");
                         }
                     } else {
                         f.close();
-                        return;
+                        throw new IllegalArgumentException("Il n'y a pas le bon nombre d'argument dans maxverts");
                     }
                 } else if (ligne.startsWith("tri") && maxverts > 0) {
                     String[] datas = ligne.split(" ");
@@ -160,7 +160,7 @@ public class SceneParser {
                         for (int i = 1; i < datas.length; i++) {
                             if (Integer.parseInt(datas[i]) >= maxverts) {
                                 f.close();
-                                return;
+                                throw new IllegalArgumentException("Le vertex n'existe pas");
                             } else {
                                 objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
                                         vertex.get(Integer.parseInt(datas[2])),
@@ -180,16 +180,11 @@ public class SceneParser {
         String ligne;
         try {
             while ((ligne = file.readLine()) != null) {
-                if (ligne.startsWith("#")) {
-                    continue;
-                }
-                if (ligne.startsWith("\n") || ligne.startsWith("vertex")) {
+                if (ligne.startsWith("vertex")) {
                     String[] datas = ligne.split(" ");
                     Point p = new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                             Double.parseDouble(datas[3]));
                     vertex.add(p);
-                } else {
-                    return vertex;
                 }
             }
         } catch (IOException e) {
@@ -315,87 +310,8 @@ public class SceneParser {
         s.append(this.objects.size());
         s.append("\n");
         s.append(this.lights.size());
+        s.append("\n");
 
         return s.toString();
     }
-
-    /*
-     * private ArrayList<Couleur> findSpeculars() {
-     * String ligne;
-     * double[] tmp = new double[3];
-     * ArrayList<Couleur> toutesSpeculars = new ArrayList<>();
-     * 
-     * try {
-     * BufferedReader f = new BufferedReader(new FileReader(new
-     * File(this.nomFichierAParser)));
-     * while ((ligne = f.readLine()) != null) {
-     * if (ligne.startsWith("speculars")) {
-     * String[] datas = ligne.split(" ");
-     * for (int i = 0; i < 3; i++) {
-     * tmp[i] = Double.parseDouble(datas[i + 1]);
-     * }
-     * toutesSpeculars.add(new Couleur(tmp[0], tmp[1], tmp[2]));
-     * }
-     * }
-     * f.close();
-     * return toutesSpeculars;
-     * } catch (IOException e) {
-     * e.printStackTrace();
-     * }
-     * return toutesSpeculars;
-     * 
-     * }
-     * 
-     * 
-     * private ArrayList<Couleur> findDiffuses() {
-     * String ligne;
-     * double[] tmp = new double[3];
-     * ArrayList<Couleur> toutesDiffuses = new ArrayList<>();
-     * 
-     * try {
-     * BufferedReader f = new BufferedReader(new FileReader(new
-     * File(this.nomFichierAParser)));
-     * while ((ligne = f.readLine()) != null) {
-     * if (ligne.startsWith("diffuse")) {
-     * String[] datas = ligne.split(" ");
-     * for (int i = 0; i < 3; i++) {
-     * tmp[i] = Double.parseDouble(datas[i + 1]);
-     * }
-     * toutesDiffuses.add(new Couleur(tmp[0], tmp[1], tmp[2]));
-     * }
-     * }
-     * f.close();
-     * return toutesDiffuses;
-     * } catch (IOException e) {
-     * e.printStackTrace();
-     * }
-     * return toutesDiffuses;
-     * 
-     * }
-     * 
-     * private double[] lumieresAmbients() {
-     * String ligne;
-     * double[] data = new double[3];
-     * try {
-     * BufferedReader f = new BufferedReader(new FileReader(new
-     * File(this.nomFichierAParser)));
-     * while ((ligne = f.readLine()) != null) {
-     * if (ligne.startsWith("ambient")) {
-     * String[] split = ligne.split(" ");
-     * for (int i = 0; i < 2; i++) {
-     * data[i] = Double.parseDouble(split[i + 1]);
-     * }
-     * f.close();
-     * return data;
-     * }
-     * }
-     * f.close();
-     * } catch (FileNotFoundException e) {
-     * e.printStackTrace();
-     * } catch (IOException e) {
-     * e.printStackTrace();
-     * }
-     * return null;
-     * }
-     */
 }
