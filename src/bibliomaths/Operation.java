@@ -20,8 +20,10 @@ public class Operation {
         this.rawData = rawData;
         System.setProperty("java.util.logging.SimpleFormatter.format",
               "%5$s%n");
-        ConsoleHandler h = new ConsoleHandler();
-        LOGGER.addHandler(h);
+        StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
+        streamhandler.setLevel(Level.INFO);
+        LOGGER.addHandler(streamhandler);
+        LOGGER.setLevel(Level.INFO);
     }
 
     /**
