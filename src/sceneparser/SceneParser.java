@@ -141,7 +141,7 @@ public class SceneParser {
                 if (ligne.startsWith("maxverts") && maxverts == 0) {
                     String[] datas = ligne.split(" ");
                     if (datas.length == 2) {
-                        vertex = findVertex(f);
+                        vertex = findVertex();
                         maxverts = Integer.parseInt(datas[1]);
                         if (vertex.isEmpty()) {
                             f.close();
@@ -174,11 +174,12 @@ public class SceneParser {
         }
     }
 
-    private ArrayList<Point> findVertex(BufferedReader file) {
+    private ArrayList<Point> findVertex() {
         ArrayList<Point> vertex = new ArrayList<>();
         String ligne;
         try {
-            while ((ligne = file.readLine()) != null) {
+            BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+            while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("vertex")) {
                     String[] datas = ligne.split(" ");
                     Point p = new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
@@ -186,6 +187,7 @@ public class SceneParser {
                     vertex.add(p);
                 }
             }
+            f.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
