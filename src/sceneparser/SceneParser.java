@@ -26,6 +26,8 @@ public class SceneParser {
     private ArrayList<Integer> shininess = new ArrayList<Integer>();
     private ArrayList<Light> lights = new ArrayList<Light>();
     private ArrayList<Forme> objects = new ArrayList<Forme>();
+    private BufferedReader f;
+    private BufferedReader f2;
 
     public SceneParser(String nomFichierAParser) {
         this.nomFichierAParser = nomFichierAParser;
@@ -38,14 +40,13 @@ public class SceneParser {
         boolean passeSize = false;
         boolean passeOutput = false;
         boolean passeCamera = false;
-        BufferedReader br = null;
 
         try {
-            br = new BufferedReader(f_reader);
+            f = new BufferedReader(f_reader);
             String ligne;
             String[] parse;
 
-            while ((ligne = br.readLine()) != null) {
+            while ((ligne = f.readLine()) != null) {
                 parse = ligne.trim().split(" ");
                 if (!(parse[0].equals("#"))) {
                     // Recupération de la taille de l'image
@@ -96,13 +97,13 @@ public class SceneParser {
 
             // A partir d'ici, tout les autres elements sont optionnels
             // On commence par les couleurs de l'image
-            this.ambient = findColors("ambient");
             f_reader.close();
-            br.close();
+            f.close();
+            this.ambient = findColors("ambient");
         } catch (NumberFormatException e) {
             System.out.println(e.toString());
         } finally {
-            br.close();
+            f.close();
         }
 
         this.diffuses = findColors("diffuse");
@@ -127,7 +128,6 @@ public class SceneParser {
         String ligne;
         ArrayList<Point> vertex = new ArrayList<>();
         int maxverts = 0;
-        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
 
@@ -173,10 +173,9 @@ public class SceneParser {
     private ArrayList<Point> findVertex() throws IOException {
         ArrayList<Point> vertex = new ArrayList<>();
         String ligne;
-        BufferedReader f = new BufferedReader(null);
         try {
-            f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
-            while ((ligne = f.readLine()) != null) {
+            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+            while ((ligne = f2.readLine()) != null) {
                 if (ligne.startsWith("vertex")) {
                     String[] datas = ligne.split(" ");
                     Point p = new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
@@ -187,7 +186,7 @@ public class SceneParser {
         } catch (IOException e) {
             System.out.println(e.toString());
         } finally {
-            f.close();
+            f2.close();
         }
         return vertex;
     }
@@ -195,7 +194,6 @@ public class SceneParser {
     private void findSphere() throws IOException {
         String ligne;
         Couleur diffuse = new Couleur(0, 0, 0);
-        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
 
@@ -222,7 +220,6 @@ public class SceneParser {
 
     private void findLights() throws IOException {
         String ligne;
-        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
             while ((ligne = f.readLine()) != null) {
@@ -261,7 +258,6 @@ public class SceneParser {
     private ArrayList<Integer> findShininess() throws IOException {
         String ligne;
         ArrayList<Integer> toutesShininess = new ArrayList<Integer>();
-        BufferedReader f = new BufferedReader(null);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
             while ((ligne = f.readLine()) != null) {
@@ -288,7 +284,6 @@ public class SceneParser {
         String ligne;
         double[] tmp = new double[3];
         Couleur colors = new Couleur(0, 0, 0);
-        BufferedReader f = new BufferedReader(null);
 
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
