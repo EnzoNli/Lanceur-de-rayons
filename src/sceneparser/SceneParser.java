@@ -154,7 +154,7 @@ public class SceneParser {
                         f.close();
                         throw new IllegalArgumentException("Il n'y a pas le bon nombre d'argument dans maxverts");
                     }
-                } else if (ligne.startsWith("tri") && maxverts > 0) {
+                } else if (ligne.startsWith("tri")) {
                     String[] datas = ligne.split(" ");
                     System.out.println("nombre de data : " + datas.length);
                     if (datas.length == 4) {
