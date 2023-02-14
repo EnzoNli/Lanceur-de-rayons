@@ -1,6 +1,7 @@
 package bibliomaths;
 
 import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -17,12 +18,12 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-
-        LOGGER.setLevel(Level.ALL);
         System.setProperty("java.util.logging.SimpleFormatter.format",
               "%5$s%n");
-        SimpleFormatter formatter = new SimpleFormatter();
-        LOGGER.addHandler(new StreamHandler(System.out, formatter));
+        Handler h = new ConsoleHandler();
+        h.setLevel(Level.INFO);
+        LOGGER.addHandler(h);
+        LOGGER.setLevel(Level.INFO);
     }
 
     /**
@@ -39,7 +40,7 @@ public class Operation {
             //System.out.println(display(o3));
             LOGGER.log(java.util.logging.Level.INFO, display(o3));
         } catch (Exception e) {
-            LOGGER.log(java.util.logging.Level.SEVERE, "Interdit");
+            LOGGER.log(java.util.logging.Level.INFO, "Interdit");
         }
     }
 
