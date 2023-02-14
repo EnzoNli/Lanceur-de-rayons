@@ -163,6 +163,7 @@ public class SceneParser {
                                 throw new IllegalArgumentException("Le vertex n'existe pas");
                             }
                         }
+                        System.out.println("Test");
                         this.objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
                                 vertex.get(Integer.parseInt(datas[2])),
                                 vertex.get(Integer.parseInt(datas[3]))));
