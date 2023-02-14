@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import bibliomaths.Couleur;
 import bibliomaths.Point;
@@ -15,6 +16,8 @@ import forme.*;
 import lights.*;
 
 public class SceneParser {
+
+    private static final Logger LOGGER = Logger.getLogger("bug");
     private String nomFichierAParser;
 
     private int[] size = new int[2];
@@ -58,7 +61,7 @@ public class SceneParser {
                             this.size[0] = Integer.parseInt(parse[1]);
                             this.size[1] = Integer.parseInt(parse[2]);
                         } catch (NumberFormatException e) {
-                            System.out.println("Un des deux arguments de size n'est pas un entier");
+                            LOGGER.log(java.util.logging.Level.SEVERE, "Un des deux arguments de size n'est pas un entier");
                         }
                         passeSize = true;
                     }
@@ -101,7 +104,7 @@ public class SceneParser {
             f.close();
             this.ambient = findColors("ambient");
         } catch (NumberFormatException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
         }
@@ -164,7 +167,7 @@ public class SceneParser {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
         }
@@ -184,7 +187,7 @@ public class SceneParser {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f2.close();
         }
@@ -212,7 +215,7 @@ public class SceneParser {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
         }
@@ -244,7 +247,7 @@ public class SceneParser {
             }
             f.close();
         } catch (IOException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
         }
@@ -273,7 +276,7 @@ public class SceneParser {
             f.close();
             return toutesShininess;
         } catch (IOException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
         }
@@ -299,7 +302,7 @@ public class SceneParser {
             f.close();
             return colors;
         } catch (IOException e) {
-            System.out.println(e.toString());
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
         }

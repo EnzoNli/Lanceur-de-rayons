@@ -1,6 +1,10 @@
 package bibliomaths;
 
+import java.util.logging.Logger;
+
 public class Operation {
+
+    private static final Logger LOGGER = Logger.getLogger("bug");
     private String rawData;
 
     /**
@@ -22,9 +26,10 @@ public class Operation {
         try {
             Class<?> clazz2 = (o2.getClass() == Double.class) ? double.class : o2.getClass();
             Object o3 = o1.getClass().getMethod(operation,clazz2).invoke(o1,o2);
-            System.out.println(display(o3));
+            //System.out.println(display(o3));
+            LOGGER.log(java.util.logging.Level.INFO, display(o3));
         } catch (Exception e) {
-            System.out.println("Interdit");
+            LOGGER.log(java.util.logging.Level.SEVERE, "Interdit", e);
         }
     }
 
