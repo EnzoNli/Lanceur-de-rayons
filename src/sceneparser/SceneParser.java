@@ -35,6 +35,10 @@ public class SceneParser {
         this.nomFichierAParser = nomFichierAParser;
     }
 
+    public int getNumberOfObjects() {
+        return this.objects.size();
+    }
+
     public void parse() throws IOException, FileNotFoundException {
         File fichier = new File(this.nomFichierAParser);
         FileReader f_reader = new FileReader(fichier);
@@ -162,7 +166,7 @@ public class SceneParser {
                                 f.close();
                                 throw new IllegalArgumentException("Le vertex n'existe pas");
                             } else {
-                                objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
+                                this.objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
                                         vertex.get(Integer.parseInt(datas[2])),
                                         vertex.get(Integer.parseInt(datas[3]))));
                             }
@@ -203,8 +207,9 @@ public class SceneParser {
                 if (ligne.startsWith("sphere")) {
                     String[] datas = ligne.split(" ");
                     if (datas.length == 5) {
-                        objects.add(new Sphere(new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
-                                Double.parseDouble(datas[3])), Double.parseDouble(datas[4]), diffuse));
+                        this.objects
+                                .add(new Sphere(new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
+                                        Double.parseDouble(datas[3])), Double.parseDouble(datas[4]), diffuse));
                     }
                 } else if (ligne.startsWith("diffuse")) {
                     String[] datas = ligne.split(" ");
@@ -228,14 +233,14 @@ public class SceneParser {
                             Double.parseDouble(datas[3]));
                     Couleur c = new Couleur(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]),
                             Double.parseDouble(datas[6]));
-                    lights.add(new LocalLight(p, c));
+                    this.lights.add(new LocalLight(p, c));
                 } else if (ligne.startsWith("directional")) {
                     String[] datas = ligne.split(" ");
                     Vector v = new Vector(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                             Double.parseDouble(datas[3]));
                     Couleur c = new Couleur(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]),
                             Double.parseDouble(datas[6]));
-                    lights.add(new DirectionalLight(v, c));
+                    this.lights.add(new DirectionalLight(v, c));
                 }
             }
             if (!checkLights(lights)) {
