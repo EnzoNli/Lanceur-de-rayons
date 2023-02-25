@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Operation {
 
-    private static final Logger LOGGER = Logger.getLogger("operation-parser");
+    private static final Logger LOGGER = Logger.getLogger(Operation.class.getName());
     private String rawData;
 
     /**
@@ -16,20 +17,15 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-        System.setProperty("java.util.logging.SimpleFormatter.format", 
-            "%5$s%n");
+        LOGGER.setLevel(Level.INFO);
         try {
             FileHandler fileHandler = new FileHandler("operation-parser.log");
-            fileHandler.setLevel(Level.ALL);
+            fileHandler.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(fileHandler);
             LOGGER.setLevel(Level.INFO);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Erreur lors de l'initialisation du gestionnaire de fichier", e);
+            LOGGER.log(Level.WARNING, "Erreur lors de l'initialisation du gestionnaire de fichier", e);
         }
-        /*StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
-        streamhandler.setLevel(Level.ALL);
-        LOGGER.addHandler(streamhandler);
-        LOGGER.setLevel(Level.INFO);*/
     }
 
     /**
