@@ -1,15 +1,13 @@
 package bibliomaths;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
+import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.StreamHandler;
 
 public class Operation {
 
-    private static Logger LOGGER = Logger.getLogger("operation-parser");
+    private static final Logger LOGGER = Logger.getLogger("operation-parser");
     private String rawData;
 
     /**
@@ -18,11 +16,20 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-        System.setProperty("java.util.logging.SimpleFormatter.format", "%5$s%n");
-        StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
+        System.setProperty("java.util.logging.SimpleFormatter.format", 
+            "%5$s%n");
+        try {
+            FileHandler fileHandler = new FileHandler("operation-parser.log");
+            fileHandler.setLevel(Level.ALL);
+            LOGGER.addHandler(fileHandler);
+            LOGGER.setLevel(Level.INFO);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Erreur lors de l'initialisation du gestionnaire de fichier", e);
+        }
+        /*StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
         streamhandler.setLevel(Level.ALL);
         LOGGER.addHandler(streamhandler);
-        LOGGER.setLevel(Level.INFO);
+        LOGGER.setLevel(Level.INFO);*/
     }
 
     /**
