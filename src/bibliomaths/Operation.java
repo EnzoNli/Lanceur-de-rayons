@@ -9,7 +9,7 @@ import java.util.logging.StreamHandler;
 
 public class Operation {
 
-    private static Logger LOGGER = Logger.getLogger("bug");
+    private static Logger LOGGER = Logger.getLogger("operation-parser");
     private String rawData;
 
     /**
@@ -18,10 +18,9 @@ public class Operation {
      */
     public Operation(String rawData){
         this.rawData = rawData;
-        System.setProperty("java.util.logging.SimpleFormatter.format",
-              "%5$s%n");
+        System.setProperty("java.util.logging.SimpleFormatter.format", "%5$s%n");
         StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
-        streamhandler.setLevel(Level.INFO);
+        streamhandler.setLevel(Level.ALL);
         LOGGER.addHandler(streamhandler);
         LOGGER.setLevel(Level.INFO);
     }
