@@ -1,5 +1,6 @@
 package bibliomaths;
 
+import java.io.IOException;
 import java.util.logging.*;
 
 public class Operation {
@@ -20,7 +21,7 @@ public class Operation {
 
             @Override
             public String formatMessage(LogRecord record) {
-                return record.getMessage();
+                return String.format(format, record.getMessage());
             }
         });
         LOGGER.setUseParentHandlers(false);
