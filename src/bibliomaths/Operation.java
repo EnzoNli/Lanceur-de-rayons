@@ -7,20 +7,6 @@ public class Operation {
     private static Logger LOGGER = Logger.getLogger(Operation.class.getName());
     private String rawData;
 
-    static {
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(new SimpleFormatter() {
-            private static final String format = "%1$s %n";
-
-            @Override
-            public String formatMessage(LogRecord record) {
-                return String.format(format, record.getMessage());
-            }
-        });
-        LOGGER.setUseParentHandlers(false);
-        LOGGER.addHandler(handler);
-    }
-
     /**
      * Le constructeur de la class Operation
      * 
@@ -28,6 +14,10 @@ public class Operation {
      */
     public Operation(String rawData) {
         this.rawData = rawData;
+        System.setProperty("java.util.logging.SimpleFormatter.format",
+                "%5$s%n");
+        StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
+        LOGGER.addHandler(streamhandler);
     }
 
     /**
