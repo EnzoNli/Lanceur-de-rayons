@@ -1,23 +1,16 @@
 package bibliomaths;
 
-import java.io.IOException;
 import java.util.logging.*;
 
 public class Operation {
 
-    private static final Logger LOGGER = Logger.getLogger("bug");
+    private static Logger LOGGER = Logger.getLogger(Operation.class.getName());
     private String rawData;
 
-    /**
-     * Le constructeur de la class Operation
-     * 
-     * @param rawData correspond à la chaine de caractère à parser.
-     */
-    public Operation(String rawData) {
-        this.rawData = rawData;
+    static {
         ConsoleHandler handler = new ConsoleHandler();
         handler.setFormatter(new SimpleFormatter() {
-            private static final String format = "%3$s %n";
+            private static final String format = "%1$s %n";
 
             @Override
             public String formatMessage(LogRecord record) {
@@ -26,6 +19,15 @@ public class Operation {
         });
         LOGGER.setUseParentHandlers(false);
         LOGGER.addHandler(handler);
+    }
+
+    /**
+     * Le constructeur de la class Operation
+     * 
+     * @param rawData correspond à la chaine de caractère à parser.
+     */
+    public Operation(String rawData) {
+        this.rawData = rawData;
     }
 
     /**
@@ -40,9 +42,9 @@ public class Operation {
             Class<?> clazz2 = (o2.getClass() == Double.class) ? double.class : o2.getClass();
             Object o3 = o1.getClass().getMethod(operation, clazz2).invoke(o1, o2);
             // System.out.println(display(o3));
-            LOGGER.info(display(o3));
+            LOGGER.log(Level.INFO, display(o3));
         } catch (Exception e) {
-            LOGGER.info("Interdit");
+            LOGGER.log(Level.INFO, "Interdit");
         }
     }
 
