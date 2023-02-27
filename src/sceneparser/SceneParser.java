@@ -2,7 +2,6 @@ package sceneparser;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,9 +25,9 @@ public class SceneParser {
     private Couleur ambient;
     private Couleur diffuses;
     private Couleur speculars;
-    private ArrayList<Integer> shininess = new ArrayList<Integer>();
-    private ArrayList<Light> lights = new ArrayList<Light>();
-    private ArrayList<Forme> objects = new ArrayList<Forme>();
+    private ArrayList<Integer> shininess = new ArrayList<>();
+    private ArrayList<Light> lights = new ArrayList<>();
+    private ArrayList<Forme> objects = new ArrayList<>();
     private BufferedReader f;
     private BufferedReader f2;
 
@@ -61,7 +60,8 @@ public class SceneParser {
                             this.size[0] = Integer.parseInt(parse[1]);
                             this.size[1] = Integer.parseInt(parse[2]);
                         } catch (NumberFormatException e) {
-                            LOGGER.log(java.util.logging.Level.SEVERE, "Un des deux arguments de size n'est pas un entier");
+                            LOGGER.log(java.util.logging.Level.SEVERE,
+                                    "Un des deux arguments de size n'est pas un entier");
                         }
                         passeSize = true;
                     }
@@ -79,8 +79,9 @@ public class SceneParser {
                         for (int i = 0; i < 10; i++) {
                             cam.add(Integer.parseInt(parse[i + 1]));
                         }
-                        this.camera = new Camera(cam.get(0), cam.get(1), cam.get(2), cam.get(3), cam.get(4), cam.get(5),
-                                cam.get(6), cam.get(7), cam.get(8), cam.get(9));
+                        this.camera = new Camera(new Point(cam.get(0), cam.get(1), cam.get(2)),
+                                new Point(cam.get(3), cam.get(4), cam.get(5)),
+                                new Vector(cam.get(6), cam.get(7), cam.get(8)), cam.get(9));
                         passeCamera = true;
                     }
 

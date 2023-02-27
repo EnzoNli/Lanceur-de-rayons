@@ -9,10 +9,10 @@ public class Camera {
     private Vector upDirection;
     private int fov;
 
-    public Camera(int x, int y, int z, int u, int v, int w, int m, int n, int o, int f) {
-        this.lookFrom = new Point(x, y, z);
-        this.lookAt = new Point(u, v, w);
-        this.upDirection = new Vector(m, n, o);
+    public Camera(Point p1, Point p2, Vector v, int f) {
+        this.lookFrom = p1;
+        this.lookAt = p2;
+        this.upDirection = v;
         this.fov = f;
     }
 

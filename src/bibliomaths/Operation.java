@@ -4,7 +4,7 @@ import java.util.logging.*;
 
 public class Operation {
 
-    private static Logger LOGGER = Logger.getLogger(Operation.class.getName());
+    private static Logger logger = Logger.getLogger(Operation.class.getName());
     private String rawData;
 
     /**
@@ -17,7 +17,7 @@ public class Operation {
         System.setProperty("java.util.logging.SimpleFormatter.format",
                 "%5$s%n");
         StreamHandler streamhandler = new StreamHandler(System.out, new SimpleFormatter());
-        LOGGER.addHandler(streamhandler);
+        logger.addHandler(streamhandler);
     }
 
     /**
@@ -31,10 +31,10 @@ public class Operation {
         try {
             Class<?> clazz2 = (o2.getClass() == Double.class) ? double.class : o2.getClass();
             Object o3 = o1.getClass().getMethod(operation, clazz2).invoke(o1, o2);
-            // System.out.println(display(o3));
-            LOGGER.log(Level.INFO, display(o3));
+            String disp = display(o3);
+            logger.log(Level.INFO, disp);
         } catch (Exception e) {
-            LOGGER.log(Level.INFO, "Interdit");
+            logger.log(Level.INFO, "Interdit");
         }
     }
 
@@ -63,7 +63,7 @@ public class Operation {
                 case "C":
                     return new Couleur(x1, y1, z1);
                 default:
-                    return new String("Erreur");
+                    return "Erreur";
             }
         }
         return Double.parseDouble(s);
