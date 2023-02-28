@@ -15,4 +15,17 @@ public class Sphere extends Forme {
         this.c = c;
     }
 
+
+    public Point getCentre() {
+        return centre;
+    }
+
+    public Couleur getC() {
+        return c;
+    }
+
+    public Double getRayon() {
+        return rayon;
+    }
+
 }

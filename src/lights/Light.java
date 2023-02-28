@@ -8,4 +8,8 @@ public abstract class Light {
     public Light(Couleur c) {
         this.couleur = c;
     }
+
+    public Couleur getCouleur() {
+        return couleur;
+    }
 }
