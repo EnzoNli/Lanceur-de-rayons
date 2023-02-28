@@ -35,6 +35,26 @@ public class SceneParser {
         this.nomFichierAParser = nomFichierAParser;
     }
 
+    public int[] getSize() {
+        return size;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public ArrayList<Integer> getShininess() {
+        return shininess;
+    }
+
+    public ArrayList<Light> getLights() {
+        return lights;
+    }
+
+    public ArrayList<Forme> getObjects() {
+        return objects;
+    }
+
     public void parse() throws IOException {
         File fichier = new File(this.nomFichierAParser);
         FileReader f_reader = new FileReader(fichier);
