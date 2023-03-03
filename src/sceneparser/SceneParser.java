@@ -311,6 +311,27 @@ public class SceneParser {
 
     }
 
+    public int[] getSize() {
+        return size;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public ArrayList<Integer> getShininess() {
+        return shininess;
+    }
+
+    public ArrayList<Light> getLights() {
+        return lights;
+    }
+
+    public ArrayList<Forme> getObjects() {
+        return objects;
+    }
+
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
