@@ -68,12 +68,9 @@ public class LanceurRayon {
 
 
         for(Sphere s : spheres){
-            if(d.dot(d) == (d.len() * d.len())*Math.cos(0) && (d.len() * d.len())*Math.cos(0) == 1) {
-                a = d.dot(d);
-            }
-            b = s.getCentre().sub(cam.getLookFrom()).mul(2).dot(d);
-            c = s.getCentre().sub(cam.getLookFrom()).dot(s.getCentre().sub(cam.getLookFrom())) - s.getRayon()*s.getRayon();
-            discriminant = (b*b)-4*a*c;
+            b = cam.getLookFrom().sub(s.getCentre()).mul(2).dot(d);
+            c = cam.getLookFrom().sub(s.getCentre()).dot(cam.getLookFrom().sub(s.getCentre())) - (s.getRayon()*s.getRayon());
+            discriminant = (b*b)-(4*a*c);
             tmp = calculMiniInterSphere(discriminant, a, b);
             if(tmp != Double.POSITIVE_INFINITY){
                 if(tmp < t){
