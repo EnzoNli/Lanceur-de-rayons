@@ -109,9 +109,9 @@ public class LanceurRayon {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c, s.getSpheres());
                 if(p == null){
-                    imgOutput.setRGB(i, j, 0);
+                    imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
                 }else{
-                    imgOutput.setRGB(i, j, s.getAmbient().getRGB());
+                    imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
                 }
             }
         }
