@@ -16,7 +16,7 @@ public class Camera {
         this.fov = f;
     }
 
-    public Point getlookFrom() {
+    public Point getLookFrom() {
         return this.lookFrom;
     }
 

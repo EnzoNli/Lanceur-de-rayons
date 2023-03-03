@@ -14,4 +14,16 @@ public class Triangle extends Forme {
         this.z = z;
     }
 
+    public Point getX() {
+        return x;
+    }
+
+    public Point getY() {
+        return y;
+    }
+
+    public Point getZ() {
+        return z;
+    }
+
 }
