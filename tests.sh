@@ -48,18 +48,18 @@ assert "./checkscene.sh TEST3/test4.scene" "mascene.png\n307200\n6\n2\n"
 assert "./checkscene.sh TEST3/test5.scene" "mascene.png\n307200\n1\n1\n"
 assert "./checkscene.sh TEST3/test6.scene" "mascene.png\n786432\n4\n2\n"
 
-# assert_end regression
+assert_end regression
 
-# echo "Tests de la génération des images"
+echo "Tests de la génération des images"
 
-# for testfile in `ls TEST4/*.test`
-# do
-#    imagefile=${testfile%.test}.png
-#    assert "./raytrace.sh $testfile" ""
-#    assert "./compare.sh $imagefile ${imagefile#TEST4/}" "OK\n0\n"
-# done
+for testfile in `ls TEST4/*.test`
+do
+   imagefile=${testfile%.test}.png
+   assert "./raytrace.sh $testfile" ""
+   assert "./compare.sh $imagefile ${imagefile#TEST4/}" "OK\n0\n"
+done
 
-# assert_end regression
+assert_end regression
 
 # echo "Tests de la génération des images"
 

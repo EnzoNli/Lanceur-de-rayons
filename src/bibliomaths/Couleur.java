@@ -63,4 +63,9 @@ public class Couleur extends Triplet {
     public boolean isValid() {
         return this.getX() <= 1 && this.getY() <= 1 && this.getZ() <= 1;
     }
+
+    public int getRGB() {
+        java.awt.Color couleur = new java.awt.Color((float) getX(), (float) getY(), (float) getZ());
+        return couleur.getRGB();
+    }
 }

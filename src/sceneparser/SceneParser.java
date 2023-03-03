@@ -336,6 +336,14 @@ public class SceneParser {
         return spheres;
     }
 
+    public Couleur getAmbient() {
+        return ambient;
+    }
+
+    public String getOutputName() {
+        return outputName;
+    }
+
 
 
     @Override

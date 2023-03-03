@@ -1,8 +1,11 @@
 package rayon;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import bibliomaths.Point;
 import bibliomaths.Vector;
@@ -38,12 +41,30 @@ public class LanceurRayon {
         return u.mul(a).add(v.mul(b)).sub(w).hat();
     }
 
+    public double calculMiniInterSphere(double discriminant, double a, double b) {
+        if(discriminant == 0) {
+            return (-b)/(2*a);
+        } else if ( discriminant > 0) {
+            double t1 = ((-b) + Math.sqrt(discriminant))/(2*a);
+            double t2 = ((-b) - Math.sqrt(discriminant))/(2*a);
+            if(t2 > 0) {
+                return t2;
+            } else if (t1 > 0) {
+                return t1;
+            }else{
+                return Double.POSITIVE_INFINITY;
+            }
+        } 
+        return Double.POSITIVE_INFINITY;
+    }
+
     public Point rechercherPointProche(Vector d, Camera cam, ArrayList<Sphere> spheres){
-        Point p = null;
         double a = 1;
         double b;
         double c;
         double discriminant;
+        double t = Double.POSITIVE_INFINITY;
+        double tmp;
 
 
         for(Sphere s : spheres){
@@ -53,8 +74,19 @@ public class LanceurRayon {
             b = s.getCentre().sub(cam.getLookFrom()).mul(2).dot(d);
             c = s.getCentre().sub(cam.getLookFrom()).dot(s.getCentre().sub(cam.getLookFrom())) - s.getRayon()*s.getRayon();
             discriminant = (b*b)-4*a*c;
+            tmp = calculMiniInterSphere(discriminant, a, b);
+            if(tmp != Double.POSITIVE_INFINITY){
+                if(tmp < t){
+                    t = tmp;
+                }
+            }
         }
-        return p;
+
+        if(t == Double.POSITIVE_INFINITY){
+            return null;
+        }
+        
+        return d.mul(t).add(cam.getLookFrom());
     }
 
 
@@ -78,9 +110,21 @@ public class LanceurRayon {
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
-                //p = rechercherPointProche(d, c);
+                p = rechercherPointProche(d, c, s.getSpheres());
+                if(p == null){
+                    imgOutput.setRGB(i, j, 0);
+                }else{
+                    imgOutput.setRGB(i, j, s.getAmbient().getRGB());
+                }
             }
         }
+
+        try{
+            ImageIO.write(imgOutput, "png", new File("./" + s.getOutputName()));
+        }catch (IOException e){
+            System.out.println("aled");
+        }
+
     }
 
 }
