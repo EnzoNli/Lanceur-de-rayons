@@ -1,9 +1,9 @@
-package forme;
+package objet;
 
 import bibliomaths.Couleur;
 import bibliomaths.Point;
 
-public class Sphere extends Forme {
+public class Sphere {
 
     private Point centre;
     private Double rayon;
