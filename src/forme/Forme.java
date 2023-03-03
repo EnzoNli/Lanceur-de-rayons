@@ -1,17 +1,18 @@
 package forme;
+import bibliomaths.Couleur;
 
 public abstract class Forme {
-    private Color diffuse;
+    private Couleur diffuse;
 
     public Forme() {
-        diffuse = new Color(0,0,0);
+        diffuse = new Couleur(0,0,0);
     }
 
-    public Forme(Color diffuse) {
+    public Forme(Couleur diffuse) {
         this.diffuse = diffuse;
     }
 
-    public Color getDiffuse() {
+    public Couleur getDiffuse() {
         return diffuse;
     }
 

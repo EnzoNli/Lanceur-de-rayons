@@ -27,7 +27,8 @@ public class SceneParser {
     private Couleur speculars;
     private ArrayList<Integer> shininess = new ArrayList<>();
     private ArrayList<Light> lights = new ArrayList<>();
-    private ArrayList<Forme> objects = new ArrayList<>();
+    private ArrayList<Sphere> spheres = new ArrayList<>();
+    private ArrayList<Triangle> triangles = new ArrayList<>();
     private BufferedReader f;
     private BufferedReader f2;
 
@@ -51,8 +52,12 @@ public class SceneParser {
         return lights;
     }
 
-    public ArrayList<Forme> getObjects() {
-        return objects;
+    public ArrayList<Triangle> getTriangles() {
+        return triangles;
+    }
+
+    public ArrayList<Sphere> getSpheres() {
+        return spheres;
     }
 
     public void parse() throws IOException {
@@ -181,7 +186,7 @@ public class SceneParser {
                                 throw new IllegalArgumentException("Le vertex n'existe pas");
                             }
                         }
-                        this.objects.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
+                        this.triangles.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
                                 vertex.get(Integer.parseInt(datas[2])),
                                 vertex.get(Integer.parseInt(datas[3]))));
                     }
@@ -225,7 +230,7 @@ public class SceneParser {
                 if (ligne.startsWith("sphere")) {
                     String[] datas = ligne.split(" ");
                     if (datas.length == 5) {
-                        this.objects
+                        this.spheres
                                 .add(new Sphere(new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                                         Double.parseDouble(datas[3])), Double.parseDouble(datas[4]), diffuse));
                     }
@@ -338,7 +343,7 @@ public class SceneParser {
         s.append("\n");
         s.append(this.size[0] * this.size[1]);
         s.append("\n");
-        s.append(this.objects.size());
+        s.append(this.triangles.size()+this.spheres.size());
         s.append("\n");
         s.append(this.lights.size());
         s.append("\n");
