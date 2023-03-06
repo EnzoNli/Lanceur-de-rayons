@@ -94,12 +94,12 @@ public class LanceurRayon {
         SceneParser s = loadScene();
         Camera c = s.getCamera();
         imgOutput = new BufferedImage(s.getSize()[0], s.getSize()[1], BufferedImage.TYPE_INT_RGB);
-        Vector w = c.getLookFrom().sub(c.getLookAt()).hat();
-        Vector u = c.getUpDirection().cross(w).hat();
-        Vector v = w.cross(u).hat();
-        double fovr = (c.getFov() * Math.PI)/180;
-        double pixelheight = Math.tan(fovr/2);
-        double pixelwidth = pixelheight * (imgOutput.getWidth()/imgOutput.getHeight());
+        Vector w = (c.getLookFrom().sub(c.getLookAt())).hat();
+        Vector u = (c.getUpDirection().cross(w)).hat();
+        Vector v = (w.cross(u)).hat();
+        double fovr = (c.getFov() * Math.PI) / 180d;
+        double pixelheight = (double) Math.tan(fovr/2);
+        double pixelwidth = pixelheight * ((double) imgOutput.getWidth()/ (double) imgOutput.getHeight());
         Vector d;
         Point p;
 
