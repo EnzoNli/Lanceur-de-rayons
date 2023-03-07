@@ -26,7 +26,8 @@ public class SceneParser {
     private Couleur diffuses;
     private Couleur speculars;
     private ArrayList<Integer> shininess = new ArrayList<>();
-    private ArrayList<Light> lights = new ArrayList<>();
+    private ArrayList<LocalLight> plights = new ArrayList<>();
+    private ArrayList<DirectionalLight> dlights = new ArrayList<>();
     private ArrayList<Sphere> spheres = new ArrayList<>();
     private ArrayList<Triangle> triangles = new ArrayList<>();
     private BufferedReader f;
@@ -234,17 +235,17 @@ public class SceneParser {
                             Double.parseDouble(datas[3]));
                     Couleur c = new Couleur(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]),
                             Double.parseDouble(datas[6]));
-                    this.lights.add(new LocalLight(p, c));
+                    this.plights.add(new LocalLight(p, c));
                 } else if (ligne.startsWith("directional")) {
                     String[] datas = ligne.split(" ");
                     Vector v = new Vector(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                             Double.parseDouble(datas[3]));
                     Couleur c = new Couleur(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]),
                             Double.parseDouble(datas[6]));
-                    this.lights.add(new DirectionalLight(v, c));
+                    this.dlights.add(new DirectionalLight(v, c));
                 }
             }
-            if (!checkLights(lights)) {
+            if (!checkLights(plights, dlights)) {
                 throw new IllegalArgumentException("La somme des composantes d'une des lumières dépasse 1");
             }
             f.close();
@@ -255,8 +256,20 @@ public class SceneParser {
         }
     }
 
-    private boolean checkLights(ArrayList<Light> lights2) {
-        // IMPLEMENTER ??????
+    private boolean checkLights(ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights) {
+        Couleur sommeP = new Couleur(0.0, 0.0, 0.0);
+        Couleur sommeD = new Couleur(0.0, 0.0, 0.0);
+        Couleur sommeFinal;
+        for(Light c : plights) {
+            sommeP.add(c.getCouleur());
+        }
+        for(Light c : dlights) {
+            sommeD.add(c.getCouleur());
+        }
+        sommeFinal = sommeD.add(sommeP);
+        if(!(sommeFinal.isValid())) {
+            return false;
+        }
         return true;
     }
 
@@ -324,8 +337,12 @@ public class SceneParser {
         return shininess;
     }
 
-    public ArrayList<Light> getLights() {
-        return lights;
+    public ArrayList<DirectionalLight> getDlights() {
+        return dlights;
+    }
+
+    public ArrayList<LocalLight> getPlights() {
+        return plights;
     }
 
     public ArrayList<Triangle> getTriangles() {
@@ -355,7 +372,7 @@ public class SceneParser {
         s.append("\n");
         s.append(this.triangles.size() + this.spheres.size());
         s.append("\n");
-        s.append(this.lights.size());
+        s.append(this.plights.size() + this.dlights.size());
         s.append("\n");
 
         return s.toString();
