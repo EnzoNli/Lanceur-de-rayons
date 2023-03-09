@@ -117,6 +117,8 @@ public class SceneParser {
             throw new IllegalArgumentException("Un diffuse ne peut pas être supérieure à 1");
         }
 
+        // check diffuses + ambient <= 1
+
         this.speculars = findColors("speculars");
         if (!(speculars.isValid())) {
             throw new IllegalArgumentException("Un specular ne peut pas être supérieure à 1");

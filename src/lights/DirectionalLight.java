@@ -13,4 +13,7 @@ public class DirectionalLight extends Light {
         // TODO Auto-generated constructor stub
     }
 
+    public Vector getVecteur() {
+        return vecteur;
+    }
 }

@@ -105,20 +105,22 @@ public class LanceurRayon3D {
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth()/ (double) imgOutput.getHeight());
         Vector d;
         Point p;
-        Vector ldir;
+        ArrayList<Vector> ldir = new ArrayList<>();
         Vector n;
         
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c, s.getSpheres());
-                // calculer ldir pour la lumiere directionnel
-                for(Light l : plights) {
-                    ldir = l.getPoint().sub(p).hat();
-                }
-                if(p == null){
+                if(p == null) {
                     imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
-                }else{
+                }else {
+                    for(DirectionalLight l : dlights) {
+                        ldir.add(l.getVecteur().hat());
+                    }
+                    for(LocalLight l : plights) {
+                        ldir.add(l.getPoint().sub(p).hat());
+                    }
                     imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
                 }
             }

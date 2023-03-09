@@ -13,4 +13,8 @@ public class LocalLight extends Light {
 
         // TODO Auto-generated constructor stub
     }
+
+    public Point getPoint() {
+        return point;
+    }
 }
