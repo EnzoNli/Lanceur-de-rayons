@@ -106,20 +106,34 @@ public class LanceurRayon3D {
             ldir.add(l.getVecteur().hat());
         }
         for(LocalLight l : plights) {
-            ldir.add(l.getPoint().sub(p).hat());
+            if(p == null){
+                ldir.add(new Vector(0, 0, 0));
+            }else{
+                ldir.add(l.getPoint().sub(p).hat());
+            }
         }
 
         return ldir;
     }
 
-    public Couleur calcLd(Vector n, ArrayList<Vector> ldir, Couleur diffuse) {
-        Couleur ld = new Couleur(0, 0, 0);
-        for (Vector v : ldir) {
-            //pas bon comment récupérer les couleurs de chaque lights
-            ld = diffuse.mul(Math.max(n.dot(v), 0));
+    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Couleur diffuse, Vector n) {
+        int nombreDePLumieres = plights.size();
+        int count_ldirs = ldirs.size();
+        int cpt = 0;
+        Couleur maxi = new Couleur(0, 0, 0);
+
+        while(cpt < nombreDePLumieres){
+            maxi = maxi.add(plights.get(cpt).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
         }
-        return ld;
+
+        while(cpt < count_ldirs){
+            maxi = maxi.add(dlights.get(cpt).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+        }
+
+        return maxi.times(diffuse).add(ambient);
     }
+
+    
 
 
     public void process(){
@@ -136,22 +150,20 @@ public class LanceurRayon3D {
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth()/ (double) imgOutput.getHeight());
         Vector d;
         Point p;
-        ArrayList<Vector> ldir; //= new ArrayList<>();
-        Vector n = null;
-        Couleur ld;
+        ArrayList<Vector> ldirs; //= new ArrayList<>();
+        Vector n;
+        Couleur couleurFinale;
         
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c, s.getSpheres());
                 n = calcN(p);
-                ldir = calcLdir(plights, dlights, p);
-                ld = calcLd(n, ldir, s.getDiffuses());
-                if(p == null) {
-                    imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
-                }else {
-                    imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
-                }
+                ldirs = calcLdir(plights, dlights, p);
+                couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, s.getDiffuses(), n);
+
+                imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), couleurFinale.getRGB());
+                sphereActu = null;
             }
         }
 

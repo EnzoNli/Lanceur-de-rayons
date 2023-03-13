@@ -34,13 +34,13 @@ lecturescenes:
   stage: initial
   script: "cd tests; ./tests3.sh"
 
-premieresimages:
-  stage: basic
-  script: "cd tests; ./tests4.sh"
+#premieresimages:
+#  stage: basic
+#  script: "cd tests; ./tests4.sh"
 
-# imagescouleur:
-#   stage: basic
-#   script: "cd tests; ./tests5.sh"
+imagescouleur:
+  stage: basic
+  script: "cd tests; ./tests5.sh"
 
 # plansettriangles:
 #   stage: basic

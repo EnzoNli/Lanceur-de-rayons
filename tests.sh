@@ -61,30 +61,30 @@ done
 
 assert_end regression
 
-# echo "Tests de la génération des images"
+echo "Tests de la génération des images"
 
-# for testfile in `ls TEST5/*.test`
-# do
-#    imagefile=${testfile%.test}.png
-#    assert "./raytrace.sh $testfile" ""
-#    assert "./compare.sh $imagefile ${imagefile#TEST5/}" "OK\n0\n"
-# done
+for testfile in `ls TEST5/*.test`
+do
+   imagefile=${testfile%.test}.png
+   assert "./raytrace.sh $testfile" ""
+   assert "./compare.sh $imagefile ${imagefile#TEST5/}" "OK\n0\n"
+done
 
-# for testfile in `ls TEST6/*.test`
-# do
-#    imagefile=${testfile%.test}.png
-#    assert "./raytrace.sh $testfile" ""
-#    assert "./compare.sh $imagefile ${imagefile#TEST6/}" "OK\n0\n"
-# done
+for testfile in `ls TEST6/*.test`
+do
+   imagefile=${testfile%.test}.png
+   assert "./raytrace.sh $testfile" ""
+   assert "./compare.sh $imagefile ${imagefile#TEST6/}" "OK\n0\n"
+done
 
-# for testfile in `ls TEST7/*.test`
-# do
-#    imagefile=${testfile%.test}.png
-#    assert "./raytrace.sh $testfile" ""
-#    assert "./compare.sh $imagefile ${imagefile#TEST6/}" "OK\n0\n"
-# done
+for testfile in `ls TEST7/*.test`
+do
+   imagefile=${testfile%.test}.png
+   assert "./raytrace.sh $testfile" ""
+   assert "./compare.sh $imagefile ${imagefile#TEST6/}" "OK\n0\n"
+done
 
-# assert_end regression
+assert_end regression
 
 # echo "Tests des images mysteres (sans transformations)"
 
