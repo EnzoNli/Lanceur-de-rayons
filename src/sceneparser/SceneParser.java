@@ -355,6 +355,10 @@ public class SceneParser {
         return spheres;
     }
 
+    public Couleur getDiffuses() {
+        return diffuses;
+    }
+
     public Couleur getAmbient() {
         return ambient;
     }

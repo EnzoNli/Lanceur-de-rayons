@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.plaf.ColorUIResource;
 
+import bibliomaths.Couleur;
 import bibliomaths.Point;
 import bibliomaths.Vector;
 import camera.Camera;
@@ -19,6 +21,7 @@ public class LanceurRayon3D {
     
     private String fichierParse;
     private BufferedImage imgOutput;
+    private Sphere sphereActu = null;
 
     public LanceurRayon3D(String fichierParse){
         this.fichierParse = fichierParse;
@@ -76,6 +79,7 @@ public class LanceurRayon3D {
             if(tmp != Double.POSITIVE_INFINITY){
                 if(tmp < t){
                     t = tmp;
+                    sphereActu = s;
                 }
             }
         }
@@ -88,7 +92,35 @@ public class LanceurRayon3D {
     }
 
 
+    public Vector calcN(Point p) {
+        Vector n = new Vector(0, 0, 0);
+        if(sphereActu != null) {
+            n = p.sub(sphereActu.getCentre()).hat();
+        }
+        return n;
+    }
 
+
+    public ArrayList<Vector> calcLdir(ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Point p) {
+        ArrayList<Vector> ldir = new ArrayList<>();
+        for(DirectionalLight l : dlights) {
+            ldir.add(l.getVecteur().hat());
+        }
+        for(LocalLight l : plights) {
+            ldir.add(l.getPoint().sub(p).hat());
+        }
+
+        return ldir;
+    }
+
+    public Couleur calcLd(Vector n, ArrayList<Vector> ldir, Couleur diffuse) {
+        Couleur ld = new Couleur(0, 0, 0);
+        for (Vector v : ldir) {
+            //pas bon comment récupérer les couleurs de chaque lights
+            ld = diffuse.times().mul(Math.max(n.dot(v), 0));
+        }
+        return ld;
+    }
 
 
     public void process(){
@@ -105,22 +137,20 @@ public class LanceurRayon3D {
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth()/ (double) imgOutput.getHeight());
         Vector d;
         Point p;
-        ArrayList<Vector> ldir = new ArrayList<>();
-        Vector n;
+        ArrayList<Vector> ldir; //= new ArrayList<>();
+        Vector n = null;
+        Couleur ld;
         
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c, s.getSpheres());
+                n = calcN(p);
+                ldir = calcLdir(plights, dlights, p);
+                ld = calcLd(n, ldir, s.getDiffuses());
                 if(p == null) {
                     imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
                 }else {
-                    for(DirectionalLight l : dlights) {
-                        ldir.add(l.getVecteur().hat());
-                    }
-                    for(LocalLight l : plights) {
-                        ldir.add(l.getPoint().sub(p).hat());
-                    }
                     imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
                 }
             }
