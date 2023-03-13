@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.ColorUIResource;
 
 import bibliomaths.Couleur;
 import bibliomaths.Point;
@@ -117,7 +116,7 @@ public class LanceurRayon3D {
         Couleur ld = new Couleur(0, 0, 0);
         for (Vector v : ldir) {
             //pas bon comment récupérer les couleurs de chaque lights
-            ld = diffuse.times().mul(Math.max(n.dot(v), 0));
+            ld = diffuse.mul(Math.max(n.dot(v), 0));
         }
         return ld;
     }
