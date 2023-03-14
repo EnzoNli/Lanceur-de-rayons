@@ -10,8 +10,6 @@ public class LocalLight extends Light {
     public LocalLight(Point p, Couleur c) {
         super(c);
         this.point = p;
-
-        // TODO Auto-generated constructor stub
     }
 
     public Point getPoint() {

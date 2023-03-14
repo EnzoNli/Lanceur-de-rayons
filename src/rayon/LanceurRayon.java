@@ -38,8 +38,8 @@ public class LanceurRayon {
     }
 
     private Vector calcVecUnitaire(Camera c, int i, int j, Vector w, Vector u, Vector v, double fovr, double pixelheight, double pixelwidth){
-        double a = ((pixelwidth * (i - (imgOutput.getWidth()/2) + 0.5))/((imgOutput.getWidth()/2)));
-        double b = ((pixelheight * (j - (imgOutput.getHeight()/2) + 0.5))/((imgOutput.getHeight()/2)));
+        double a = ((pixelwidth * (i - ((double) imgOutput.getWidth()/2) + 0.5))/(((double) imgOutput.getWidth()/2)));
+        double b = ((pixelheight * (j - ((double) imgOutput.getHeight()/2) + 0.5))/(((double) imgOutput.getHeight()/2)));
         
         return u.mul(a).add(v.mul(b)).sub(w).hat();
     }

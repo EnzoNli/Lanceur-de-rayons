@@ -10,7 +10,6 @@ public class DirectionalLight extends Light {
     public DirectionalLight(Vector v, Couleur c) {
         super(c);
         this.vecteur = v;
-        // TODO Auto-generated constructor stub
     }
 
     public Vector getVecteur() {
