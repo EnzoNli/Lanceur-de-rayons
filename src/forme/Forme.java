@@ -17,4 +17,8 @@ public abstract class Forme {
         return diffuse;
     }
 
+    public void setDiffuse(Couleur nouv){
+        diffuse = nouv;
+    }
+
 }

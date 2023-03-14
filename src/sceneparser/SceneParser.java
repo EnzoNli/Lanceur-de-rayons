@@ -23,7 +23,6 @@ public class SceneParser {
     private String outputName;
     private Camera camera;
     private Couleur ambient;
-    private Couleur diffuses;
     private Couleur speculars;
     private ArrayList<Integer> shininess = new ArrayList<>();
     private ArrayList<LocalLight> plights = new ArrayList<>();
@@ -112,24 +111,18 @@ public class SceneParser {
             f.close();
         }
 
-        this.diffuses = findColors("diffuse");
-        if (!(diffuses.isValid()) || !(this.ambient.isValid())) {
-            throw new IllegalArgumentException("Un diffuse ne peut pas être supérieure à 1");
-        }
-
-        // check diffuses + ambient <= 1
-
+        
         this.speculars = findColors("speculars");
         if (!(speculars.isValid())) {
             throw new IllegalArgumentException("Un specular ne peut pas être supérieure à 1");
         }
-        // ici
-
+        
         this.shininess = findShininess();
         findLights();
         findSphere();
         findTriangle();
-
+        
+        // check diffuses + ambient <= 1
     }
 
     private void findTriangle() throws IOException {
@@ -353,10 +346,6 @@ public class SceneParser {
 
     public ArrayList<Sphere> getSpheres() {
         return spheres;
-    }
-
-    public Couleur getDiffuses() {
-        return diffuses;
     }
 
     public Couleur getAmbient() {
