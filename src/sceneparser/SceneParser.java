@@ -13,6 +13,7 @@ import bibliomaths.Vector;
 import camera.Camera;
 import forme.*;
 import lights.*;
+import rayon.Plan;
 
 public class SceneParser {
 
@@ -29,6 +30,7 @@ public class SceneParser {
     private ArrayList<DirectionalLight> dlights = new ArrayList<>();
     private ArrayList<Sphere> spheres = new ArrayList<>();
     private ArrayList<Triangle> triangles = new ArrayList<>();
+    private Plan plan;
     private BufferedReader f;
     private BufferedReader f2;
 
@@ -121,6 +123,7 @@ public class SceneParser {
         findLights();
         findSphere();
         findTriangle();
+        findPlane();
         
         // check diffuses + ambient <= 1
     }
@@ -168,6 +171,24 @@ public class SceneParser {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         } finally {
             f.close();
+        }
+    }
+
+    private void findPlane() throws IOException {
+        String ligne;
+        try {
+            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+            while ((ligne = f2.readLine()) != null) {
+                if (ligne.startsWith("plane")) {
+                    String[] datas = ligne.split(" ");
+                    plan = new Plan(new Point(Double.parseDouble(datas[0]), Double.parseDouble(datas[1]), Double.parseDouble(datas[2])), 
+                    new Vector(Double.parseDouble(datas[3]), Double.parseDouble(datas[4]), Double.parseDouble(datas[5])));
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
+        } finally {
+            f2.close();
         }
     }
 
@@ -354,6 +375,10 @@ public class SceneParser {
 
     public String getOutputName() {
         return outputName;
+    }
+
+    public Plan getPlan() {
+        return plan;
     }
 
 
