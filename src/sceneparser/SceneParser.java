@@ -132,6 +132,7 @@ public class SceneParser {
         String ligne;
         ArrayList<Point> vertex = new ArrayList<>();
         int maxverts = 0;
+        Couleur diffuse = new Couleur(0, 0, 0);
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
 
@@ -163,8 +164,12 @@ public class SceneParser {
                         }
                         this.triangles.add(new Triangle(vertex.get(Integer.parseInt(datas[1])),
                                 vertex.get(Integer.parseInt(datas[2])),
-                                vertex.get(Integer.parseInt(datas[3]))));
+                                vertex.get(Integer.parseInt(datas[3])), diffuse));
                     }
+                } else if (ligne.startsWith("diffuse")) {
+                    String[] datas = ligne.split(" ");
+                    diffuse = new Couleur(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
+                            Double.parseDouble(datas[3]));
                 }
             }
         } catch (IOException e) {

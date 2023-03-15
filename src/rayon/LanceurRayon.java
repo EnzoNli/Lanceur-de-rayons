@@ -117,7 +117,7 @@ public class LanceurRayon {
         return ldir;
     }
 
-    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n) {
+    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n, Couleur dif) {
         int nombreDeDLumieres = dlights.size();
         int count_ldirs = ldirs.size();
         int cpt = 0;
@@ -133,20 +133,25 @@ public class LanceurRayon {
             cpt++;
         }
 
-        return maxi.times(sphereActu.getDiffuse()).add(ambient);
+        return maxi.times(dif).add(ambient);
     }
 
     
     public Point RechercheIntersectionPlan(Plan plane, Camera cam, Vector d) {
+        if(plane == null){
+            return null;
+        }
+
         double denominateur = d.dot(plane.getNormal());
-        if(denominateur == 0 || plane == null) {
+        if(denominateur == 0) {
             return null;
         }
         double numerateur = plane.getCoord().sub(cam.getLookFrom()).dot(plane.getNormal());
-        double t = numerateur / denominateur;
+        double t = (double) numerateur / (double) denominateur;
 
         return d.mul(t).add(cam.getLookFrom());
     }
+    
 
 
     public void process(){
@@ -173,23 +178,28 @@ public class LanceurRayon {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c, s.getSpheres());
-                pplane = RechercheIntersectionPlan(plane, c, d);
                 if(plights.size()+dlights.size() == 0){
                     if(p == null){
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
                     }else{
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
                     }
-                    if(pplane != null) {
-                        imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), plane.getDiffuse().getRGB());
-                    }
                 }else{
+                    pplane = RechercheIntersectionPlan(plane, c, d);
                     if(p == null){
-                        imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
+                        if(pplane != null){
+                            ldirs = calcLdir(plights, dlights, pplane);
+                            couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, plane.getNormal(), plane.getDiffuse());
+                            imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), couleurFinale.getRGB());
+                        }else{
+                            imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
+                        }
                     }else{
+                        // Si plan existe, tester si t existe
+                        // si il existe comparer distance entre t et cam / p et cam pour savoir lequel est le plus proche
                         n = calcN(p);
                         ldirs = calcLdir(plights, dlights, p);
-                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n);
+                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n, sphereActu.getDiffuse());
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), couleurFinale.getRGB());
                         sphereActu = null;
                     }
