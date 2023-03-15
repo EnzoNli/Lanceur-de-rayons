@@ -1,6 +1,7 @@
 package rayon;
 
 import java.awt.image.BufferedImage;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import bibliomaths.Point;
 import bibliomaths.Vector;
 import camera.Camera;
 import forme.Sphere;
+import forme.Forme;
 import forme.Plan;
 import sceneparser.SceneParser;
 import lights.*;
@@ -21,7 +23,9 @@ public class LanceurRayon {
     
     private String fichierParse;
     private BufferedImage imgOutput;
-    private Sphere sphereActu = null;
+    private Forme lastForme = null;
+    private Plan plane;
+    private ArrayList<Sphere> spheres;
 
     public LanceurRayon(String fichierParse){
         this.fichierParse = fichierParse;
@@ -36,6 +40,34 @@ public class LanceurRayon {
         }
 
         return s;
+    }
+
+
+    private Point distanceMinEntre2Points(Point res1, Point res2, Forme f, Point eye) {
+        if(res1 == null){
+            if(res2 == null){
+                return null;
+            }else{
+                lastForme = f;
+                return res2;
+            }
+        }else{
+            if(res2 == null){
+                lastForme = plane;
+                return res1;
+            }else{
+                double dis1 = Math.sqrt(Math.pow(eye.getX() - res1.getX(), 2) + Math.pow(eye.getY() - res1.getY(), 2) + Math.pow(eye.getZ() - res1.getZ(), 2));
+                double dis2 = Math.sqrt(Math.pow(eye.getX() - res2.getX(), 2) + Math.pow(eye.getY() - res2.getY(), 2) + Math.pow(eye.getZ() - res2.getZ(), 2));
+
+                if(dis1 > dis2){
+                    lastForme = f;
+                    return res2;
+                }else{
+                    lastForme = plane;
+                    return res1;
+                }
+            }
+        }
     }
 
     private Vector calcVecUnitaire(Camera c, int i, int j, Vector w, Vector u, Vector v, double fovr, double pixelheight, double pixelwidth){
@@ -62,40 +94,58 @@ public class LanceurRayon {
         return Double.POSITIVE_INFINITY;
     }
 
-    public Point rechercherPointProche(Vector d, Camera cam, ArrayList<Sphere> spheres){
+    public Point rechercherPointProche(Vector d, Camera cam){
         double a = 1;
         double b;
         double c;
         double discriminant;
         double t = Double.POSITIVE_INFINITY;
         double tmp;
+        Point res1 = null;
+        Point res2 = null;
+        Forme f = null;
+        Point eye = cam.getLookFrom();
 
+        if(plane != null){
+            double denominateur = d.dot(plane.getNormal());
+            if(denominateur != 0) {
+                double numerateur = plane.getCoord().sub(eye).dot(plane.getNormal());
+                double t_plane = (double) numerateur / (double) denominateur;
+        
+                res1 = d.mul(t_plane).add(eye);
+            }
+        }
 
         for(Sphere s : spheres){
-            b = cam.getLookFrom().sub(s.getCentre()).mul(2).dot(d);
-            c = cam.getLookFrom().sub(s.getCentre()).dot(cam.getLookFrom().sub(s.getCentre())) - (s.getRayon()*s.getRayon());
+            b = eye.sub(s.getCentre()).mul(2).dot(d);
+            c = eye.sub(s.getCentre()).dot(eye.sub(s.getCentre())) - (s.getRayon()*s.getRayon());
             discriminant = (b*b)-(4*a*c);
             tmp = calculMiniInterSphere(discriminant, a, b);
             if(tmp != Double.POSITIVE_INFINITY){
                 if(tmp < t){
                     t = tmp;
-                    sphereActu = s;
+                    f = s;
                 }
             }
         }
 
-        if(t == Double.POSITIVE_INFINITY){
-            return null;
+        if(t != Double.POSITIVE_INFINITY){
+            res2 = d.mul(t).add(eye);
         }
-        
-        return d.mul(t).add(cam.getLookFrom());
-    }
 
+        return distanceMinEntre2Points(res1, res2, f, eye);
+
+    }
 
     public Vector calcN(Point p) {
         Vector n = new Vector(0, 0, 0);
-        if(sphereActu != null) {
-            n = p.sub(sphereActu.getCentre()).hat();
+        if(lastForme != null) {
+            if(lastForme instanceof Sphere){
+                Sphere s = (Sphere) lastForme;
+                n = p.sub(s.getCentre()).hat();
+            }else{
+                return plane.getNormal();
+            }
         }
         return n;
     }
@@ -117,10 +167,11 @@ public class LanceurRayon {
         return ldir;
     }
 
-    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n, Couleur dif) {
+    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n) {
         int nombreDeDLumieres = dlights.size();
         int count_ldirs = ldirs.size();
         int cpt = 0;
+        Couleur dif = lastForme.getDiffuse();
         Couleur maxi = new Couleur(0, 0, 0);
 
         while(cpt < nombreDeDLumieres){
@@ -134,22 +185,6 @@ public class LanceurRayon {
         }
 
         return maxi.times(dif).add(ambient);
-    }
-
-    
-    public Point RechercheIntersectionPlan(Plan plane, Camera cam, Vector d) {
-        if(plane == null){
-            return null;
-        }
-
-        double denominateur = d.dot(plane.getNormal());
-        if(denominateur == 0) {
-            return null;
-        }
-        double numerateur = plane.getCoord().sub(cam.getLookFrom()).dot(plane.getNormal());
-        double t = (double) numerateur / (double) denominateur;
-
-        return d.mul(t).add(cam.getLookFrom());
     }
     
 
@@ -168,16 +203,17 @@ public class LanceurRayon {
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth()/ (double) imgOutput.getHeight());
         Vector d;
         Point p;
-        ArrayList<Vector> ldirs; //= new ArrayList<>();
+        ArrayList<Vector> ldirs;
         Vector n;
         Couleur couleurFinale;
-        Point pplane; 
-        Plan plane = s.getPlan();
+
+        spheres = s.getSpheres();
+        plane = s.getPlan();
         
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
-                p = rechercherPointProche(d, c, s.getSpheres());
+                p = rechercherPointProche(d, c);
                 if(plights.size()+dlights.size() == 0){
                     if(p == null){
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
@@ -185,23 +221,14 @@ public class LanceurRayon {
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
                     }
                 }else{
-                    pplane = RechercheIntersectionPlan(plane, c, d);
                     if(p == null){
-                        if(pplane != null){
-                            ldirs = calcLdir(plights, dlights, pplane);
-                            couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, plane.getNormal(), plane.getDiffuse());
-                            imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), couleurFinale.getRGB());
-                        }else{
-                            imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
-                        }
+                        imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
                     }else{
-                        // Si plan existe, tester si t existe
-                        // si il existe comparer distance entre t et cam / p et cam pour savoir lequel est le plus proche
                         n = calcN(p);
                         ldirs = calcLdir(plights, dlights, p);
-                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n, sphereActu.getDiffuse());
+                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n);
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), couleurFinale.getRGB());
-                        sphereActu = null;
+                        lastForme = null;
                     }
                 }
             }
