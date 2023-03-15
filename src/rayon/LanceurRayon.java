@@ -12,6 +12,7 @@ import bibliomaths.Point;
 import bibliomaths.Vector;
 import camera.Camera;
 import forme.Sphere;
+import forme.Plan;
 import sceneparser.SceneParser;
 import lights.*;
 
@@ -136,6 +137,16 @@ public class LanceurRayon {
     }
 
     
+    public Point RechercheIntersectionPlan(Plan plane, Camera cam, Vector d) {
+        double denominateur = d.dot(plane.getNormal());
+        if(denominateur == 0 || plane == null) {
+            return null;
+        }
+        double numerateur = plane.getCoord().sub(cam.getLookFrom()).dot(plane.getNormal());
+        double t = numerateur / denominateur;
+
+        return d.mul(t).add(cam.getLookFrom());
+    }
 
 
     public void process(){
@@ -155,16 +166,22 @@ public class LanceurRayon {
         ArrayList<Vector> ldirs; //= new ArrayList<>();
         Vector n;
         Couleur couleurFinale;
+        Point pplane; 
+        Plan plane = s.getPlan();
         
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
                 d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c, s.getSpheres());
+                pplane = RechercheIntersectionPlan(plane, c, d);
                 if(plights.size()+dlights.size() == 0){
                     if(p == null){
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), 0);
                     }else{
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), s.getAmbient().getRGB());
+                    }
+                    if(pplane != null) {
+                        imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), plane.getDiffuse().getRGB());
                     }
                 }else{
                     if(p == null){

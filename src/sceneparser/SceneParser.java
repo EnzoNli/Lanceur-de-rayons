@@ -13,7 +13,7 @@ import bibliomaths.Vector;
 import camera.Camera;
 import forme.*;
 import lights.*;
-import rayon.Plan;
+import forme.Plan;
 
 public class SceneParser {
 
@@ -174,23 +174,6 @@ public class SceneParser {
         }
     }
 
-    private void findPlane() throws IOException {
-        String ligne;
-        try {
-            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
-            while ((ligne = f2.readLine()) != null) {
-                if (ligne.startsWith("plane")) {
-                    String[] datas = ligne.split(" ");
-                    plan = new Plan(new Point(Double.parseDouble(datas[0]), Double.parseDouble(datas[1]), Double.parseDouble(datas[2])), 
-                    new Vector(Double.parseDouble(datas[3]), Double.parseDouble(datas[4]), Double.parseDouble(datas[5])));
-                }
-            }
-        } catch (IOException e) {
-            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f2.close();
-        }
-    }
 
     private ArrayList<Point> findVertex() throws IOException {
         ArrayList<Point> vertex = new ArrayList<>();
@@ -212,6 +195,32 @@ public class SceneParser {
         }
         return vertex;
     }
+
+
+    private void findPlane() throws IOException {
+        String ligne;
+        Couleur diffuse = new Couleur(0, 0, 0);
+        try {
+            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+            while ((ligne = f2.readLine()) != null) {
+                if (ligne.startsWith("plane")) {
+                    String[] datas = ligne.split(" ");
+                    plan = new Plan(new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]), Double.parseDouble(datas[3])), 
+                    new Vector(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]), Double.parseDouble(datas[6])), diffuse);
+                } else if (ligne.startsWith("diffuse")) {
+                    String[] datas = ligne.split(" ");
+                    diffuse = new Couleur(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
+                            Double.parseDouble(datas[3]));
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
+        } finally {
+            f2.close();
+        }
+    }
+
+
 
     private void findSphere() throws IOException {
         String ligne;
