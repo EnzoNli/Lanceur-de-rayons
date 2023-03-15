@@ -2,6 +2,7 @@ package forme;
 
 import bibliomaths.Couleur;
 import bibliomaths.Point;
+import bibliomaths.Vector;
 
 public class Triangle extends Forme {
 
@@ -26,6 +27,10 @@ public class Triangle extends Forme {
 
     public Point getZ() {
         return z;
+    }
+
+    public Vector getNormal() {
+        return y.sub(x).cross(z.sub(x)).hat();
     }
 
 }

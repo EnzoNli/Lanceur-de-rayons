@@ -1,7 +1,6 @@
 package rayon;
 
 import java.awt.image.BufferedImage;
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import bibliomaths.Point;
 import bibliomaths.Vector;
 import camera.Camera;
 import forme.Sphere;
+import forme.Triangle;
 import forme.Forme;
 import forme.Plan;
 import sceneparser.SceneParser;
@@ -26,6 +26,7 @@ public class LanceurRayon {
     private Forme lastForme = null;
     private Plan plane;
     private ArrayList<Sphere> spheres;
+    private ArrayList<Triangle> triangles;
 
     public LanceurRayon(String fichierParse){
         this.fichierParse = fichierParse;
@@ -43,27 +44,27 @@ public class LanceurRayon {
     }
 
 
-    private Point distanceMinEntre2Points(Point res1, Point res2, Forme f, Point eye) {
+    private Point distanceMinEntre2Points(Point res1, Point res2, Forme f1, Forme f2, Point eye) {
         if(res1 == null){
             if(res2 == null){
                 return null;
             }else{
-                lastForme = f;
+                lastForme = f2;
                 return res2;
             }
         }else{
             if(res2 == null){
-                lastForme = plane;
+                lastForme = f1;
                 return res1;
             }else{
                 double dis1 = Math.sqrt(Math.pow(eye.getX() - res1.getX(), 2) + Math.pow(eye.getY() - res1.getY(), 2) + Math.pow(eye.getZ() - res1.getZ(), 2));
                 double dis2 = Math.sqrt(Math.pow(eye.getX() - res2.getX(), 2) + Math.pow(eye.getY() - res2.getY(), 2) + Math.pow(eye.getZ() - res2.getZ(), 2));
 
                 if(dis1 > dis2){
-                    lastForme = f;
+                    lastForme = f2;
                     return res2;
                 }else{
-                    lastForme = plane;
+                    lastForme = f1;
                     return res1;
                 }
             }
@@ -103,16 +104,33 @@ public class LanceurRayon {
         double tmp;
         Point res1 = null;
         Point res2 = null;
+        Point res3 = null;
         Forme f = null;
+        Forme f2 = null;
         Point eye = cam.getLookFrom();
 
+        // Duplication de code ici
         if(plane != null){
             double denominateur = d.dot(plane.getNormal());
             if(denominateur != 0) {
                 double numerateur = plane.getCoord().sub(eye).dot(plane.getNormal());
                 double t_plane = (double) numerateur / (double) denominateur;
-        
                 res1 = d.mul(t_plane).add(eye);
+            }
+        }
+        // Duplication de code ici
+        for(Triangle tr : triangles){
+            Point p = null;
+            double denominateur = d.dot(tr.getNormal());
+            if(denominateur != 0) {
+                double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
+                double t_plane = (double) numerateur / (double) denominateur;
+                p = d.mul(t_plane).add(eye);
+                if(calculDesNormalesTriangle(tr, p)){
+                    res3 = p;
+                    f2 = tr;
+                }
+
             }
         }
 
@@ -133,8 +151,23 @@ public class LanceurRayon {
             res2 = d.mul(t).add(eye);
         }
 
-        return distanceMinEntre2Points(res1, res2, f, eye);
+        return distanceMinEntre2Points(distanceMinEntre2Points(res1, res2, plane, f, eye), res3, lastForme, f2, eye);
 
+    }
+
+    private boolean calculDesNormalesTriangle(Triangle tr, Point p) {
+        if(tr.getY().sub(tr.getX()).cross(p.sub(tr.getX())).dot(tr.getNormal()) < 0){
+            return false;
+        }
+
+        if(tr.getZ().sub(tr.getY()).cross(p.sub(tr.getY())).dot(tr.getNormal()) < 0){
+            return false;
+        }
+
+        if(tr.getX().sub(tr.getZ()).cross(p.sub(tr.getZ())).dot(tr.getNormal()) < 0){
+            return false;
+        }
+        return true;
     }
 
     public Vector calcN(Point p) {
@@ -143,8 +176,11 @@ public class LanceurRayon {
             if(lastForme instanceof Sphere){
                 Sphere s = (Sphere) lastForme;
                 n = p.sub(s.getCentre()).hat();
+            }else if(lastForme instanceof Plan){
+                n = plane.getNormal();
             }else{
-                return plane.getNormal();
+                Triangle tr = (Triangle) lastForme;
+                n = tr.getNormal();
             }
         }
         return n;
@@ -209,6 +245,7 @@ public class LanceurRayon {
 
         spheres = s.getSpheres();
         plane = s.getPlan();
+        triangles = s.getTriangles();
         
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
@@ -237,7 +274,7 @@ public class LanceurRayon {
         try{
             ImageIO.write(imgOutput, "png", new File("./" + s.getOutputName()));
         }catch (IOException e){
-            System.out.println("aled");
+            System.out.println("Impossible de creer l'image");
         }
 
     }
