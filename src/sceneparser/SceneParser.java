@@ -41,7 +41,7 @@ public class SceneParser {
     public void parse() throws IOException {
         File fichier = new File(this.nomFichierAParser);
         FileReader f_reader = new FileReader(fichier);
-        ArrayList<Integer> cam = new ArrayList<Integer>();
+        ArrayList<Double> cam = new ArrayList<Double>();
         boolean passeSize = false;
         boolean passeOutput = false;
         boolean passeCamera = false;
@@ -79,12 +79,12 @@ public class SceneParser {
 
                     // Recupération de la camera
                     if (!(passeCamera) && parse[0].equals("camera")) {
-                        for (int i = 0; i < 10; i++) {
-                            cam.add(Integer.parseInt(parse[i + 1]));
+                        for (int i = 0; i < 9; i++) {
+                            cam.add(Double.parseDouble(parse[i + 1]));
                         }
                         this.camera = new Camera(new Point(cam.get(0), cam.get(1), cam.get(2)),
                                 new Point(cam.get(3), cam.get(4), cam.get(5)),
-                                new Vector(cam.get(6), cam.get(7), cam.get(8)), cam.get(9));
+                                new Vector(cam.get(6), cam.get(7), cam.get(8)), Integer.parseInt(parse[10]));
                         passeCamera = true;
                     }
 
