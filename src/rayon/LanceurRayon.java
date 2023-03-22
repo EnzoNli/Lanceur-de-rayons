@@ -28,10 +28,18 @@ public class LanceurRayon {
     private ArrayList<Sphere> spheres;
     private ArrayList<Triangle> triangles;
 
+    /**
+     * Constructeur du lanceur de rayon
+     * @param fichierParse correspond au fichier à parser
+     */
     public LanceurRayon(String fichierParse){
         this.fichierParse = fichierParse;
     }
 
+    /**
+     * Cette methode permet de parser le fichier
+     * @return une variable SceneParser possédant toutes les récupérer après le parse
+     */
     private SceneParser loadScene() {
         SceneParser s = new SceneParser(this.fichierParse);
         try {
@@ -43,7 +51,15 @@ public class LanceurRayon {
         return s;
     }
 
-
+    /**
+     * PCette méthode permet de savoir quelle est le point le plus proche entre les différentes formes 
+     * @param res1 le point le plus proche correspondant à la première forme
+     * @param res2 le point le plus proche correspondant à la deuxième forme
+     * @param f1 correspond à la première forme
+     * @param f2 correspond à la deuxième forme
+     * @param eye correspond à la position de l'oeil
+     * @return le point le plus proche
+     */
     private Point distanceMinEntre2Points(Point res1, Point res2, Forme f1, Forme f2, Point eye) {
         if(res1 == null){
             if(res2 == null){
@@ -71,6 +87,19 @@ public class LanceurRayon {
         }
     }
 
+    /**
+     * Permet de calculer le vecteur direction d⃗ pour un pixel (i,j)
+     * @param c correspond à la camera
+     * @param i correspond au numéro de la ligne ou est présent le pixel
+     * @param j correspond au numéro de la colonne ou est présent le pixel
+     * @param w correspond à l'axe passant par l'oeil (lookFrom) et le point regardé (lookAt).
+     * @param u correspond à une normale au plan formé par les vecteurs up⃗​ et w⃗ 
+     * @param v correspond au calcul à partir des vecteur u et w
+     * @param fovr correspond à l'angle de vue de la caméra en radians
+     * @param pixelheight correspond à la hauteur d'un pixel
+     * @param pixelwidth correspond à la largeur d'un pixel
+     * @return le vecteur direction d⃗
+     */
     private Vector calcVecUnitaire(Camera c, int i, int j, Vector w, Vector u, Vector v, double fovr, double pixelheight, double pixelwidth){
         double a = ((pixelwidth * (i - ((double) imgOutput.getWidth()/2) + 0.5))/(((double) imgOutput.getWidth()/2)));
         double b = ((pixelheight * (j - ((double) imgOutput.getHeight()/2) + 0.5))/(((double) imgOutput.getHeight()/2)));
@@ -78,6 +107,14 @@ public class LanceurRayon {
         return u.mul(a).add(v.mul(b)).sub(w).hat();
     }
 
+
+    /**
+     * Permet de calculer les solutions du discriminant
+     * @param discriminant correspond au résultat du calcul du discriminant
+     * @param a 
+     * @param b
+     * @return une des solutions du discriminant si elle existe
+     */
     public double calculMiniInterSphere(double discriminant, double a, double b) {
         if(discriminant == 0) {
             return (-b)/(2*a);
@@ -95,6 +132,13 @@ public class LanceurRayon {
         return Double.POSITIVE_INFINITY;
     }
 
+
+    /**
+     * Permet de calculer le point le plus proche
+     * @param d correspond au vecteur direction d⃗
+     * @param cam correspond à la caméra
+     * @return le point le plus proche
+     */
     public Point rechercherPointProche(Vector d, Camera cam){
         double a = 1;
         double b;
@@ -155,6 +199,13 @@ public class LanceurRayon {
 
     }
 
+
+    /**
+     * Permet de calculer les normales d'un triangle
+     * @param tr correspond à un triangle
+     * @param p correspond au point le plus proche
+     * @return si le calcul des normales est différent de 0 alors return true sinon false
+     */
     private boolean calculDesNormalesTriangle(Triangle tr, Point p) {
         if(tr.getY().sub(tr.getX()).cross(p.sub(tr.getX())).dot(tr.getNormal()) < 0){
             return false;
@@ -170,6 +221,11 @@ public class LanceurRayon {
         return true;
     }
 
+    /**
+     * Permet de calculer la normale selon la une forme
+     * @param p correspond au point le plus proche
+     * @return la normale
+     */
     public Vector calcN(Point p) {
         Vector n = new Vector(0, 0, 0);
         if(lastForme != null) {
@@ -187,6 +243,13 @@ public class LanceurRayon {
     }
 
 
+    /**
+     * Permet de calculer tout les vecteurs ldir pour chaque lumière
+     * @param plights correspond à la liste des points lights
+     * @param dlights correspond à la liste des directionals lights
+     * @param p correspond au point le plus proche
+     * @return une liste avec tout les vecteurs ldir
+     */
     public ArrayList<Vector> calcLdir(ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Point p) {
         ArrayList<Vector> ldir = new ArrayList<>();
         for(DirectionalLight l : dlights) {
@@ -203,6 +266,16 @@ public class LanceurRayon {
         return ldir;
     }
 
+
+    /**
+     * Permet de calculer la couleur des pixels lorsque des lights sont présents
+     * @param ambient 
+     * @param ldirs correspond à la liste de tout les vecteurs ldir
+     * @param plights correspond à la liste des points lights
+     * @param dlights correspond à la liste des directionals lights
+     * @param n  correspond au vecteur normal calculer dans la méthode calcN
+     * @return une couleur correspond à la couleur d'un pixel
+     */
     private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n) {
         int nombreDeDLumieres = dlights.size();
         int count_ldirs = ldirs.size();
@@ -224,7 +297,11 @@ public class LanceurRayon {
     }
     
 
-
+    /**
+     * Cette méthode est la méthode global permettant créer les images 2D, 3D ainsi que les plans et les triangles
+     * C'est ici que le calcule du point le plus proche est fait
+     * Et caluler la couleur pour chaque pixels
+     */
     public void process(){
         SceneParser s = loadScene();
         Camera c = s.getCamera();

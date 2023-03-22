@@ -60,10 +60,18 @@ public class Couleur extends Triplet {
         return s.toString();
     }
 
+    /**
+     * Cette méthode permet de verifier que chauqe valeur du triplet est inférieur à 1
+     * @return true si les 3 valeurs sont inférieurs à 1 sinon return false
+     */
     public boolean isValid() {
         return this.getX() <= 1 && this.getY() <= 1 && this.getZ() <= 1;
     }
 
+    /**
+     * Cette méthode permet de transformer une couleur au format RGB
+     * @return un int repésentant une couleur au format rgb;
+     */
     public int getRGB() {
         java.awt.Color couleur = new java.awt.Color((float) getX(), (float) getY(), (float) getZ());
         return couleur.getRGB();
