@@ -221,6 +221,7 @@ public class LanceurRayon {
         return true;
     }
 
+    
     /**
      * Permet de calculer la normale selon la une forme
      * @param p correspond au point le plus proche
@@ -357,3 +358,14 @@ public class LanceurRayon {
     }
 
 }
+
+
+/*
+ * comment calculer le epsilon ?
+ * Pour chaque point de la scène, il faut regarder pour chaque lumieres si un objet se trouve entre le point et la source de lumière
+ * Si il y a un objet, on ne comptabilise pas la source de lumière pour ce point.
+ * Pour vérifier si un objet se trouve entre le point et la source de lumière il faut regarder si
+ * l'intersection du point avec l'objet se trouve entre le point et la source de lumière
+ * Pour ajouter l'ombre, on peut multiplier l'illumination diffuse par la couleur de l'ombre.
+ * La couleur de l'ombre peut être déterminée en fonction de la distance entre la source de lumière et l'objet qui projette l'ombre
+ */

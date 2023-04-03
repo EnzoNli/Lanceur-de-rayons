@@ -31,6 +31,7 @@ public class SceneParser {
     private ArrayList<Sphere> spheres = new ArrayList<>();
     private ArrayList<Triangle> triangles = new ArrayList<>();
     private Plan plan;
+    private boolean shadow = false;
     private BufferedReader f;
     private BufferedReader f2;
 
@@ -124,6 +125,7 @@ public class SceneParser {
         findSphere();
         findTriangle();
         findPlane();
+        findShadow();
         
         // check diffuses + ambient <= 1
     }
@@ -199,6 +201,23 @@ public class SceneParser {
             f2.close();
         }
         return vertex;
+    }
+
+    private void findShadow() throws IOException {
+        String ligne;
+        try {
+            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+            while ((ligne = f2.readLine()) != null) {
+                if (ligne.startsWith("shadow")) {
+                    String[] datas = ligne.split(" ");
+                    shadow = Boolean.parseBoolean(datas[1]);
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
+        } finally {
+            f2.close();
+        }
     }
 
 
