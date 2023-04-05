@@ -55,6 +55,10 @@ public class SceneParser {
             while ((ligne = f.readLine()) != null) {
                 parse = ligne.trim().split(" ");
                 if (!(parse[0].equals("#"))) {
+                    if(parse[0].equals("shadow")){
+                        this.shadow = Boolean.parseBoolean(parse[1]);
+                    }
+                    
                     // Recupération de la taille de l'image
                     if (!(passeSize) && parse[0].equals("size")) {
                         if (parse.length < 3) {
@@ -65,7 +69,7 @@ public class SceneParser {
                             this.size[1] = Integer.parseInt(parse[2]);
                         } catch (NumberFormatException e) {
                             LOGGER.log(java.util.logging.Level.SEVERE,
-                                    "Un des deux arguments de size n'est pas un entier");
+                            "Un des deux arguments de size n'est pas un entier");
                         }
                         passeSize = true;
                     }
@@ -125,7 +129,6 @@ public class SceneParser {
         findSphere();
         findTriangle();
         findPlane();
-        findShadow();
         
         // check diffuses + ambient <= 1
     }
@@ -201,23 +204,6 @@ public class SceneParser {
             f2.close();
         }
         return vertex;
-    }
-
-    private void findShadow() throws IOException {
-        String ligne;
-        try {
-            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
-            while ((ligne = f2.readLine()) != null) {
-                if (ligne.startsWith("shadow")) {
-                    String[] datas = ligne.split(" ");
-                    shadow = Boolean.parseBoolean(datas[1]);
-                }
-            }
-        } catch (IOException e) {
-            LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f2.close();
-        }
     }
 
 
@@ -380,6 +366,10 @@ public class SceneParser {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public boolean hasShadow() {
+        return shadow;
     }
 
     public ArrayList<Integer> getShininess() {
