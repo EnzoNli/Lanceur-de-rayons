@@ -146,8 +146,13 @@ public class LanceurRayon {
         double discriminant;
         double t = Double.POSITIVE_INFINITY;
         double tmp;
+        // Point d'inter avec plan
         Point res1 = null;
+
+        //Point d'inter avec sphere
         Point res2 = null;
+
+        //Point d'inter avec triangle
         Point res3 = null;
         Forme f = null;
         Forme f2 = null;
@@ -168,8 +173,8 @@ public class LanceurRayon {
             double denominateur = d.dot(tr.getNormal());
             if(denominateur != 0) {
                 double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
-                double t_plane = (double) numerateur / (double) denominateur;
-                p = d.mul(t_plane).add(eye);
+                double t_tri = (double) numerateur / (double) denominateur;
+                p = d.mul(t_tri).add(eye);
                 if(calculDesNormalesTriangle(tr, p)){
                     res3 = p;
                     f2 = tr;
@@ -277,7 +282,7 @@ public class LanceurRayon {
      * @param n  correspond au vecteur normal calculer dans la méthode calcN
      * @return une couleur correspond à la couleur d'un pixel
      */
-    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n) {
+    private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Vector n, boolean hasShadow, Point p) {
         int nombreDeDLumieres = dlights.size();
         int count_ldirs = ldirs.size();
         int cpt = 0;
@@ -290,13 +295,77 @@ public class LanceurRayon {
         }
 
         while(cpt < count_ldirs){
-            maxi = maxi.add(plights.get(cpt-nombreDeDLumieres).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+            if(hasShadow){
+                boolean estUnPointOmbre = testPointOmbre(new Vector(
+                    plights.get(cpt-nombreDeDLumieres).getPoint().getX() - p.getX(),
+                    plights.get(cpt-nombreDeDLumieres).getPoint().getY() - p.getY(),
+                    plights.get(cpt-nombreDeDLumieres).getPoint().getZ() - p.getZ()
+                    ), p, plights.get(cpt-nombreDeDLumieres).getPoint());
+                if(!estUnPointOmbre){
+                    maxi = maxi.add(plights.get(cpt-nombreDeDLumieres).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+                }
+            }else{
+                maxi = maxi.add(plights.get(cpt-nombreDeDLumieres).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+            }
             cpt++;
         }
-
         return maxi.times(dif).add(ambient);
     }
     
+
+    private boolean testPointOmbre(Vector d, Point eye, Point lumiere) {
+        double a = 1;
+        double b;
+        double c;
+        double discriminant;
+        double tmp;
+        double epsilon = 1.0;
+        double distanceEyeLumiere = Math.sqrt(Math.pow(eye.getX() - lumiere.getX(), 2) + Math.pow(eye.getY() - lumiere.getY(), 2) + Math.pow(eye.getZ() - lumiere.getZ(), 2));
+        if(plane != null){
+            double denominateur = d.dot(plane.getNormal());
+            if(denominateur != 0.0) {
+                double numerateur = plane.getCoord().sub(eye).dot(plane.getNormal());
+                double t_plane = (double) numerateur / (double) denominateur;
+                Point pointInter = d.mul(t_plane).add(eye);
+                double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - pointInter.getX(), 2) + Math.pow(eye.getY() - pointInter.getY(), 2) + Math.pow(eye.getZ() - pointInter.getZ(), 2));
+                if(distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere){
+                    return true;
+                }
+            }
+        }
+        for(Triangle tr : triangles){
+            Point p = null;
+            double denominateur = d.dot(tr.getNormal());
+            if(denominateur != 0) {
+                double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
+                double t_plane = (double) numerateur / (double) denominateur;
+                p = d.mul(t_plane).add(eye);
+                if(calculDesNormalesTriangle(tr, p)){
+                    double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2) + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));
+                    if(distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        for(Sphere s : spheres){
+            b = eye.sub(s.getCentre()).mul(2).dot(d);
+            c = eye.sub(s.getCentre()).dot(eye.sub(s.getCentre())) - (s.getRayon()*s.getRayon());
+            discriminant = (b*b)-(4*a*c);
+            System.out.println(discriminant);
+            tmp = calculMiniInterSphere(discriminant, a, b);
+            if(tmp != Double.POSITIVE_INFINITY){
+                Point testDistanceSphere = d.mul(tmp).add(eye);
+                double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - testDistanceSphere.getX(), 2) + Math.pow(eye.getY() - testDistanceSphere.getY(), 2) + Math.pow(eye.getZ() - testDistanceSphere.getZ(), 2));
+                if(distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Cette méthode est la méthode global permettant créer les images 2D, 3D ainsi que les plans et les triangles
@@ -314,7 +383,7 @@ public class LanceurRayon {
         Vector v = (w.cross(u)).hat();
         double fovr = (c.getFov() * Math.PI) / 180d;
         double pixelheight = (double) Math.tan(fovr/2);
-        double pixelwidth = pixelheight * ((double) imgOutput.getWidth()/ (double) imgOutput.getHeight());
+        double pixelwidth = pixelheight * ((double) imgOutput.getWidth() / (double) imgOutput.getHeight());
         Vector d;
         Point p;
         ArrayList<Vector> ldirs;
@@ -341,7 +410,7 @@ public class LanceurRayon {
                     }else{
                         n = calcN(p);
                         ldirs = calcLdir(plights, dlights, p);
-                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n);
+                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n, s.hasShadow(), p);
                         imgOutput.setRGB(i, (imgOutput.getHeight()-1 - j), couleurFinale.getRGB());
                         lastForme = null;
                     }
@@ -358,14 +427,3 @@ public class LanceurRayon {
     }
 
 }
-
-
-/*
- * comment calculer le epsilon ?
- * Pour chaque point de la scène, il faut regarder pour chaque lumieres si un objet se trouve entre le point et la source de lumière
- * Si il y a un objet, on ne comptabilise pas la source de lumière pour ce point.
- * Pour vérifier si un objet se trouve entre le point et la source de lumière il faut regarder si
- * l'intersection du point avec l'objet se trouve entre le point et la source de lumière
- * Pour ajouter l'ombre, on peut multiplier l'illumination diffuse par la couleur de l'ombre.
- * La couleur de l'ombre peut être déterminée en fonction de la distance entre la source de lumière et l'objet qui projette l'ombre
- */
