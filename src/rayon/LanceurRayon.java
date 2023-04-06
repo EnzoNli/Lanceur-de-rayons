@@ -314,7 +314,7 @@ public class LanceurRayon {
     
 
     private boolean testPointOmbre(Vector d, Point eye, Point lumiere) {
-        double a = 1;
+        double a;
         double b;
         double c;
         double discriminant;
@@ -350,10 +350,10 @@ public class LanceurRayon {
         }
 
         for(Sphere s : spheres){
+            a = d.dot(d);
             b = eye.sub(s.getCentre()).mul(2).dot(d);
             c = eye.sub(s.getCentre()).dot(eye.sub(s.getCentre())) - (s.getRayon()*s.getRayon());
             discriminant = (b*b)-(4*a*c);
-            System.out.println(discriminant);
             tmp = calculMiniInterSphere(discriminant, a, b);
             if(tmp != Double.POSITIVE_INFINITY){
                 Point testDistanceSphere = d.mul(tmp).add(eye);
