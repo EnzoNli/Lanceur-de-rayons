@@ -18,6 +18,7 @@ import forme.Plan;
 
 public class SceneParser {
 
+    private static final String DIFFU_STRING = "diffuse";
     private static final Logger LOGGER = Logger.getLogger("bug");
     private String nomFichierAParser;
 
@@ -63,21 +64,21 @@ public class SceneParser {
                     // Recupération de la taille de l'image
                     if (!(passeSize) && parse[0].equals("size")) {
                         if (parse.length < 3) {
-                            throw new IllegalArgumentException("Pas assez d'arguments pour le size");
+                            throw new IllegalArgumentException("Pas assez d\'arguments pour le size");
                         }
                         try {
                             this.size[0] = Integer.parseInt(parse[1]);
                             this.size[1] = Integer.parseInt(parse[2]);
                         } catch (NumberFormatException e) {
                             LOGGER.log(java.util.logging.Level.SEVERE,
-                                    "Un des deux arguments de size n'est pas un entier");
+                                    "Un des deux arguments de size n\'est pas un entier");
                         }
                         passeSize = true;
                     }
                     // Recupération du nom de la sortie
                     if (!(passeOutput) && parse[0].equals("output")) {
                         if (parse.length < 2) {
-                            throw new IllegalArgumentException("Pas assez d'arguments pour l'output");
+                            throw new IllegalArgumentException("Pas assez d\'arguments pour l\'output");
                         }
                         this.outputName = parse[1];
                         passeOutput = true;
@@ -101,11 +102,11 @@ public class SceneParser {
                 throw new IllegalArgumentException("Camera introuvable");
 
             if (!(passeSize))
-                throw new IllegalArgumentException("Taille de l'image introuvable");
+                throw new IllegalArgumentException("Taille de l\'image introuvable");
 
             if (!(passeOutput)) {
                 outputName = "output.png";
-                passeOutput = true;
+                passeOutput = !passeOutput;
             }
 
             // A partir d'ici, tout les autres elements sont optionnels
@@ -149,14 +150,14 @@ public class SceneParser {
                         maxverts = Integer.parseInt(datas[1]);
                         if (vertex.isEmpty()) {
                             f.close();
-                            throw new IllegalArgumentException("Il n'y a pas de vertex");
+                            throw new IllegalArgumentException("Il n\'y a pas de vertex");
                         } else if (vertex.size() > maxverts) {
                             f.close();
                             throw new IllegalArgumentException("Il y a plus de vertex que de maxverts");
                         }
                     } else {
                         f.close();
-                        throw new IllegalArgumentException("Il n'y a pas le bon nombre d'argument dans maxverts");
+                        throw new IllegalArgumentException("Il n\'y a pas le bon nombre d\'argument dans maxverts");
                     }
                 } else if (ligne.startsWith("tri") && maxverts > 0) {
                     String[] datas = ligne.split(" ");
@@ -171,7 +172,7 @@ public class SceneParser {
                                 vertex.get(Integer.parseInt(datas[2])),
                                 vertex.get(Integer.parseInt(datas[3])), diffuse));
                     }
-                } else if (ligne.startsWith("diffuse")) {
+                } else if (ligne.startsWith(DIFFU_STRING)) {
                     String[] datas = ligne.split(" ");
                     diffuse = new Couleur(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                             Double.parseDouble(datas[3]));
@@ -219,7 +220,7 @@ public class SceneParser {
                             new Vector(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]),
                                     Double.parseDouble(datas[6])),
                             diffuse);
-                } else if (ligne.startsWith("diffuse")) {
+                } else if (ligne.startsWith(DIFFU_STRING)) {
                     String[] datas = ligne.split(" ");
                     diffuse = new Couleur(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                             Double.parseDouble(datas[3]));
@@ -246,7 +247,7 @@ public class SceneParser {
                                 .add(new Sphere(new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                                         Double.parseDouble(datas[3])), Double.parseDouble(datas[4]), diffuse));
                     }
-                } else if (ligne.startsWith("diffuse")) {
+                } else if (ligne.startsWith(DIFFU_STRING)) {
                     String[] datas = ligne.split(" ");
                     diffuse = new Couleur(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
                             Double.parseDouble(datas[3]));
@@ -281,7 +282,7 @@ public class SceneParser {
                 }
             }
             if (!checkLights(plights, dlights)) {
-                throw new IllegalArgumentException("La somme des composantes d'une des lumières dépasse 1");
+                throw new IllegalArgumentException("La somme des composantes d\'une des lumières dépasse 1");
             }
             f.close();
         } catch (IOException e) {

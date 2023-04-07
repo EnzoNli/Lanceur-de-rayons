@@ -236,10 +236,7 @@ public class LanceurRayon {
             return false;
         }
 
-        if (tr.getX().sub(tr.getZ()).cross(p.sub(tr.getZ())).dot(tr.getNormal()) < 0) {
-            return false;
-        }
-        return true;
+        return tr.getX().sub(tr.getZ()).cross(p.sub(tr.getZ())).dot(tr.getNormal()) >= 0;
     }
 
     /**
@@ -338,8 +335,7 @@ public class LanceurRayon {
         double discriminant;
         double tmp;
         double epsilon = 0.0001;
-        double distanceEyeLumiere = Math.sqrt(Math.pow(eye.getX() - lumiere.getX(), 2)
-                + Math.pow(eye.getY() - lumiere.getY(), 2) + Math.pow(eye.getZ() - lumiere.getZ(), 2));
+        double distanceEyeLumiere = lumiere.sub(eye).len();
         for (Triangle tr : triangles) {
             Point p = null;
             double denominateur = d.dot(tr.getNormal());
