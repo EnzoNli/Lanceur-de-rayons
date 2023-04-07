@@ -300,7 +300,7 @@ public class LanceurRayon {
     private Couleur calculCouleurFinale(Couleur ambient, ArrayList<Vector> ldirs, ArrayList<LocalLight> plights,
             ArrayList<DirectionalLight> dlights, Vector n, boolean hasShadow, Point p) {
         int nombreDeDLumieres = dlights.size();
-        int count_ldirs = ldirs.size();
+        int countLdirs = ldirs.size();
         int cpt = 0;
         Couleur dif = lastForme.getDiffuse();
         Couleur maxi = new Couleur(0, 0, 0);
@@ -310,7 +310,7 @@ public class LanceurRayon {
             cpt++;
         }
 
-        while (cpt < count_ldirs) {
+        while (cpt < countLdirs) {
             if (hasShadow) {
                 boolean estUnPointOmbre = testPointOmbre(new Vector(
                         plights.get(cpt - nombreDeDLumieres).getPoint().getX() - p.getX(),
@@ -344,8 +344,8 @@ public class LanceurRayon {
             double denominateur = d.dot(tr.getNormal());
             if (denominateur != 0) {
                 double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
-                double t_plane = numerateur / denominateur;
-                p = d.mul(t_plane).add(eye);
+                double tPlane = numerateur / denominateur;
+                p = d.mul(tPlane).add(eye);
                 if (calculDesNormalesTriangle(tr, p)) {
                     double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2)
                             + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));

@@ -41,24 +41,24 @@ public class SceneParser {
 
     public void parse() throws IOException {
         File fichier = new File(this.nomFichierAParser);
-        FileReader f_reader = new FileReader(fichier);
+        FileReader fReader = new FileReader(fichier);
         ArrayList<Double> cam = new ArrayList<Double>();
         boolean passeSize = false;
         boolean passeOutput = false;
         boolean passeCamera = false;
 
         try {
-            f = new BufferedReader(f_reader);
+            f = new BufferedReader(fReader);
             String ligne;
             String[] parse;
 
             while ((ligne = f.readLine()) != null) {
                 parse = ligne.trim().split(" ");
                 if (!(parse[0].equals("#"))) {
-                    if(parse[0].equals("shadow")){
+                    if (parse[0].equals("shadow")) {
                         this.shadow = Boolean.parseBoolean(parse[1]);
                     }
-                    
+
                     // Recupération de la taille de l'image
                     if (!(passeSize) && parse[0].equals("size")) {
                         if (parse.length < 3) {
@@ -69,7 +69,7 @@ public class SceneParser {
                             this.size[1] = Integer.parseInt(parse[2]);
                         } catch (NumberFormatException e) {
                             LOGGER.log(java.util.logging.Level.SEVERE,
-                            "Un des deux arguments de size n'est pas un entier");
+                                    "Un des deux arguments de size n'est pas un entier");
                         }
                         passeSize = true;
                     }
@@ -109,7 +109,7 @@ public class SceneParser {
 
             // A partir d'ici, tout les autres elements sont optionnels
             // On commence par les couleurs de l'image
-            f_reader.close();
+            fReader.close();
             f.close();
             this.ambient = findColors("ambient");
         } catch (NumberFormatException e) {
@@ -118,18 +118,17 @@ public class SceneParser {
             f.close();
         }
 
-        
         this.speculars = findColors("speculars");
         if (!(speculars.isValid())) {
             throw new IllegalArgumentException("Un specular ne peut pas être supérieure à 1");
         }
-        
+
         this.shininess = findShininess();
         findLights();
         findSphere();
         findTriangle();
         findPlane();
-        
+
         // check diffuses + ambient <= 1
     }
 
@@ -184,7 +183,6 @@ public class SceneParser {
         }
     }
 
-
     private ArrayList<Point> findVertex() throws IOException {
         ArrayList<Point> vertex = new ArrayList<>();
         String ligne;
@@ -206,7 +204,6 @@ public class SceneParser {
         return vertex;
     }
 
-
     private void findPlane() throws IOException {
         String ligne;
         Couleur diffuse = new Couleur(0, 0, 0);
@@ -215,8 +212,12 @@ public class SceneParser {
             while ((ligne = f2.readLine()) != null) {
                 if (ligne.startsWith("plane")) {
                     String[] datas = ligne.split(" ");
-                    plan = new Plan(new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]), Double.parseDouble(datas[3])), 
-                    new Vector(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]), Double.parseDouble(datas[6])), diffuse);
+                    plan = new Plan(
+                            new Point(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
+                                    Double.parseDouble(datas[3])),
+                            new Vector(Double.parseDouble(datas[4]), Double.parseDouble(datas[5]),
+                                    Double.parseDouble(datas[6])),
+                            diffuse);
                 } else if (ligne.startsWith("diffuse")) {
                     String[] datas = ligne.split(" ");
                     diffuse = new Couleur(Double.parseDouble(datas[1]), Double.parseDouble(datas[2]),
@@ -229,8 +230,6 @@ public class SceneParser {
             f2.close();
         }
     }
-
-
 
     private void findSphere() throws IOException {
         String ligne;
@@ -295,14 +294,14 @@ public class SceneParser {
         Couleur sommeP = new Couleur(0.0, 0.0, 0.0);
         Couleur sommeD = new Couleur(0.0, 0.0, 0.0);
         Couleur sommeFinal;
-        for(Light c : plights) {
+        for (Light c : plights) {
             sommeP.add(c.getCouleur());
         }
-        for(Light c : dlights) {
+        for (Light c : dlights) {
             sommeD.add(c.getCouleur());
         }
         sommeFinal = sommeD.add(sommeP);
-        if(!(sommeFinal.isValid())) {
+        if (!(sommeFinal.isValid())) {
             return false;
         }
         return true;
@@ -403,8 +402,6 @@ public class SceneParser {
     public Plan getPlan() {
         return plan;
     }
-
-
 
     @Override
     public String toString() {
