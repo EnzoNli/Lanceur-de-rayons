@@ -65,7 +65,7 @@ public class SceneParser {
                         if (parse.length < 3) {
                             throw new IllegalArgumentException("Pas assez d\'arguments pour le size");
                         }
-                        tryParseInt(parse[0], parse[1]);
+                        tryParseInt(parse[1], parse[2]);
                         passeSize = true;
                     }
                     // Recupération du nom de la sortie
