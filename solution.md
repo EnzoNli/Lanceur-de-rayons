@@ -39,12 +39,45 @@
 - Pour le plan comme il ne peut y avoir qu'un seul plan, pas besoin d'ArrayList, juste d'une variable et on cherche aussi ça couleur diffuse en temps
   c'est la méthode findPlane() qui nous permet de faire ceci.
 - Et enfin pour les lights, comme il y a deux types de lights, nous avons décider de stocker les point lights dans l'ArrayList plight et
-  les directionnals lights dans l'ArrayList dlight afin de pouvoir faire plus facilement les calculs par la suite.
+  les directionals lights dans l'ArrayList dlight afin de pouvoir faire plus facilement les calculs par la suite.
   c'est la méthode findLights() qui nous permet de faire ceci
 
 
 # les différentes classes d'objets
 
-Avant de passer à l'Image2D, nous avons créer plusieurs classes :
+Avant de passer à l'Image2D et 3D, nous avons créer plusieurs classes :
+
+- Nous avons créer la classe Caméra qui nous permet de créer l'objet Caméra à l'aide du Lecteur de Scène fait précédement
+  La classe Caméra possède aussi des getters pour chacun des ses attributs.
+- Nous avons La classe abstraite Forme représentant une forme quelconque et qui prend comme paramètre sa couleur.
+  La classe permet d'avoir un getter afin de récupérer la couleur de la forme
+- Nous avons créer les classes Sphère, Plan et Triangle qui implémente chacune la classe Forme et elles permettent de créer 
+  ces trois objet à l'aide du Lecteur de Scène fait précédement chacune de ses classe possèdent des getters pour récupérer leurs attributs.
+- Et enfin nous avons créer la Classe abstraite Light qui permet de créer une light quelconque et qui prend en paramètre une couleur.
+  Puis nous avons le classes DirectionalLight et LocalLight qui implementent toutes les deux la classe light et qui permettent respectivement
+  de créer les directionals light et point light.
+
+
+# Image2D, Image3D et Triangle et Plan
+
+Pour finir, nous avons la classe LanceurRayon, qui est la classe gérant tout le processus du lanceur de rayon.
+
+- La méthode qui gère le processus est la méthode process.
+- On commence par parser la scène afin de récupérer tout les éléments grâce à la fonction méthode loadScene.
+- Ensuite on effectue tout les calculs qui sont à faire une seule fois, c'est à dire les calculs des Vector u, v et w,
+  du fovr, du pixelheight et du pixelwidth pour éviter de les recalculer à chaque fois.
+- on récupère dans les variables toutes les éléments trouver avec le lecteur de scène grâce au getters.
+- Et enfin, nous calculons pour chaque pixels de l'image le point le plus proche afin de calculer sa couleur.
+- Nous avons presque réussi à faire l'ombre, 1 test sur les 22 ne fonctionne pas et nous ne savons pas pourquoi.
+
+# Sonarqube
+
+- Nous n'avons pas d'erreurs importante, nous somme passé de plus de 50 mauvaises habitudes à 8.
+- Parmi ces 8 mauvaises habitudes, 6 sont des problèmes de Logger que nous n'avons pas réussi à résoudre car nous avions besoins des SystemOut pour valider les test sur gitlab.
+
+# Compilation
+
+Pour obtenir une image il suffit de faire un ./build et de faire un ./raytracer.sh avec le nom du fichier .test de la scène que l'on veut générer.
+
 
 
