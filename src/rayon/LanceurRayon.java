@@ -177,7 +177,7 @@ public class LanceurRayon {
             double denominateur = d.dot(plane.getNormal());
             if (denominateur != 0) {
                 double numerateur = plane.getCoord().sub(eye).dot(plane.getNormal());
-                double t_plane = (double) numerateur / (double) denominateur;
+                double t_plane = numerateur / denominateur;
                 res1 = d.mul(t_plane).add(eye);
             }
         }
@@ -344,7 +344,7 @@ public class LanceurRayon {
             double denominateur = d.dot(tr.getNormal());
             if (denominateur != 0) {
                 double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
-                double t_plane = (double) numerateur / (double) denominateur;
+                double t_plane = numerateur / denominateur;
                 p = d.mul(t_plane).add(eye);
                 if (calculDesNormalesTriangle(tr, p)) {
                     double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2)
