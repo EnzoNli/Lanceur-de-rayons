@@ -336,7 +336,7 @@ public class LanceurRayon {
         double c;
         double discriminant;
         double tmp;
-        double epsilon = 1.0;
+        double epsilon = 0.0001;
         double distanceEyeLumiere = Math.sqrt(Math.pow(eye.getX() - lumiere.getX(), 2)
                 + Math.pow(eye.getY() - lumiere.getY(), 2) + Math.pow(eye.getZ() - lumiere.getZ(), 2));
         for (Triangle tr : triangles) {
