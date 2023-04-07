@@ -34,7 +34,6 @@ public class SceneParser {
     private ArrayList<Triangle> triangles = new ArrayList<>();
     private Plan plan;
     private boolean shadow = false;
-    private BufferedReader f2;
 
     public SceneParser(String nomFichierAParser) {
         this.nomFichierAParser = nomFichierAParser;
@@ -144,14 +143,11 @@ public class SceneParser {
                         vertex = findVertex();
                         maxverts = Integer.parseInt(datas[1]);
                         if (vertex.isEmpty()) {
-                            f.close();
                             throw new IllegalArgumentException("Il n\'y a pas de vertex");
                         } else if (vertex.size() > maxverts) {
-                            f.close();
                             throw new IllegalArgumentException("Il y a plus de vertex que de maxverts");
                         }
                     } else {
-                        f.close();
                         throw new IllegalArgumentException("Il n\'y a pas le bon nombre d\'argument dans maxverts");
                     }
                 } else if (ligne.startsWith("tri") && maxverts > 0) {
@@ -159,7 +155,6 @@ public class SceneParser {
                     if (datas.length == 4) {
                         for (int i = 1; i < datas.length; i++) {
                             if (Integer.parseInt(datas[i]) >= maxverts) {
-                                f.close();
                                 throw new IllegalArgumentException("Le vertex n'existe pas");
                             }
                         }
@@ -181,8 +176,8 @@ public class SceneParser {
     private ArrayList<Point> findVertex() throws IOException {
         ArrayList<Point> vertex = new ArrayList<>();
         String ligne;
-        try {
-            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
+            
             while ((ligne = f2.readLine()) != null) {
                 if (ligne.startsWith("vertex")) {
                     String[] datas = ligne.split(" ");
@@ -193,8 +188,6 @@ public class SceneParser {
             }
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f2.close();
         }
         return vertex;
     }
@@ -202,8 +195,7 @@ public class SceneParser {
     private void findPlane() throws IOException {
         String ligne;
         Couleur diffuse = new Couleur(0, 0, 0);
-        try {
-            f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
             while ((ligne = f2.readLine()) != null) {
                 if (ligne.startsWith("plane")) {
                     String[] datas = ligne.split(" ");
@@ -221,8 +213,6 @@ public class SceneParser {
             }
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f2.close();
         }
     }
 
@@ -274,7 +264,6 @@ public class SceneParser {
             if (!checkLights(plights, dlights)) {
                 throw new IllegalArgumentException("La somme des composantes d\'une des lumières dépasse 1");
             }
-            f.close();
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
         }
