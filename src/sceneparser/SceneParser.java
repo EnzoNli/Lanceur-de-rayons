@@ -34,6 +34,9 @@ public class SceneParser {
     private ArrayList<Triangle> triangles = new ArrayList<>();
     private Plan plan;
     private boolean shadow = false;
+    private boolean passeSize = false;
+    private boolean passeOutput = false;
+    private boolean passeCamera = false;
 
     public SceneParser(String nomFichierAParser) {
         this.nomFichierAParser = nomFichierAParser;
@@ -42,62 +45,11 @@ public class SceneParser {
     public void parse() throws IOException {
         File fichier = new File(this.nomFichierAParser);
         FileReader fReader = new FileReader(fichier);
-        ArrayList<Double> cam = new ArrayList<>();
-        boolean passeSize = false;
-        boolean passeOutput = false;
-        boolean passeCamera = false;
 
         try (BufferedReader f = new BufferedReader(fReader)){
-            String ligne;
-            String[] parse;
+            premierPassageParse(f);
 
-            while ((ligne = f.readLine()) != null) {
-                parse = ligne.trim().split(" ");
-                if (!(parse[0].equals("#"))) {
-                    if (parse[0].equals("shadow")) {
-                        this.shadow = Boolean.parseBoolean(parse[1]);
-                    }
-
-                    // Recupération de la taille de l'image
-                    if (!(passeSize) && parse[0].equals("size")) {
-                        if (parse.length < 3) {
-                            throw new IllegalArgumentException("Pas assez d\'arguments pour le size");
-                        }
-                        tryParseInt(parse[1], parse[2]);
-                        passeSize = true;
-                    }
-                    // Recupération du nom de la sortie
-                    if (!(passeOutput) && parse[0].equals("output")) {
-                        if (parse.length < 2) {
-                            throw new IllegalArgumentException("Pas assez d\'arguments pour l\'output");
-                        }
-                        this.outputName = parse[1];
-                        passeOutput = true;
-                    }
-
-                    // Recupération de la camera
-                    if (!(passeCamera) && parse[0].equals("camera")) {
-                        for (int i = 0; i < 9; i++) {
-                            cam.add(Double.parseDouble(parse[i + 1]));
-                        }
-                        this.camera = new Camera(new Point(cam.get(0), cam.get(1), cam.get(2)),
-                                new Point(cam.get(3), cam.get(4), cam.get(5)),
-                                new Vector(cam.get(6), cam.get(7), cam.get(8)), Integer.parseInt(parse[10]));
-                        passeCamera = true;
-                    }
-
-                }
-            }
-
-            if (!(passeCamera))
-                throw new IllegalArgumentException("Camera introuvable");
-
-            if (!(passeSize))
-                throw new IllegalArgumentException("Taille de l\'image introuvable");
-
-            if (!(passeOutput)) {
-                outputName = "output.png";
-            }
+            testPassage(passeCamera, passeSize, passeOutput);
 
             // A partir d'ici, tout les autres elements sont optionnels
             // On commence par les couleurs de l'image
@@ -118,6 +70,60 @@ public class SceneParser {
         findTriangle();
         findPlane();
 
+    }
+
+    private void premierPassageParse(BufferedReader f) throws NumberFormatException, IOException {
+        String ligne;
+        String[] parse;
+        ArrayList<Double> cam = new ArrayList<>();
+        
+
+        while ((ligne = f.readLine()) != null) {
+            parse = ligne.trim().split(" ");
+            if (parse[0].equals("shadow")) {
+                this.shadow = Boolean.parseBoolean(parse[1]);
+            }
+
+            // Recupération de la taille de l'image
+            if (!(passeSize) && parse[0].equals("size")) {
+                if (parse.length < 3) {
+                    throw new IllegalArgumentException("Pas assez d\'arguments pour le size");
+                }
+                tryParseInt(parse[1], parse[2]);
+                passeSize = true;
+            }
+            // Recupération du nom de la sortie
+            if (!(passeOutput) && parse[0].equals("output")) {
+                if (parse.length < 2) {
+                    throw new IllegalArgumentException("Pas assez d\'arguments pour l\'output");
+                }
+                this.outputName = parse[1];
+                passeOutput = true;
+            }
+
+            // Recupération de la camera
+            if (!(passeCamera) && parse[0].equals("camera")) {
+                for (int i = 0; i < 9; i++) {
+                    cam.add(Double.parseDouble(parse[i + 1]));
+                }
+                this.camera = new Camera(new Point(cam.get(0), cam.get(1), cam.get(2)),
+                        new Point(cam.get(3), cam.get(4), cam.get(5)),
+                        new Vector(cam.get(6), cam.get(7), cam.get(8)), Integer.parseInt(parse[10]));
+                passeCamera = true;
+            }
+        }
+    }
+
+    private void testPassage(boolean passeCamera, boolean passeSize, boolean passeOutput) {
+        if (!(passeCamera))
+                throw new IllegalArgumentException("Camera introuvable");
+
+        if (!(passeSize))
+            throw new IllegalArgumentException("Taille de l\'image introuvable");
+
+        if (!(passeOutput)) {
+            outputName = "output.png";
+        }
     }
 
     private void tryParseInt(String s1, String s2){
