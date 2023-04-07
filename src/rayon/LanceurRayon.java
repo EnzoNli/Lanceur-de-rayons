@@ -99,7 +99,6 @@ public class LanceurRayon {
     /**
      * Permet de calculer le vecteur direction d⃗ pour un pixel (i,j)
      * 
-     * @param c           correspond à la camera
      * @param i           correspond au numéro de la ligne ou est présent le pixel
      * @param j           correspond au numéro de la colonne ou est présent le pixel
      * @param w           correspond à l'axe passant par l'oeil (lookFrom) et le
@@ -286,7 +285,7 @@ public class LanceurRayon {
     /**
      * Permet de calculer la couleur des pixels lorsque des lights sont présents
      * 
-     * @param ambient
+     * @param ambient correspond à la couleur ambiante.
      * @param ldirs   correspond à la liste de tout les vecteurs ldir
      * @param plights correspond à la liste des points lights
      * @param dlights correspond à la liste des directionals lights
@@ -303,7 +302,8 @@ public class LanceurRayon {
 
         while (cpt < nombreDeDLumieres) {
             if (hasShadow) {
-                boolean estUnPointOmbre = testPointOmbre(dlights.get(cpt).getVecteur(), p, new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+                boolean estUnPointOmbre = testPointOmbre(dlights.get(cpt).getVecteur(), p,
+                        new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
                 if (!estUnPointOmbre) {
                     maxi = maxi.add(dlights.get(cpt).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
                 }
@@ -334,9 +334,11 @@ public class LanceurRayon {
     }
 
     /**
-     * Permet de tester si le point eye donné est un point d'ombre d'une source de lumiere donnée
-     * @param d vecteur vers la source de lumiere
-     * @param eye le point initial d'intersection
+     * Permet de tester si le point eye donné est un point d'ombre d'une source de
+     * lumiere donnée
+     * 
+     * @param d       vecteur vers la source de lumiere
+     * @param eye     le point initial d'intersection
      * @param lumiere la lumiere
      * @return si oui ou non eye est un point d'ombre
      */
@@ -369,7 +371,7 @@ public class LanceurRayon {
             tmp = calculMiniInterSphere(discriminant, a, b);
             if (tmp != Double.POSITIVE_INFINITY) {
                 Point testDistanceSphere = d.mul(tmp).add(eye);
-                if(testEpsilon(epsilon, distanceEyeLumiere, eye, testDistanceSphere)){
+                if (testEpsilon(epsilon, distanceEyeLumiere, eye, testDistanceSphere)) {
                     return true;
                 }
             }
@@ -378,9 +380,19 @@ public class LanceurRayon {
         return false;
     }
 
+    /**
+     * Permet de tester si le point qu'on trouve n'est pas le point de départ
+     * 
+     * @param epsilon            permet de vérifier que la distance de
+     *                           l'intersection est strictement positive
+     * @param distanceEyeLumiere correspond à la distance entre l'oeil et la lumiere
+     * @param eye                correspond à l'oeil
+     * @param p                  correspond au point le plus proche
+     * @return true si le point est différent du point de départ sinon false
+     */
     private boolean testEpsilon(double epsilon, double distanceEyeLumiere, Point eye, Point p) {
         double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2)
-        + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));
+                + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));
         return (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere);
     }
 
@@ -404,7 +416,6 @@ public class LanceurRayon {
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth() / (double) imgOutput.getHeight());
         Vector d;
         Point p;
-        
 
         spheres = (ArrayList<Sphere>) s.getSpheres();
         plane = s.getPlan();
@@ -430,19 +441,19 @@ public class LanceurRayon {
 
     }
 
-
     /**
      * 
      * Ajoute une couleur a un pixel donné quand il y a des lumieres dans la scene
      * 
-     * @param p point d'intersection
-     * @param i coordonnée x du pixel
-     * @param j coordonnée x du pixel
-     * @param s la scene
+     * @param p       point d'intersection
+     * @param i       coordonnée x du pixel
+     * @param j       coordonnée x du pixel
+     * @param s       la scene
      * @param plights les lumieres ponctuelles
      * @param dlights les lumieres directionnelles
      */
-    private void ajouteCouleurPixelAvecLight(Point p, int i, int j, SceneParser s, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights) {
+    private void ajouteCouleurPixelAvecLight(Point p, int i, int j, SceneParser s, ArrayList<LocalLight> plights,
+            ArrayList<DirectionalLight> dlights) {
         Vector n;
         ArrayList<Vector> ldirs;
         Couleur couleurFinale;
@@ -459,7 +470,9 @@ public class LanceurRayon {
     }
 
     /**
-     * Ajoute une couleur a un pixel donné quand il n'y a pas de lumieres dans la scene
+     * Ajoute une couleur a un pixel donné quand il n'y a pas de lumieres dans la
+     * scene
+     * 
      * @param p point d'intersection
      * @param i coordonnée x du pixel
      * @param j coordonnée x du pixel
