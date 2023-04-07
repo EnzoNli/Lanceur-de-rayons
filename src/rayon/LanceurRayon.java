@@ -235,7 +235,10 @@ public class LanceurRayon {
             return false;
         }
 
-        return tr.getX().sub(tr.getZ()).cross(p.sub(tr.getZ())).dot(tr.getNormal()) < 0;
+        if (tr.getX().sub(tr.getZ()).cross(p.sub(tr.getZ())).dot(tr.getNormal()) < 0) {
+            return false;
+        }
+        return true;
     }
 
     /**
