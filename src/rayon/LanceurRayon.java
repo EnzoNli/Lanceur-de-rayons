@@ -112,7 +112,7 @@ public class LanceurRayon {
      * @param pixelwidth  correspond à la largeur d'un pixel
      * @return le vecteur direction d⃗
      */
-    private Vector calcVecUnitaire(Camera c, int i, int j, Vector w, Vector u, Vector v, double fovr,
+    private Vector calcVecUnitaire(int i, int j, Vector w, Vector u, Vector v,
             double pixelheight, double pixelwidth) {
         double a = ((pixelwidth * (i - ((double) imgOutput.getWidth() / 2) + 0.5))
                 / ((double) imgOutput.getWidth() / 2));
@@ -203,11 +203,9 @@ public class LanceurRayon {
             c = eye.sub(s.getCentre()).dot(eye.sub(s.getCentre())) - (s.getRayon() * s.getRayon());
             discriminant = (b * b) - (4 * a * c);
             tmp = calculMiniInterSphere(discriminant, a, b);
-            if (tmp != Double.POSITIVE_INFINITY) {
-                if (tmp < t) {
-                    t = tmp;
-                    f = s;
-                }
+            if (tmp != Double.POSITIVE_INFINITY && tmp < t) {
+                t = tmp;
+                f = s;
             }
         }
 
@@ -403,7 +401,7 @@ public class LanceurRayon {
 
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
-                d = calcVecUnitaire(c, i, j, w, u, v, fovr, pixelheight, pixelwidth);
+                d = calcVecUnitaire(i, j, w, u, v, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c);
                 if (plights.size() + dlights.size() == 0) {
                     if (p == null) {

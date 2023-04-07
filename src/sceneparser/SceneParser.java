@@ -70,8 +70,7 @@ public class SceneParser {
                             this.size[0] = Integer.parseInt(parse[1]);
                             this.size[1] = Integer.parseInt(parse[2]);
                         } catch (NumberFormatException e) {
-                            LOGGER.log(java.util.logging.Level.SEVERE,
-                                    "Un des deux arguments de size n\'est pas un entier");
+                            LOGGER.log(java.util.logging.Level.SEVERE, "Un des deux arguments de size n\'est pas un entier");
                         }
                         passeSize = true;
                     }
@@ -106,7 +105,6 @@ public class SceneParser {
 
             if (!(passeOutput)) {
                 outputName = "output.png";
-                passeOutput = !passeOutput;
             }
 
             // A partir d'ici, tout les autres elements sont optionnels
