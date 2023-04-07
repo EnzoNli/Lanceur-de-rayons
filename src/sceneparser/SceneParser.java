@@ -49,7 +49,8 @@ public class SceneParser {
         boolean passeOutput = false;
         boolean passeCamera = false;
 
-        try (BufferedReader f = new BufferedReader(fReader)){
+        try (BufferedReader fopen = new BufferedReader(fReader)){
+            f = fopen;
             String ligne;
             String[] parse;
 
