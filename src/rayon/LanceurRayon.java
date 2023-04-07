@@ -390,9 +390,7 @@ public class LanceurRayon {
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth() / (double) imgOutput.getHeight());
         Vector d;
         Point p;
-        ArrayList<Vector> ldirs;
-        Vector n;
-        Couleur couleurFinale;
+        
 
         spheres = (ArrayList<Sphere>) s.getSpheres();
         plane = s.getPlan();
@@ -403,22 +401,9 @@ public class LanceurRayon {
                 d = calcVecUnitaire(i, j, w, u, v, pixelheight, pixelwidth);
                 p = rechercherPointProche(d, c);
                 if (plights.size() + dlights.size() == 0) {
-                    if (p == null) {
-                        imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), 0);
-                    } else {
-                        imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), s.getAmbient().getRGB());
-                    }
+                    ajouteCouleurPixelSansLight(p, i, j, s);
                 } else {
-                    if (p == null) {
-                        imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), 0);
-                    } else {
-                        n = calcN(p);
-                        ldirs = (ArrayList<Vector>) calcLdir(plights, dlights, p);
-                        couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n, s.hasShadow(),
-                                p);
-                        imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), couleurFinale.getRGB());
-                        lastForme = null;
-                    }
+                    ajouteCouleurPixelAvecLight(p, i, j, s, plights, dlights);
                 }
             }
         }
@@ -429,6 +414,32 @@ public class LanceurRayon {
             System.out.println("Impossible de creer l'image");
         }
 
+    }
+
+
+
+    private void ajouteCouleurPixelAvecLight(Point p, int i, int j, SceneParser s, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights) {
+        Vector n;
+        ArrayList<Vector> ldirs;
+        Couleur couleurFinale;
+        if (p == null) {
+            imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), 0);
+        } else {
+            n = calcN(p);
+            ldirs = (ArrayList<Vector>) calcLdir(plights, dlights, p);
+            couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n, s.hasShadow(),
+                    p);
+            imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), couleurFinale.getRGB());
+            lastForme = null;
+        }
+    }
+
+    private void ajouteCouleurPixelSansLight(Point p, int i, int j, SceneParser s) {
+        if (p == null) {
+            imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), 0);
+        } else {
+            imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), s.getAmbient().getRGB());
+        }
     }
 
 }
