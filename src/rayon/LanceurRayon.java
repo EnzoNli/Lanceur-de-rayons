@@ -302,7 +302,14 @@ public class LanceurRayon {
         Couleur maxi = new Couleur(0, 0, 0);
 
         while (cpt < nombreDeDLumieres) {
-            maxi = maxi.add(dlights.get(cpt).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+            if (hasShadow) {
+                boolean estUnPointOmbre = testPointOmbre(dlights.get(cpt).getVecteur(), p, new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+                if (!estUnPointOmbre) {
+                    maxi = maxi.add(dlights.get(cpt).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+                }
+            } else {
+                maxi = maxi.add(dlights.get(cpt).getCouleur().mul(Math.max(n.dot(ldirs.get(cpt)), 0)));
+            }
             cpt++;
         }
 
