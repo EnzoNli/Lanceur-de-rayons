@@ -342,9 +342,7 @@ public class LanceurRayon {
                 double tPlane = numerateur / denominateur;
                 p = d.mul(tPlane).add(eye);
                 if (calculDesNormalesTriangle(tr, p)) {
-                    double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2)
-                            + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));
-                    if (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere) {
+                    if(testEpsilon(epsilon, distanceEyeLumiere, eye, p)){
                         return true;
                     }
                 }
@@ -359,15 +357,21 @@ public class LanceurRayon {
             tmp = calculMiniInterSphere(discriminant, a, b);
             if (tmp != Double.POSITIVE_INFINITY) {
                 Point testDistanceSphere = d.mul(tmp).add(eye);
-                double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - testDistanceSphere.getX(), 2)
-                        + Math.pow(eye.getY() - testDistanceSphere.getY(), 2)
-                        + Math.pow(eye.getZ() - testDistanceSphere.getZ(), 2));
-                if (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere) {
+                if(testEpsilon(epsilon, distanceEyeLumiere, eye, testDistanceSphere)){
                     return true;
                 }
             }
         }
 
+        return false;
+    }
+
+    private boolean testEpsilon(double epsilon, double distanceEyeLumiere, Point eye, Point p) {
+        double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2)
+        + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));
+        if (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere) {
+            return true;
+        }
         return false;
     }
 

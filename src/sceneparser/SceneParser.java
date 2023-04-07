@@ -125,7 +125,7 @@ public class SceneParser {
             this.size[0] = Integer.parseInt(s1);
             this.size[1] = Integer.parseInt(s2);
         } catch (NumberFormatException e) {
-            LOGGER.log(java.util.logging.Level.SEVERE, "Un des deux arguments de size n\'est pas un entier");
+            LOGGER.log(java.util.logging.Level.SEVERE, "Argument de size non entier");
         }
     }
 
