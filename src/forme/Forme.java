@@ -7,33 +7,37 @@ public abstract class Forme {
 
     /**
      * Constructeur d'une forme quelconque sans paramètre
-     * ici nous déclarons la couleur de l'objet à zéro, ce qui correspond à la couleur noir.
+     * ici nous déclarons la couleur de l'objet à zéro, ce qui correspond à la
+     * couleur noir.
      */
-    public Forme() {
-        diffuse = new Couleur(0,0,0);
+    protected Forme() {
+        diffuse = new Couleur(0, 0, 0);
     }
 
     /**
      * Constructeur d'une forme quelconque avec une couleur particulière
+     * 
      * @param diffuse correspond à la couleur de l'objet
      */
-    public Forme(Couleur diffuse) {
+    protected Forme(Couleur diffuse) {
         this.diffuse = diffuse;
     }
-    
+
     /**
      * Accesseur de l'attribut diffuse
+     * 
      * @return l'attribut diffuse
      */
     public Couleur getDiffuse() {
         return diffuse;
     }
-    
+
     /**
      * Permet de mettre à jour l'attribut diffuse
+     * 
      * @param diffuse correspond à la nouvelle couleur de l'objet
      */
-    public void setDiffuse(Couleur nouv){
+    public void setDiffuse(Couleur nouv) {
         diffuse = nouv;
     }
 
