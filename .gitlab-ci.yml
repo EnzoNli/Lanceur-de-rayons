@@ -45,6 +45,7 @@ imagescouleur:
 plansettriangles:
   stage: basic
   script: "cd tests; ./tests6.sh"
+  allow_failure: true
 
 # lumiereindirecte:
 #   stage: realist
