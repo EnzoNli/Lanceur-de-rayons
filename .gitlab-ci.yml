@@ -42,9 +42,9 @@ imagescouleur:
   stage: basic
   script: "cd tests; ./tests5.sh"
 
-# plansettriangles:
-#   stage: basic
-#   script: "cd tests; ./tests6.sh"
+plansettriangles:
+  stage: basic
+  script: "cd tests; ./tests6.sh"
 
 # lumiereindirecte:
 #   stage: realist

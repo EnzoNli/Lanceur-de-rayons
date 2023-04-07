@@ -315,7 +315,7 @@ public class LanceurRayon {
                 boolean estUnPointOmbre = testPointOmbre(new Vector(
                         plights.get(cpt - nombreDeDLumieres).getPoint().getX() - p.getX(),
                         plights.get(cpt - nombreDeDLumieres).getPoint().getY() - p.getY(),
-                        plights.get(cpt - nombreDeDLumieres).getPoint().getZ() - p.getZ()), p,
+                        plights.get(cpt - nombreDeDLumieres).getPoint().getZ() - p.getZ()).hat(), p,
                         plights.get(cpt - nombreDeDLumieres).getPoint());
                 if (!estUnPointOmbre) {
                     maxi = maxi.add(
@@ -339,19 +339,6 @@ public class LanceurRayon {
         double epsilon = 1.0;
         double distanceEyeLumiere = Math.sqrt(Math.pow(eye.getX() - lumiere.getX(), 2)
                 + Math.pow(eye.getY() - lumiere.getY(), 2) + Math.pow(eye.getZ() - lumiere.getZ(), 2));
-        if (plane != null) {
-            double denominateur = d.dot(plane.getNormal());
-            if (denominateur != 0.0) {
-                double numerateur = plane.getCoord().sub(eye).dot(plane.getNormal());
-                double t_plane = (double) numerateur / (double) denominateur;
-                Point pointInter = d.mul(t_plane).add(eye);
-                double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - pointInter.getX(), 2)
-                        + Math.pow(eye.getY() - pointInter.getY(), 2) + Math.pow(eye.getZ() - pointInter.getZ(), 2));
-                if (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere) {
-                    return true;
-                }
-            }
-        }
         for (Triangle tr : triangles) {
             Point p = null;
             double denominateur = d.dot(tr.getNormal());
