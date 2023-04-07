@@ -34,7 +34,6 @@ public class SceneParser {
     private ArrayList<Triangle> triangles = new ArrayList<>();
     private Plan plan;
     private boolean shadow = false;
-    private BufferedReader f;
     private BufferedReader f2;
 
     public SceneParser(String nomFichierAParser) {
@@ -49,8 +48,7 @@ public class SceneParser {
         boolean passeOutput = false;
         boolean passeCamera = false;
 
-        try (BufferedReader fopen = new BufferedReader(fReader)){
-            f = fopen;
+        try (BufferedReader f = new BufferedReader(fReader)){
             String ligne;
             String[] parse;
 
@@ -105,12 +103,9 @@ public class SceneParser {
             // A partir d'ici, tout les autres elements sont optionnels
             // On commence par les couleurs de l'image
             fReader.close();
-            f.close();
             this.ambient = findColors("ambient");
         } catch (NumberFormatException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f.close();
         }
 
         this.speculars = findColors("speculars");
@@ -140,8 +135,7 @@ public class SceneParser {
         ArrayList<Point> vertex = new ArrayList<>();
         int maxverts = 0;
         Couleur diffuse = new Couleur(0, 0, 0);
-        try {
-            f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
 
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("maxverts") && maxverts == 0) {
@@ -181,8 +175,6 @@ public class SceneParser {
             }
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f.close();
         }
     }
 
@@ -237,8 +229,8 @@ public class SceneParser {
     private void findSphere() throws IOException {
         String ligne;
         Couleur diffuse = new Couleur(0, 0, 0);
-        try {
-            f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
+            
 
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("sphere")) {
@@ -256,15 +248,12 @@ public class SceneParser {
             }
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f.close();
         }
     }
 
     private void findLights() throws IOException {
         String ligne;
-        try {
-            f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("point")) {
                     String[] datas = ligne.split(" ");
@@ -288,8 +277,6 @@ public class SceneParser {
             f.close();
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f.close();
         }
     }
 
@@ -310,24 +297,20 @@ public class SceneParser {
     private ArrayList<Integer> findShininess() throws IOException {
         String ligne;
         ArrayList<Integer> toutesShininess = new ArrayList<>();
-        try {
-            f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
+            
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("shininess")) {
                     String[] datas = ligne.split(" ");
                     if (Integer.parseInt(datas[1]) < 0) {
-                        f.close();
                         throw new IllegalArgumentException("Valeur négative de shininess");
                     }
                     toutesShininess.add(Integer.valueOf(datas[1]));
                 }
             }
-            f.close();
             return toutesShininess;
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f.close();
         }
         return toutesShininess;
     }
@@ -337,8 +320,7 @@ public class SceneParser {
         double[] tmp = new double[3];
         Couleur colors = new Couleur(0, 0, 0);
 
-        try {
-            f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith(firstWord)) {
                     String[] datas = ligne.split(" ");
@@ -348,12 +330,9 @@ public class SceneParser {
                     colors = new Couleur(tmp[0], tmp[1], tmp[2]);
                 }
             }
-            f.close();
             return colors;
         } catch (IOException e) {
             LOGGER.log(java.util.logging.Level.SEVERE, e.toString());
-        } finally {
-            f.close();
         }
         return colors;
 
