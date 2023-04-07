@@ -326,6 +326,13 @@ public class LanceurRayon {
         return maxi.times(dif).add(ambient);
     }
 
+    /**
+     * Permet de tester si le point eye donné est un point d'ombre d'une source de lumiere donnée
+     * @param d vecteur vers la source de lumiere
+     * @param eye le point initial d'intersection
+     * @param lumiere la lumiere
+     * @return si oui ou non eye est un point d'ombre
+     */
     private boolean testPointOmbre(Vector d, Point eye, Point lumiere) {
         double a;
         double b;
@@ -417,7 +424,17 @@ public class LanceurRayon {
     }
 
 
-
+    /**
+     * 
+     * Ajoute une couleur a un pixel donné quand il y a des lumieres dans la scene
+     * 
+     * @param p point d'intersection
+     * @param i coordonnée x du pixel
+     * @param j coordonnée x du pixel
+     * @param s la scene
+     * @param plights les lumieres ponctuelles
+     * @param dlights les lumieres directionnelles
+     */
     private void ajouteCouleurPixelAvecLight(Point p, int i, int j, SceneParser s, ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights) {
         Vector n;
         ArrayList<Vector> ldirs;
@@ -434,6 +451,13 @@ public class LanceurRayon {
         }
     }
 
+    /**
+     * Ajoute une couleur a un pixel donné quand il n'y a pas de lumieres dans la scene
+     * @param p point d'intersection
+     * @param i coordonnée x du pixel
+     * @param j coordonnée x du pixel
+     * @param s la scene
+     */
     private void ajouteCouleurPixelSansLight(Point p, int i, int j, SceneParser s) {
         if (p == null) {
             imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), 0);
