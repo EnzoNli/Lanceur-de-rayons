@@ -341,10 +341,8 @@ public class LanceurRayon {
                 double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
                 double tPlane = numerateur / denominateur;
                 p = d.mul(tPlane).add(eye);
-                if (calculDesNormalesTriangle(tr, p)) {
-                    if(testEpsilon(epsilon, distanceEyeLumiere, eye, p)){
-                        return true;
-                    }
+                if (calculDesNormalesTriangle(tr, p) && testEpsilon(epsilon, distanceEyeLumiere, eye, p)) {
+                    return true;
                 }
             }
         }
@@ -369,10 +367,7 @@ public class LanceurRayon {
     private boolean testEpsilon(double epsilon, double distanceEyeLumiere, Point eye, Point p) {
         double distanceEyePointInter = Math.sqrt(Math.pow(eye.getX() - p.getX(), 2)
         + Math.pow(eye.getY() - p.getY(), 2) + Math.pow(eye.getZ() - p.getZ(), 2));
-        if (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere) {
-            return true;
-        }
-        return false;
+        return (distanceEyePointInter > epsilon && distanceEyePointInter < distanceEyeLumiere);
     }
 
     /**
