@@ -114,9 +114,9 @@ public class LanceurRayon {
     private Vector calcVecUnitaire(Camera c, int i, int j, Vector w, Vector u, Vector v, double fovr,
             double pixelheight, double pixelwidth) {
         double a = ((pixelwidth * (i - ((double) imgOutput.getWidth() / 2) + 0.5))
-                / (((double) imgOutput.getWidth() / 2)));
+                / ((double) imgOutput.getWidth() / 2));
         double b = ((pixelheight * (j - ((double) imgOutput.getHeight() / 2) + 0.5))
-                / (((double) imgOutput.getHeight() / 2)));
+                / ((double) imgOutput.getHeight() / 2));
 
         return u.mul(a).add(v.mul(b)).sub(w).hat();
     }
@@ -187,7 +187,7 @@ public class LanceurRayon {
             double denominateur = d.dot(tr.getNormal());
             if (denominateur != 0) {
                 double numerateur = tr.getX().sub(eye).dot(tr.getNormal());
-                double t_tri = (double) numerateur / (double) denominateur;
+                double t_tri = numerateur / denominateur;
                 p = d.mul(t_tri).add(eye);
                 if (calculDesNormalesTriangle(tr, p)) {
                     res3 = p;
@@ -392,7 +392,7 @@ public class LanceurRayon {
         Vector u = (c.getUpDirection().cross(w)).hat();
         Vector v = (w.cross(u)).hat();
         double fovr = (c.getFov() * Math.PI) / 180d;
-        double pixelheight = (double) Math.tan(fovr / 2);
+        double pixelheight = Math.tan(fovr / 2);
         double pixelwidth = pixelheight * ((double) imgOutput.getWidth() / (double) imgOutput.getHeight());
         Vector d;
         Point p;
