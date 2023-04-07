@@ -44,13 +44,14 @@ public class SceneParser {
 
     /**
      * La fonction principale de parse d'un fichier
+     * 
      * @throws IOException
      */
     public void parse() throws IOException {
         File fichier = new File(this.nomFichierAParser);
         FileReader fReader = new FileReader(fichier);
 
-        try (BufferedReader f = new BufferedReader(fReader)){
+        try (BufferedReader f = new BufferedReader(fReader)) {
             premierPassageParse(f);
             testPassage(passeCamera, passeSize, passeOutput);
 
@@ -76,7 +77,9 @@ public class SceneParser {
     }
 
     /**
-     * Le premier passage de parse recupere si les ombres sont activés, la taille de l'image, le nom de l'image et la position de la camera
+     * Le premier passage de parse recupere si les ombres sont activés, la taille de
+     * l'image, le nom de l'image et la position de la camera
+     * 
      * @param f le BuffererReader
      * @throws NumberFormatException
      * @throws IOException
@@ -85,7 +88,6 @@ public class SceneParser {
         String ligne;
         String[] parse;
         ArrayList<Double> cam = new ArrayList<>();
-        
 
         while ((ligne = f.readLine()) != null) {
             parse = ligne.trim().split(" ");
@@ -125,14 +127,16 @@ public class SceneParser {
     }
 
     /**
-     * Permet la gestion d'erreur, si il n'y a pas de camera, de size ou de nom d'image
-     * @param passeCamera
-     * @param passeSize
-     * @param passeOutput
+     * Permet la gestion d'erreur, si il n'y a pas de camera, de size ou de nom
+     * d'image
+     * 
+     * @param passeCamera passe à true si la caméra existe
+     * @param passeSize   passe à true si la size existe
+     * @param passeOutput passe à true si l'Output existe
      */
     private void testPassage(boolean passeCamera, boolean passeSize, boolean passeOutput) {
         if (!(passeCamera))
-                throw new IllegalArgumentException("Camera introuvable");
+            throw new IllegalArgumentException("Camera introuvable");
 
         if (!(passeSize))
             throw new IllegalArgumentException("Taille de l\'image introuvable");
@@ -143,11 +147,13 @@ public class SceneParser {
     }
 
     /**
-     * permet de transformer les chaines de caractères destinées a la taille de l'image en entier
+     * permet de transformer les chaines de caractères destinées a la taille de
+     * l'image en entier
+     * 
      * @param s1 chaine 1
      * @param s2 chaine 2
      */
-    private void tryParseInt(String s1, String s2){
+    private void tryParseInt(String s1, String s2) {
         try {
             this.size[0] = Integer.parseInt(s1);
             this.size[1] = Integer.parseInt(s2);
@@ -157,7 +163,9 @@ public class SceneParser {
     }
 
     /**
-     * Permet de chercher les triangles dans le fichier et leur appliquer leur couleur diffuse
+     * Permet de chercher les triangles dans le fichier et leur appliquer leur
+     * couleur diffuse
+     * 
      * @throws IOException
      */
     private void findTriangle() throws IOException {
@@ -165,7 +173,7 @@ public class SceneParser {
         ArrayList<Point> vertex = new ArrayList<>();
         int maxverts = 0;
         Couleur diffuse = new Couleur(0, 0, 0);
-        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
 
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("maxverts") && maxverts == 0) {
@@ -206,13 +214,14 @@ public class SceneParser {
 
     /**
      * Permet de chercher les vertex dans le fichier
+     * 
      * @throws IOException
      */
     private ArrayList<Point> findVertex() throws IOException {
         ArrayList<Point> vertex = new ArrayList<>();
         String ligne;
-        try (BufferedReader f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
-            
+        try (BufferedReader f2 = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
+
             while ((ligne = f2.readLine()) != null) {
                 if (ligne.startsWith("vertex")) {
                     String[] datas = ligne.split(" ");
@@ -228,7 +237,9 @@ public class SceneParser {
     }
 
     /**
-     * Permet de chercher le plan dans le fichier et lui appliquer sa couleur diffuse
+     * Permet de chercher le plan dans le fichier et lui appliquer sa couleur
+     * diffuse
+     * 
      * @throws IOException
      */
     private void findPlane() throws IOException {
@@ -256,14 +267,15 @@ public class SceneParser {
     }
 
     /**
-     * Permet de chercher les spheres dans le fichier et leur appliquer leur couleur diffuse
+     * Permet de chercher les spheres dans le fichier et leur appliquer leur couleur
+     * diffuse
+     * 
      * @throws IOException
      */
     private void findSphere() throws IOException {
         String ligne;
         Couleur diffuse = new Couleur(0, 0, 0);
-        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
-            
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
 
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("sphere")) {
@@ -286,6 +298,7 @@ public class SceneParser {
 
     /**
      * Permet de chercher les lumieres dans le fichier
+     * 
      * @throws IOException
      */
     private void findLights() throws IOException {
@@ -318,9 +331,10 @@ public class SceneParser {
 
     /**
      * Permet de tester si les lumieres sont bonnes
+     * 
      * @param plights Lumières ponctuelles
      * @param dlights Lumières directionnelles
-     * @return
+     * @return true si les lumière sont bonnes, false sinon
      */
     private boolean checkLights(ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights) {
         Couleur sommeP = new Couleur(0.0, 0.0, 0.0);
@@ -338,13 +352,14 @@ public class SceneParser {
 
     /**
      * Permet de trouver les shininess
+     * 
      * @throws IOException
      */
     private ArrayList<Integer> findShininess() throws IOException {
         String ligne;
         ArrayList<Integer> toutesShininess = new ArrayList<>();
-        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
-            
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
+
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith("shininess")) {
                     String[] datas = ligne.split(" ");
@@ -363,6 +378,7 @@ public class SceneParser {
 
     /**
      * Permet de trouver les differentes couleures (ambient, speculars)
+     * 
      * @param firstWord ambient ou speculars
      * @return la couleur trouvée
      * @throws IOException
@@ -372,7 +388,7 @@ public class SceneParser {
         double[] tmp = new double[3];
         Couleur colors = new Couleur(0, 0, 0);
 
-        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))){
+        try (BufferedReader f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)))) {
             while ((ligne = f.readLine()) != null) {
                 if (ligne.startsWith(firstWord)) {
                     String[] datas = ligne.split(" ");
@@ -390,9 +406,9 @@ public class SceneParser {
 
     }
 
-
     /**
      * accesseur pour la taille de l'image
+     * 
      * @return la taille de l'image
      */
     public int[] getSize() {
@@ -401,6 +417,7 @@ public class SceneParser {
 
     /**
      * accesseur pour la camera
+     * 
      * @return la camera
      */
     public Camera getCamera() {
@@ -409,6 +426,7 @@ public class SceneParser {
 
     /**
      * accesseur pour savoir si les ombres sont activées
+     * 
      * @return ombres activées ou non
      */
     public boolean hasShadow() {
@@ -417,6 +435,7 @@ public class SceneParser {
 
     /**
      * accesseur pour les shininess
+     * 
      * @return les shininess
      */
     public List<Integer> getShininess() {
@@ -425,6 +444,7 @@ public class SceneParser {
 
     /**
      * accesseur pour le specular
+     * 
      * @return le specular
      */
     public Couleur getSpeculars() {
@@ -433,6 +453,7 @@ public class SceneParser {
 
     /**
      * accesseur pour les lumières directionnelles
+     * 
      * @return les lumières directionnelles
      */
     public List<DirectionalLight> getDlights() {
@@ -441,6 +462,7 @@ public class SceneParser {
 
     /**
      * accesseur pour les lumières ponctuelles
+     * 
      * @return les lumières ponctuelles
      */
     public List<LocalLight> getPlights() {
@@ -449,6 +471,7 @@ public class SceneParser {
 
     /**
      * accesseur pour les triangles
+     * 
      * @return les triangles
      */
     public List<Triangle> getTriangles() {
@@ -457,6 +480,7 @@ public class SceneParser {
 
     /**
      * accesseur pour les spheres
+     * 
      * @return les spheres
      */
     public List<Sphere> getSpheres() {
@@ -465,6 +489,7 @@ public class SceneParser {
 
     /**
      * accesseur pour la lumiere ambiante
+     * 
      * @return la lumiere ambiante
      */
     public Couleur getAmbient() {
@@ -473,6 +498,7 @@ public class SceneParser {
 
     /**
      * accesseur pour le nom de l'image
+     * 
      * @return le nom de l'image
      */
     public String getOutputName() {
@@ -481,6 +507,7 @@ public class SceneParser {
 
     /**
      * accesseur pour le plan
+     * 
      * @return le plan
      */
     public Plan getPlan() {
@@ -489,6 +516,7 @@ public class SceneParser {
 
     /**
      * la méthode toString pour afficher le resultat du parsage
+     * 
      * @return le resultat du parsage
      */
     @Override
