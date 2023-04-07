@@ -49,8 +49,7 @@ public class SceneParser {
         boolean passeOutput = false;
         boolean passeCamera = false;
 
-        try {
-            f = new BufferedReader(fReader);
+        try (BufferedReader f = new BufferedReader(fReader)){
             String ligne;
             String[] parse;
 
@@ -66,12 +65,7 @@ public class SceneParser {
                         if (parse.length < 3) {
                             throw new IllegalArgumentException("Pas assez d\'arguments pour le size");
                         }
-                        try {
-                            this.size[0] = Integer.parseInt(parse[1]);
-                            this.size[1] = Integer.parseInt(parse[2]);
-                        } catch (NumberFormatException e) {
-                            LOGGER.log(java.util.logging.Level.SEVERE, "Un des deux arguments de size n\'est pas un entier");
-                        }
+                        tryParseInt(parse[0], parse[1]);
                         passeSize = true;
                     }
                     // Recupération du nom de la sortie
@@ -129,7 +123,15 @@ public class SceneParser {
         findTriangle();
         findPlane();
 
-        // check diffuses + ambient <= 1
+    }
+
+    private void tryParseInt(String s1, String s2){
+        try {
+            this.size[0] = Integer.parseInt(s1);
+            this.size[1] = Integer.parseInt(s2);
+        } catch (NumberFormatException e) {
+            LOGGER.log(java.util.logging.Level.SEVERE, "Un des deux arguments de size n\'est pas un entier");
+        }
     }
 
     private void findTriangle() throws IOException {
