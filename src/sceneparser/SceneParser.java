@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import bibliomaths.Couleur;
@@ -42,7 +43,7 @@ public class SceneParser {
     public void parse() throws IOException {
         File fichier = new File(this.nomFichierAParser);
         FileReader fReader = new FileReader(fichier);
-        ArrayList<Double> cam = new ArrayList<Double>();
+        ArrayList<Double> cam = new ArrayList<>();
         boolean passeSize = false;
         boolean passeOutput = false;
         boolean passeCamera = false;
@@ -301,10 +302,7 @@ public class SceneParser {
             sommeD.add(c.getCouleur());
         }
         sommeFinal = sommeD.add(sommeP);
-        if (!(sommeFinal.isValid())) {
-            return false;
-        }
-        return true;
+        return sommeFinal.isValid();
     }
 
     private ArrayList<Integer> findShininess() throws IOException {
@@ -371,7 +369,7 @@ public class SceneParser {
         return shadow;
     }
 
-    public ArrayList<Integer> getShininess() {
+    public List<Integer> getShininess() {
         return shininess;
     }
 
@@ -379,19 +377,19 @@ public class SceneParser {
         return speculars;
     }
 
-    public ArrayList<DirectionalLight> getDlights() {
+    public List<DirectionalLight> getDlights() {
         return dlights;
     }
 
-    public ArrayList<LocalLight> getPlights() {
+    public List<LocalLight> getPlights() {
         return plights;
     }
 
-    public ArrayList<Triangle> getTriangles() {
+    public List<Triangle> getTriangles() {
         return triangles;
     }
 
-    public ArrayList<Sphere> getSpheres() {
+    public List<Sphere> getSpheres() {
         return spheres;
     }
 

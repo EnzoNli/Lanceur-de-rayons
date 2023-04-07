@@ -386,8 +386,8 @@ public class LanceurRayon {
     public void process() {
         SceneParser s = loadScene();
         Camera c = s.getCamera();
-        ArrayList<LocalLight> plights = s.getPlights();
-        ArrayList<DirectionalLight> dlights = s.getDlights();
+        ArrayList<LocalLight> plights = (ArrayList<LocalLight>) s.getPlights();
+        ArrayList<DirectionalLight> dlights = (ArrayList<DirectionalLight>) s.getDlights();
         imgOutput = new BufferedImage(s.getSize()[0], s.getSize()[1], BufferedImage.TYPE_INT_RGB);
         Vector w = (c.getLookFrom().sub(c.getLookAt())).hat();
         Vector u = (c.getUpDirection().cross(w)).hat();
@@ -401,9 +401,9 @@ public class LanceurRayon {
         Vector n;
         Couleur couleurFinale;
 
-        spheres = s.getSpheres();
+        spheres = (ArrayList<Sphere>) s.getSpheres();
         plane = s.getPlan();
-        triangles = s.getTriangles();
+        triangles = (ArrayList<Triangle>) s.getTriangles();
 
         for (int i = 0; i < imgOutput.getWidth(); i++) {
             for (int j = 0; j < imgOutput.getHeight(); j++) {
