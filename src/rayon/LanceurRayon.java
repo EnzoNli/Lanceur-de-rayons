@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -271,7 +272,7 @@ public class LanceurRayon {
      * @param p       correspond au point le plus proche
      * @return une liste avec tout les vecteurs ldir
      */
-    public ArrayList<Vector> calcLdir(ArrayList<LocalLight> plights, ArrayList<DirectionalLight> dlights, Point p) {
+    public List<Vector> calcLdir(List<LocalLight> plights, List<DirectionalLight> dlights, Point p) {
         ArrayList<Vector> ldir = new ArrayList<>();
         for (DirectionalLight l : dlights) {
             ldir.add(l.getVecteur().hat());
@@ -419,7 +420,7 @@ public class LanceurRayon {
                         imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), 0);
                     } else {
                         n = calcN(p);
-                        ldirs = calcLdir(plights, dlights, p);
+                        ldirs = (ArrayList<Vector>) calcLdir(plights, dlights, p);
                         couleurFinale = calculCouleurFinale(s.getAmbient(), ldirs, plights, dlights, n, s.hasShadow(),
                                 p);
                         imgOutput.setRGB(i, (imgOutput.getHeight() - 1 - j), couleurFinale.getRGB());

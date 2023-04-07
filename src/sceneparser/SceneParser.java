@@ -309,7 +309,7 @@ public class SceneParser {
 
     private ArrayList<Integer> findShininess() throws IOException {
         String ligne;
-        ArrayList<Integer> toutesShininess = new ArrayList<Integer>();
+        ArrayList<Integer> toutesShininess = new ArrayList<>();
         try {
             f = new BufferedReader(new FileReader(new File(this.nomFichierAParser)));
             while ((ligne = f.readLine()) != null) {
@@ -373,6 +373,10 @@ public class SceneParser {
 
     public ArrayList<Integer> getShininess() {
         return shininess;
+    }
+
+    public Couleur getSpeculars() {
+        return speculars;
     }
 
     public ArrayList<DirectionalLight> getDlights() {
