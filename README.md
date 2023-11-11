@@ -2,15 +2,11 @@
 
 <a title="By Henrik (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC BY-SA 4.0-3.0-2.5-2.0-1.0 (http://creativecommons.org/licenses/by-sa/4.0-3.0-2.5-2.0-1.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3ARay_trace_diagram.svg"><img width="512" alt="Ray trace diagram" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Ray_trace_diagram.svg/512px-Ray_trace_diagram.svg.png"/></a>
 
-Projet lanceur de rayons des étudiants de DUT2, L3, M1 et M2 informatique, université d'artois.
-
-Chaque groupe doit faire un "fork" de ce projet.
-
-Des exemples de scènes utilisées en 2014/2015 et 2015/2016 [sont disponibles en ligne](https://gitlab.univ-artois.fr/lanceurrayons/testslanceurrayons) et serviront à tester que le logiciel produit bien ce qui est attendu. 
+Projet lanceur de rayons.
 
 ## Étapes du projet
 
-Le projet se décompose en cinq phases distinctes. Tout étudiant doit pouvoir réaliser les trois premières phases. 
+Le projet se décompose en cinq phases distinctes. 
 
 ```plantuml
 (*) -right-> "Initiale"
@@ -80,23 +76,3 @@ Il existe des dépendances entre les différentes activités, représentées ci-
 |Matrices|[Transformations contextes](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP9.markdown)|Transformations avec contexte|
 |Efficacité|[Parallélisme](https://gitlab.univ-artois.fr/lanceurrayons/sujetlanceurrayons/-/blob/master/SUJETSTP/TP12.markdown)|Découpage de l'image pour rendu en parallèle|
 |Efficacité|Optimisation|Utilisation des bounding box, arbres, etc|
-
-
-# Mise à jour de votre projet à partir du projet commun
-
-Il est possible qu'au fur et à mesure du déroulement du projet, de nouveaux
-fichiers soient déposés dans le dépôt commun. Toutes les commandes de mise à 
-jour (`git pull` et `git push`) correspondent au dépôt du groupe. Pour récupérer
-les mises à jour du dépôt commun, il faut le déclarer localement une nouvelle source de
-code pour votre projet. Cela se fait à l'aide de la commande suivante :
-
-```
-$ git remote add upstream https://gitlab.univ-artois.fr/lanceurrayons/codelanceurrayons.git
-```
-
-Il vous suffira désormais d'utiliser les commandes suivantes pour MAJ votre projet en cas de nouveaux fichiers.
-
-```
-$ git pull upstream main
-$ git push
-```
